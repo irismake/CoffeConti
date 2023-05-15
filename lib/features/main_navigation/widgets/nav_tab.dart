@@ -1,9 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:simple_keyboard/tabs/add.dart';
-import 'package:simple_keyboard/tabs/discover.dart';
-import 'package:simple_keyboard/tabs/map.dart';
-import 'package:simple_keyboard/tabs/profile.dart';
 
 import '../../../constants/gaps.dart';
 

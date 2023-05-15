@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:simple_keyboard/features/main_navigation/main_navigation.dart';
+import 'features/main_navigation/main_navigation.dart';
 
 import 'constants/sizes.dart';
 

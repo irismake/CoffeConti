@@ -1,4 +1,4 @@
-package com.example.simple_keyboard
+package com.example.coffeeconti
 
 import io.flutter.embedding.android.FlutterActivity
 

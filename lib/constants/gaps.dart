@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:simple_keyboard/constants/sizes.dart';
+import 'package:coffeeconti/constants/sizes.dart';
 
 class Gaps {
   // Vertical Gaps

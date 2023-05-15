@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
-import 'package:simple_keyboard/features/main_navigation/main_navigation.dart';
+import 'package:coffeeconti/features/main_navigation/main_navigation.dart';
 
 class UserProfile extends StatefulWidget {
   const UserProfile({super.key});
