@@ -29,13 +29,6 @@ class NavTab extends StatefulWidget {
   State<NavTab> createState() => _NavTabState();
 }
 
-final List<Widget> _widgetOptions = <Widget>[
-  CafeMap(),
-  Discover(),
-  AddMyCafe(),
-  UserProfile(),
-];
-
 class _NavTabState extends State<NavTab> {
   // void _onTap(int index) {
   //   Navigator.of(context).push(

@@ -27,46 +27,6 @@ class _MainNavigationScreenState extends State<MainNavigationScreen> {
     UserProfile(),
   ];
 
-  void _onPostMapButtonTap() {
-    Navigator.of(context).push(
-      MaterialPageRoute(
-        builder: (context) => CafeMap(),
-        fullscreenDialog: false,
-      ),
-    );
-    print('go');
-  }
-
-  void _onPostDiscoverButtonTap() {
-    Navigator.of(context).push(
-      MaterialPageRoute(
-        builder: (context) => CafeMap(),
-        fullscreenDialog: false,
-      ),
-    );
-    print('go');
-  }
-
-  void _onPostAddButtonTap() {
-    Navigator.of(context).push(
-      MaterialPageRoute(
-        builder: (context) => CafeMap(),
-        fullscreenDialog: false,
-      ),
-    );
-    print('go');
-  }
-
-  void _onPostProfileButtonTap() {
-    Navigator.of(context).push(
-      MaterialPageRoute(
-        builder: (context) => UserProfile(),
-        fullscreenDialog: true,
-      ),
-    );
-    print('go');
-  }
-
   void _onTap(int index) {
     setState(() {
       selectedIndex = index;
@@ -79,25 +39,6 @@ class _MainNavigationScreenState extends State<MainNavigationScreen> {
       body: SafeArea(
         child: _widgetOptions.elementAt(selectedIndex),
       ),
-      // body: Stack(
-      //   children: [
-      //     Offstage(
-      //       offstage: _selectedIndex != 0,
-      //     ),
-      //     Offstage(
-      //       offstage: _selectedIndex != 1,
-      //       child: screens[_selectedIndex],
-      //     ),
-      //     Offstage(
-      //       offstage: _selectedIndex != 2,
-      //       child: screens[_selectedIndex],
-      //     ),
-      //     Offstage(
-      //       offstage: _selectedIndex != 3,
-      //       child: screens[_selectedIndex],
-      //     ),
-      //   ],
-      // ),
       bottomNavigationBar: BottomAppBar(
         color: Colors.black,
         child: Padding(
