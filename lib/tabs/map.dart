@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
+import '../features/main_navigation/main_navigation.dart';
+
 class CafeMap extends StatefulWidget {
   const CafeMap({super.key});
 
@@ -14,9 +16,6 @@ class _CafeMapState extends State<CafeMap> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Google Maps'),
-      ),
       body: GoogleMap(
         onMapCreated: (controller) {
           setState(() {
@@ -26,7 +25,7 @@ class _CafeMapState extends State<CafeMap> {
         initialCameraPosition: CameraPosition(
           target:
               LatLng(37.6143, 127.0405), // Initial map location (San Francisco)
-          zoom: 22.0, // Initial zoom level
+          zoom: 12.0, // Initial zoom level
         ),
       ),
     );
