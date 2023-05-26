@@ -105,44 +105,59 @@ class _CafeMapState extends State<CafeMap> {
                   // _currentLatitude ?? 0.0,
                   // _currentlongitude ?? 0.0,
                   ), // Initial map location (San Francisco)
-              zoom: 5.0, // Initial zoom level
+              zoom: 15.0, // Initial zoom level
             ),
           ),
           GestureDetector(
-            behavior: HitTestBehavior.opaque,
+            behavior: HitTestBehavior.translucent,
             onTap: () {
               setState(() {
-                _showSuggestions = false;
                 _focusNode.unfocus();
               });
             },
-            child: Container(
-              //color: Colors.red,
-              alignment: Alignment.topCenter,
-              width: double.infinity,
-              height: double.infinity,
-              child: Padding(
-                padding: EdgeInsets.all(16.0),
-                child: TypeAheadField(
-                  suggestionsBoxDecoration: SuggestionsBoxDecoration(),
-                  textFieldConfiguration: TextFieldConfiguration(
-                    focusNode: _focusNode,
-                    decoration: InputDecoration(
-                      hintText: 'Search',
+            child: Padding(
+              padding: EdgeInsets.all(16.0),
+              child: Column(
+                children: [
+                  TypeAheadField(
+                    suggestionsBoxDecoration: const SuggestionsBoxDecoration(
+                        hasScrollbar: true,
+                        constraints:
+                            BoxConstraints.expand(width: 355, height: 300)),
+                    textFieldConfiguration: TextFieldConfiguration(
+                      //style: ,
+                      focusNode: _focusNode,
+                      decoration: InputDecoration(
+                        border: OutlineInputBorder(),
+                        hintText: 'Search',
+                        contentPadding: EdgeInsets.symmetric(
+                          vertical: 16.0, // Adjust the vertical padding
+                          horizontal: 12.0, // Adjust the horizontal padding
+                        ),
+                      ),
                     ),
+                    suggestionsCallback: (pattern) {
+                      return getSuggestions(pattern);
+                    },
+                    itemBuilder: (context, suggestion) {
+                      return ListTile(
+                        title: Text(suggestion),
+                      );
+                    },
+                    onSuggestionSelected: (suggestion) {
+                      // Do something with the selected suggestion
+                    },
+                    noItemsFoundBuilder: (value) {
+                      var localizedMessage = "찾을 수 없습니다";
+                      return Text(localizedMessage);
+                    },
                   ),
-                  suggestionsCallback: (pattern) {
-                    return getSuggestions(pattern);
-                  },
-                  itemBuilder: (context, suggestion) {
-                    return ListTile(
-                      title: Text(suggestion),
-                    );
-                  },
-                  onSuggestionSelected: (suggestion) {
-                    // Do something with the selected suggestion
-                  },
-                ),
+                  // Container(
+                  //   width: 30,
+                  //   height: 200,
+                  //   color: Colors.deepOrange,
+                  // )
+                ],
               ),
             ),
           ),
@@ -157,7 +172,7 @@ class _CafeMapState extends State<CafeMap> {
 
     matches.retainWhere(
         (suggestion) => suggestion.toLowerCase().contains(query.toLowerCase()));
-    return matches.take(5).toList();
+    return matches;
     ;
   }
 }
