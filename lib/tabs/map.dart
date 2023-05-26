@@ -124,19 +124,32 @@ class _CafeMapState extends State<CafeMap> {
               child: Column(
                 children: [
                   TypeAheadField(
+                    suggestionsBoxVerticalOffset: 2,
                     suggestionsBoxDecoration: const SuggestionsBoxDecoration(
                         hasScrollbar: true,
                         constraints:
                             BoxConstraints.expand(width: 355, height: 300)),
                     textFieldConfiguration: TextFieldConfiguration(
-                      //style: ,
                       focusNode: _focusNode,
                       decoration: InputDecoration(
-                        border: OutlineInputBorder(),
+                        filled: true,
+                        fillColor: Colors.white,
+                        enabledBorder: OutlineInputBorder(
+                          borderSide: const BorderSide(style: BorderStyle.none),
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        //border: OutlineInputBorder(),
                         hintText: 'Search',
-                        contentPadding: EdgeInsets.symmetric(
-                          vertical: 16.0, // Adjust the vertical padding
-                          horizontal: 12.0, // Adjust the horizontal padding
+                        // contentPadding: EdgeInsets.symmetric(
+                        //   vertical: 16.0, // Adjust the vertical padding
+                        //   horizontal: 12.0, // Adjust the horizontal padding
+                        // ),
+
+                        focusedBorder: OutlineInputBorder(
+                          borderSide: const BorderSide(
+                              style: BorderStyle
+                                  .none), // Set the border color when focused
+                          borderRadius: BorderRadius.circular(10),
                         ),
                       ),
                     ),
@@ -156,11 +169,6 @@ class _CafeMapState extends State<CafeMap> {
                       return Text(localizedMessage);
                     },
                   ),
-                  // Container(
-                  //   width: 30,
-                  //   height: 200,
-                  //   color: Colors.deepOrange,
-                  // )
                 ],
               ),
             ),
@@ -169,8 +177,12 @@ class _CafeMapState extends State<CafeMap> {
             bottom: 16,
             right: 16,
             child: FloatingActionButton(
+              backgroundColor: Colors.white,
               onPressed: _getPosition,
-              child: Icon(Icons.my_location),
+              child: Icon(
+                Icons.my_location,
+                color: Colors.teal,
+              ),
             ),
           ),
         ],
