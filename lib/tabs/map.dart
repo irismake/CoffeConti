@@ -53,6 +53,10 @@ class _CafeMapState extends State<CafeMap> {
   Future<Position> _getPosition() async {
     Position position = await Geolocator.getCurrentPosition(
         desiredAccuracy: LocationAccuracy.best);
+    LatLng currentLocation = LatLng(position.latitude, position.longitude);
+    _controller?.animateCamera(
+      CameraUpdate.newLatLng(currentLocation),
+    );
     print('_getPosition');
     return position;
   }
@@ -93,7 +97,7 @@ class _CafeMapState extends State<CafeMap> {
           GoogleMap(
             mapType: MapType.normal,
             myLocationEnabled: true,
-            myLocationButtonEnabled: true,
+            myLocationButtonEnabled: false,
             onMapCreated: (controller) {
               setState(() {
                 _controller = controller;
@@ -161,6 +165,14 @@ class _CafeMapState extends State<CafeMap> {
               ),
             ),
           ),
+          Positioned(
+            bottom: 16,
+            right: 16,
+            child: FloatingActionButton(
+              onPressed: _getPosition,
+              child: Icon(Icons.my_location),
+            ),
+          ),
         ],
       ),
     );
@@ -173,6 +185,5 @@ class _CafeMapState extends State<CafeMap> {
     matches.retainWhere(
         (suggestion) => suggestion.toLowerCase().contains(query.toLowerCase()));
     return matches;
-    ;
   }
 }
