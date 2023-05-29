@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 //import 'package:location/location.dart';
+import '../data/cafe_data.dart';
 import '../features/main_navigation/main_navigation.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:flutter_typeahead/flutter_typeahead.dart';
@@ -25,6 +26,7 @@ class _CafeMapState extends State<CafeMap> {
   @override
   void initState() {
     super.initState();
+
     _focusNode.addListener(_onFocusChange);
     setState(() {
       _getPosition().then((position) {
@@ -59,6 +61,16 @@ class _CafeMapState extends State<CafeMap> {
     );
     print('_getPosition');
     return position;
+  }
+
+  List<Map<String, dynamic>> cafes = [];
+  Future<void> fetchCafesData() async {
+    final location = LatLng(37.5665, 126.9780); // Replace with desired location
+    final fetchedCafes = await CafeDataFetcher.fetchCafes(location);
+    setState(() {
+      cafes = fetchedCafes;
+      print(cafes);
+    });
   }
 
   final List<String> suggestions = [
@@ -111,6 +123,25 @@ class _CafeMapState extends State<CafeMap> {
                   ), // Initial map location (San Francisco)
               zoom: 15.0, // Initial zoom level
             ),
+            markers: Set<Marker>.from(
+              cafes.map(
+                (cafe) {
+                  final LatLng position = LatLng(
+                    cafe['location']['lat'],
+                    cafe['location']['lng'],
+                  );
+
+                  return Marker(
+                    markerId: MarkerId(cafe['name']),
+                    position: position,
+                    infoWindow: InfoWindow(
+                      title: cafe['name'],
+                      snippet: 'Rating: ${cafe['rating']}',
+                    ),
+                  );
+                },
+              ),
+            ),
           ),
           GestureDetector(
             behavior: HitTestBehavior.translucent,
@@ -138,7 +169,7 @@ class _CafeMapState extends State<CafeMap> {
                           borderSide: const BorderSide(style: BorderStyle.none),
                           borderRadius: BorderRadius.circular(10),
                         ),
-                        //border: OutlineInputBorder(),
+
                         hintText: 'Search',
                         // contentPadding: EdgeInsets.symmetric(
                         //   vertical: 16.0, // Adjust the vertical padding

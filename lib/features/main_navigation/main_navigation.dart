@@ -1,3 +1,4 @@
+import 'package:coffeeconti/data/cafe_data.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -21,8 +22,8 @@ class _MainNavigationScreenState extends State<MainNavigationScreen> {
   int selectedIndex = 0;
 
   final List<Widget> _widgetOptions = <Widget>[
+    CafeData(),
     CafeMap(),
-    Discover(),
     AddMyCafe(),
     UserProfile(),
   ];
