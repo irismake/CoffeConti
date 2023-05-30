@@ -63,15 +63,15 @@ class _CafeMapState extends State<CafeMap> {
     return position;
   }
 
-  List<Map<String, dynamic>> cafes = [];
-  Future<void> fetchCafesData() async {
-    final location = LatLng(37.5665, 126.9780); // Replace with desired location
-    final fetchedCafes = await CafeDataFetcher.fetchCafes(location);
-    setState(() {
-      cafes = fetchedCafes;
-      print(cafes);
-    });
-  }
+  // List<Map<String, dynamic>> cafes = [];
+  // Future<void> fetchCafesData() async {
+  //   final location = LatLng(37.5665, 126.9780); // Replace with desired location
+  //   final fetchedCafes = await CafeDataFetcher.fetchCafes(location);
+  //   setState(() {
+  //     cafes = fetchedCafes;
+  //     print(cafes);
+  //   });
+  // }
 
   final List<String> suggestions = [
     'Apple',
@@ -123,25 +123,25 @@ class _CafeMapState extends State<CafeMap> {
                   ), // Initial map location (San Francisco)
               zoom: 15.0, // Initial zoom level
             ),
-            markers: Set<Marker>.from(
-              cafes.map(
-                (cafe) {
-                  final LatLng position = LatLng(
-                    cafe['location']['lat'],
-                    cafe['location']['lng'],
-                  );
+            // markers: Set<Marker>.from(
+            //   cafes.map(
+            //     (cafe) {
+            //       final LatLng position = LatLng(
+            //         cafe['location']['lat'],
+            //         cafe['location']['lng'],
+            //       );
 
-                  return Marker(
-                    markerId: MarkerId(cafe['name']),
-                    position: position,
-                    infoWindow: InfoWindow(
-                      title: cafe['name'],
-                      snippet: 'Rating: ${cafe['rating']}',
-                    ),
-                  );
-                },
-              ),
-            ),
+            //       return Marker(
+            //         markerId: MarkerId(cafe['name']),
+            //         position: position,
+            //         infoWindow: InfoWindow(
+            //           title: cafe['name'],
+            //           snippet: 'Rating: ${cafe['rating']}',
+            //         ),
+            //       );
+            //     },
+            //   ),
+            // ),
           ),
           GestureDetector(
             behavior: HitTestBehavior.translucent,

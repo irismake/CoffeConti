@@ -4,48 +4,57 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 
 class CafeDataFetcher {
-  static Future<List<Map<String, dynamic>>> fetchCafes(LatLng location) async {
-    final apiKey = 'AIzaSyB2ZY98nBaNsTZ2Bf4AZ2ZpPonJaGRKWzs';
-
-    final apiUrl =
-        'https://maps.googleapis.com/maps/api/place/nearbysearch/json?'
-        'location=37.5665,126.9780&'
-        'radius=1000&'
-        'type=cafe&'
+  static Future<Map<String, String>> fetchCafeDetails(
+      String placeId, String apiKey) async {
+    final apiUrl = 'https://maps.googleapis.com/maps/api/place/details/json?'
+        'place_id=$placeId&'
+        'fields=name,opening_hours&'
         'key=$apiKey';
+
     final response = await http.get(Uri.parse(apiUrl));
 
     if (response.statusCode == 200) {
       final decodedData = jsonDecode(response.body);
-      final results = decodedData['results'] as List<dynamic>;
+      final result = decodedData['result'] as Map<String, dynamic>;
 
-      final cafes = results.map<Map<String, dynamic>>((result) {
-        final name = result['name'];
-        final rating = result['rating'];
-        final location = result['geometry']['location'];
-        final openingHours = result['opening_hours'] ?? {};
+      final name = result['name'] as String;
+      final openingHours = result['opening_hours'] ?? {};
+      final periods = openingHours['periods'] as List<dynamic>;
 
+      if (periods != null && periods.isNotEmpty) {
+        final firstPeriod = periods.first;
+        final openTime = firstPeriod['open']['time'] as String;
+        final closeTime = firstPeriod['close']['time'] as String;
         return {
           'name': name,
-          'rating': rating,
-          'location': location,
-          'openingHours': openingHours,
+          'openingTime': openTime,
+          'closingTime': closeTime,
         };
-      }).toList();
-
-      // Print the cafe data in the debug console
-      cafes.forEach((cafe) {
-        print('Name: ${cafe['name']}');
-        print('Rating: ${cafe['rating']}');
-        print('Location: ${cafe['location']}');
-        print('Opening Hours: ${cafe['openingHours']}');
-        print('------------------------------');
-      });
-      print(cafes);
-      return cafes;
+      } else {
+        return {
+          'name': name,
+          'openingTime': 'Opening hours not available',
+          'closingTime': 'Opening hours not available',
+        };
+      }
     } else {
-      throw Exception('Failed to fetch cafe data');
+      throw Exception('Failed to fetch cafe details');
     }
+  }
+}
+
+Future<void> fetchCafesData() async {
+  final cafePlaceId = 'ChIJIX3RjJWkfDURfvJeW7iVmcA';
+  final apiKey = 'AIzaSyDuffSA5RQdjpsvpirWS_0tom8G9dxYPxY';
+
+  try {
+    final cafeDetails =
+        await CafeDataFetcher.fetchCafeDetails(cafePlaceId, apiKey);
+    print('Cafe Name: ${cafeDetails['name']}');
+    print('Opening Time: ${cafeDetails['openingTime']}');
+    print('Closing Time: ${cafeDetails['closingTime']}');
+  } catch (e) {
+    print('Error retrieving cafe details: $e');
   }
 }
 
@@ -60,11 +69,6 @@ class _CafeDataState extends State<CafeData> {
   void initState() {
     super.initState();
     fetchCafesData();
-  }
-
-  Future<void> fetchCafesData() async {
-    final location = LatLng(37.5665, 126.9780); // Replace with desired location
-    await CafeDataFetcher.fetchCafes(location);
   }
 
   @override
