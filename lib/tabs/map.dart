@@ -1,13 +1,6 @@
-import 'dart:math';
-
 import 'package:flutter/material.dart';
-
-import 'package:google_maps_flutter/google_maps_flutter.dart';
-//import 'package:location/location.dart';
-import '../data/cafe_data.dart';
-import '../features/main_navigation/main_navigation.dart';
-import 'package:geolocator/geolocator.dart';
 import 'package:flutter_typeahead/flutter_typeahead.dart';
+import 'package:naver_map_plugin/naver_map_plugin.dart';
 
 class CafeMap extends StatefulWidget {
   const CafeMap({super.key});
@@ -17,25 +10,13 @@ class CafeMap extends StatefulWidget {
 }
 
 class _CafeMapState extends State<CafeMap> {
-  GoogleMapController? _controller;
-  // LocationData? _currentLocation;
-  Position? _currentPosition;
-  // double? _currentLatitude;
-  // double? _currentlongitude;
+  late NaverMapController _mapController;
 
   @override
   void initState() {
     super.initState();
-
     _focusNode.addListener(_onFocusChange);
-    setState(() {
-      _getPosition().then((position) {
-        _currentPosition = position;
-        // _currentLatitude = position.latitude;
-        // _currentlongitude = position.longitude;
-        print("check ${position.latitude},${position.longitude}");
-      }).onError((error, stacktrace) => null);
-    });
+    setState(() {});
   }
 
   void _onFocusChange() {
@@ -51,27 +32,6 @@ class _CafeMapState extends State<CafeMap> {
     super.dispose();
     print('dispose');
   }
-
-  Future<Position> _getPosition() async {
-    Position position = await Geolocator.getCurrentPosition(
-        desiredAccuracy: LocationAccuracy.best);
-    LatLng currentLocation = LatLng(position.latitude, position.longitude);
-    _controller?.animateCamera(
-      CameraUpdate.newLatLng(currentLocation),
-    );
-    print('_getPosition');
-    return position;
-  }
-
-  // List<Map<String, dynamic>> cafes = [];
-  // Future<void> fetchCafesData() async {
-  //   final location = LatLng(37.5665, 126.9780); // Replace with desired location
-  //   final fetchedCafes = await CafeDataFetcher.fetchCafes(location);
-  //   setState(() {
-  //     cafes = fetchedCafes;
-  //     print(cafes);
-  //   });
-  // }
 
   final List<String> suggestions = [
     'Apple',
@@ -103,45 +63,24 @@ class _CafeMapState extends State<CafeMap> {
   @override
   Widget build(BuildContext context) {
     print('build');
+    // final mediaQuery = MediaQuery.of(context);
+    // final pixelRatio = mediaQuery.devicePixelRatio;
+    // final mapSize =
+    //     Size(mediaQuery.size.width - 32, mediaQuery.size.height - 72);
+    // final physicalSize =
+    //     Size(mapSize.width * pixelRatio, mapSize.height * pixelRatio);
+
     return Scaffold(
       body: Stack(
         children: [
-          GoogleMap(
-            mapType: MapType.normal,
-            myLocationEnabled: true,
-            myLocationButtonEnabled: false,
-            onMapCreated: (controller) {
-              setState(() {
-                _controller = controller;
-              });
-            },
+          NaverMap(
             initialCameraPosition: CameraPosition(
-              target: LatLng(_currentPosition?.latitude ?? 0.0,
-                  _currentPosition?.longitude ?? 0.0
-                  // _currentLatitude ?? 0.0,
-                  // _currentlongitude ?? 0.0,
-                  ), // Initial map location (San Francisco)
-              zoom: 15.0, // Initial zoom level
+              target: LatLng(37.5665, 126.9780),
+              zoom: 13.0,
             ),
-            // markers: Set<Marker>.from(
-            //   cafes.map(
-            //     (cafe) {
-            //       final LatLng position = LatLng(
-            //         cafe['location']['lat'],
-            //         cafe['location']['lng'],
-            //       );
-
-            //       return Marker(
-            //         markerId: MarkerId(cafe['name']),
-            //         position: position,
-            //         infoWindow: InfoWindow(
-            //           title: cafe['name'],
-            //           snippet: 'Rating: ${cafe['rating']}',
-            //         ),
-            //       );
-            //     },
-            //   ),
-            // ),
+            onMapCreated: (controller) {
+              // Perform additional map setup here if needed
+            },
           ),
           GestureDetector(
             behavior: HitTestBehavior.translucent,
@@ -209,7 +148,7 @@ class _CafeMapState extends State<CafeMap> {
             right: 16,
             child: FloatingActionButton(
               backgroundColor: Colors.white,
-              onPressed: _getPosition,
+              onPressed: () => {},
               child: Icon(
                 Icons.my_location,
                 color: Colors.teal,
