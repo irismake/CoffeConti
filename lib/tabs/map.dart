@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_typeahead/flutter_typeahead.dart';
 import 'package:naver_map_plugin/naver_map_plugin.dart';
+import 'package:geolocator/geolocator.dart';
 
 class CafeMap extends StatefulWidget {
   const CafeMap({super.key});
@@ -10,13 +11,19 @@ class CafeMap extends StatefulWidget {
 }
 
 class _CafeMapState extends State<CafeMap> {
-  late NaverMapController _mapController;
+  NaverMapController? _controller;
+  Position? _currentPosition;
 
   @override
   void initState() {
     super.initState();
     _focusNode.addListener(_onFocusChange);
-    setState(() {});
+    setState(() {
+      _goToCurrentPosition().then((position) {
+        _currentPosition = position;
+        print("check ${position.latitude},${position.longitude}");
+      }).onError((error, stacktrace) => null);
+    });
   }
 
   void _onFocusChange() {
@@ -31,6 +38,20 @@ class _CafeMapState extends State<CafeMap> {
     _focusNode.dispose();
     super.dispose();
     print('dispose');
+  }
+
+  Future<Position> _goToCurrentPosition() async {
+    Position position = await Geolocator.getCurrentPosition(
+        desiredAccuracy: LocationAccuracy.best);
+
+    LatLng currentLocation = LatLng(
+        position.latitude,
+        position
+            .longitude); // Replace with the desired latitude and longitude values
+    _controller?.moveCamera(
+      CameraUpdate.scrollTo(currentLocation),
+    );
+    return position;
   }
 
   final List<String> suggestions = [
@@ -63,23 +84,18 @@ class _CafeMapState extends State<CafeMap> {
   @override
   Widget build(BuildContext context) {
     print('build');
-    // final mediaQuery = MediaQuery.of(context);
-    // final pixelRatio = mediaQuery.devicePixelRatio;
-    // final mapSize =
-    //     Size(mediaQuery.size.width - 32, mediaQuery.size.height - 72);
-    // final physicalSize =
-    //     Size(mapSize.width * pixelRatio, mapSize.height * pixelRatio);
 
     return Scaffold(
       body: Stack(
         children: [
           NaverMap(
             initialCameraPosition: CameraPosition(
-              target: LatLng(37.5665, 126.9780),
+              target: LatLng(_currentPosition?.latitude ?? 0.0,
+                  _currentPosition?.longitude ?? 0.0),
               zoom: 13.0,
             ),
             onMapCreated: (controller) {
-              // Perform additional map setup here if needed
+              _controller = controller;
             },
           ),
           GestureDetector(
@@ -148,7 +164,7 @@ class _CafeMapState extends State<CafeMap> {
             right: 16,
             child: FloatingActionButton(
               backgroundColor: Colors.white,
-              onPressed: () => {},
+              onPressed: _goToCurrentPosition,
               child: Icon(
                 Icons.my_location,
                 color: Colors.teal,
