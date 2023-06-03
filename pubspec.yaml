@@ -40,7 +40,7 @@ dependencies:
     git: https://github.com/LBSTECH/naver_map_plugin.git
   flutter_typeahead: ^4.1.0
   geolocator: ^9.0.2
-  http: ^0.13.0
+  http: ^0.13.4
 
 
 dev_dependencies:

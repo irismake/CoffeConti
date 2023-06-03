@@ -22,8 +22,8 @@ class _MainNavigationScreenState extends State<MainNavigationScreen> {
   int selectedIndex = 0;
 
   final List<Widget> _widgetOptions = <Widget>[
-    CafeMap(),
-    CafeMap(),
+    CafeData(),
+    Discover(),
     AddMyCafe(),
     UserProfile(),
   ];
