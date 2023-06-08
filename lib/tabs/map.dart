@@ -5,8 +5,7 @@ import 'package:naver_map_plugin/naver_map_plugin.dart';
 import 'package:geolocator/geolocator.dart';
 
 class CafeMap extends StatefulWidget {
-  const CafeMap({super.key, required this.currentPosition});
-  final currentPosition;
+  const CafeMap({super.key});
 
   @override
   State<CafeMap> createState() => _CafeMapState();
@@ -15,19 +14,75 @@ class CafeMap extends StatefulWidget {
 class _CafeMapState extends State<CafeMap> {
   NaverMapController? _controller;
 
+  Position? currentPosition;
+  Future<Position> _getCurrentPosition() async {
+    final position = await CafeDataApi.getCurrentPosition();
+
+    print("await Position");
+    return position;
+  }
+  // Future<Position> _getCurrentPosition() async {
+  //   Position position = await Geolocator.getCurrentPosition(
+  //       desiredAccuracy: LocationAccuracy.best);
+
+  //   LatLng currentLocation = LatLng(
+  //       position.latitude,
+  //       position
+  //           .longitude); // Replace with the desired latitude and longitude values
+  //   _controller?.moveCamera(
+  //     CameraUpdate.scrollTo(currentLocation),
+  //   );
+  //   return position;
+  // }
+
   @override
   void initState() {
+    print('initstate');
     super.initState();
-    _focusNode.addListener(_onFocusChange);
     setState(() {
-      LatLng currentLocation = LatLng(
-          widget.currentPosition.latitude,
-          widget.currentPosition
-              .longitude); // Replace with the desired latitude and longitude values
-      _controller?.moveCamera(
-        CameraUpdate.scrollTo(currentLocation),
-      );
+      _getCurrentPosition().then((position) {
+        setState(() {
+          currentPosition = position;
+          print("check ${position.latitude},${position.longitude}");
+        });
+      }).onError((error, stacktrace) => null);
     });
+
+    // _getCurrentPosition().then((position) {
+    //   setState(() {});
+    //   currentPosition = position;
+    //   print("check ${position.latitude},${position.longitude}");
+    //   LatLng currentLocation = LatLng(
+    //       currentPosition!.latitude,
+    //       currentPosition!
+    //           .longitude); // Replace with the desired latitude and longitude values
+    //   _controller?.moveCamera(
+    //     CameraUpdate.scrollTo(currentLocation),
+    //   );
+    //   print("go current position");
+    // }).onError((error, stacktrace) => null);
+  }
+
+  //final d = CafeDataApi().getLocation();
+  // currentPosition = position;
+  // LatLng currentLocation = LatLng(
+  //     currentPosition!.latitude,
+  //     currentPosition!
+  //         .longitude); // Replace with the desired latitude and longitude values
+  // _controller?.moveCamera(
+  //   CameraUpdate.scrollTo(currentLocation),
+  // );
+  //print(d);
+
+  void _goToCurrentPosition() {
+    LatLng currentLocation = LatLng(
+        currentPosition?.latitude ?? 0.0,
+        currentPosition?.longitude ??
+            0.0); // Replace with the desired latitude and longitude values
+    _controller?.moveCamera(
+      CameraUpdate.scrollTo(currentLocation),
+    );
+    print("go current position");
   }
 
   void _onFocusChange() {
@@ -74,14 +129,13 @@ class _CafeMapState extends State<CafeMap> {
   @override
   Widget build(BuildContext context) {
     print('build');
-
     return Scaffold(
       body: Stack(
         children: [
           NaverMap(
             initialCameraPosition: CameraPosition(
-              target: LatLng(widget.currentPosition?.latitude ?? 0.0,
-                  widget.currentPosition?.longitude ?? 0.0),
+              target: LatLng(currentPosition?.latitude ?? 0.0,
+                  currentPosition?.longitude ?? 0.0),
               zoom: 13.0,
             ),
             onMapCreated: (controller) {
@@ -154,7 +208,7 @@ class _CafeMapState extends State<CafeMap> {
             right: 16,
             child: FloatingActionButton(
               backgroundColor: Colors.white,
-              onPressed: () {},
+              onPressed: _goToCurrentPosition,
               child: Icon(
                 Icons.my_location,
                 color: Colors.teal,

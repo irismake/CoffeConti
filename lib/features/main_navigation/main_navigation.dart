@@ -22,7 +22,7 @@ class _MainNavigationScreenState extends State<MainNavigationScreen> {
   int selectedIndex = 0;
 
   final List<Widget> _widgetOptions = <Widget>[
-    CafeData(),
+    CafeMap(),
     Discover(),
     AddMyCafe(),
     UserProfile(),
@@ -32,6 +32,11 @@ class _MainNavigationScreenState extends State<MainNavigationScreen> {
     setState(() {
       selectedIndex = index;
     });
+  }
+
+  @override
+  void initState() {
+    super.initState();
   }
 
   @override

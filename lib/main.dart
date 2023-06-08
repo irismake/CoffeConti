@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'features/main_navigation/main_navigation.dart';
 
+import 'features/main_navigation/main_navigation.dart';
+import 'package:geolocator/geolocator.dart';
 import 'constants/sizes.dart';
 
 void main() {
