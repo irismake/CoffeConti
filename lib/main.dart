@@ -1,3 +1,5 @@
+import 'package:coffeeconti/data/cafe_data.dart';
+import 'package:coffeeconti/tabs/profile.dart';
 import 'package:flutter/material.dart';
 
 import 'features/main_navigation/main_navigation.dart';
@@ -13,6 +15,7 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    CafeDataApi;
     return MaterialApp(
       title: 'Coffee Conti',
       theme: ThemeData(
@@ -28,7 +31,7 @@ class MyApp extends StatelessWidget {
               fontWeight: FontWeight.w600,
             ),
           )),
-      home: MainNavigationScreen(),
+      home: UserProfile(),
     );
   }
 }

@@ -75,14 +75,16 @@ class _CafeMapState extends State<CafeMap> {
   //print(d);
 
   void _goToCurrentPosition() {
-    LatLng currentLocation = LatLng(
-        currentPosition?.latitude ?? 0.0,
-        currentPosition?.longitude ??
-            0.0); // Replace with the desired latitude and longitude values
-    _controller?.moveCamera(
-      CameraUpdate.scrollTo(currentLocation),
-    );
-    print("go current position");
+    setState(() {
+      LatLng currentLocation = LatLng(
+          currentPosition?.latitude ?? 0.0,
+          currentPosition?.longitude ??
+              0.0); // Replace with the desired latitude and longitude values
+      _controller?.moveCamera(
+        CameraUpdate.scrollTo(currentLocation),
+      );
+      print("go current position");
+    });
   }
 
   void _onFocusChange() {
@@ -129,6 +131,8 @@ class _CafeMapState extends State<CafeMap> {
   @override
   Widget build(BuildContext context) {
     print('build');
+    print(currentPosition);
+    _goToCurrentPosition();
     return Scaffold(
       body: Stack(
         children: [

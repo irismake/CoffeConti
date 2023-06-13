@@ -7,13 +7,18 @@ import 'dart:convert';
 
 import 'package:naver_map_plugin/naver_map_plugin.dart';
 
+import 'models/cafe_name_model.dart';
+
 class CafeDataApi {
   static Position? _currentPosition;
+  static final baseUrl =
+      'https://maps.googleapis.com/maps/api/place/nearbysearch/json';
 
   static Future<Position> getCurrentPosition() async {
     Position position = await Geolocator.getCurrentPosition(
         desiredAccuracy: LocationAccuracy.best);
     _currentPosition = position;
+    print(_currentPosition);
     return position;
   }
 
@@ -61,36 +66,34 @@ class CafeDataApi {
     return null;
   }
 
-  void fetchCafeDetails() {
+  static Future getCafeName() async {
     final apiKey = 'AIzaSyDuffSA5RQdjpsvpirWS_0tom8G9dxYPxY';
-    final latitude = _currentPosition!.latitude;
-    final longitude = _currentPosition!.longitude;
+    final latitude = 37.54897399440669;
+    final longitude = 127.05409784297879;
     final radius = '1000';
-    final keyword = 'cafe';
+    final url = Uri.parse(
+        '$baseUrl?location=$latitude,$longitude&radius=$radius&keyword=cafe&key=$apiKey');
+    final response = await http.get(url);
 
-    final url =
-        'https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=$latitude,$longitude&radius=$radius&keyword=$keyword&key=$apiKey';
+    if (response.statusCode == 200) {
+      String jsonData = response.body;
+      Map<String, dynamic> cafeData = json.decode(jsonData);
 
-    http.get(Uri.parse(url)).then((response) {
-      final data = json.decode(response.body);
+      // String nextPageToken = cafeData['next_page_token'];
+      // print('Next Page Token: $nextPageToken');
 
-      final cafes = data['results'];
-
-      for (var cafe in cafes) {
-        final name = cafe['name'];
-        final placeId = cafe['place_id'];
-
-        // Retrieve the operating hours using the place details request
-        retrieveOperatingHours(apiKey, placeId).then((hours) {
-          if (hours != null) {
-            print('$name: Operating Hours: $hours');
-          } else {
-            print('$name: No operating hours available.');
-          }
-        });
+      List<dynamic> results = cafeData['results'];
+      List<CoffeeShop> coffeeShops = [];
+      for (var result in results) {
+        coffeeShops.add(CoffeeShop.fromJson(result));
       }
-    }).catchError((error) {
-      print('Error: $error');
-    });
+
+      for (var shop in coffeeShops) {
+        print('Name: ${shop.name}');
+        print('Rating: ${shop.rating}');
+        print('Vicinity: ${shop.vicinity}');
+        print('-------------------------');
+      }
+    }
   }
 }
