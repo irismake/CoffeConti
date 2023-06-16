@@ -66,7 +66,10 @@ class CafeDataApi {
     return null;
   }
 
-  static Future getCafeName() async {
+  static Future<List<String>> getCafePlaceId() async {
+    List<CafePlaceIdModel> coffeeShops = [];
+
+    List<String> cafePlaceId = [];
     final apiKey = 'AIzaSyDuffSA5RQdjpsvpirWS_0tom8G9dxYPxY';
     final latitude = 37.54897399440669;
     final longitude = 127.05409784297879;
@@ -83,17 +86,37 @@ class CafeDataApi {
       // print('Next Page Token: $nextPageToken');
 
       List<dynamic> results = cafeData['results'];
-      List<CoffeeShop> coffeeShops = [];
+
       for (var result in results) {
-        coffeeShops.add(CoffeeShop.fromJson(result));
+        coffeeShops.add(CafePlaceIdModel.fromJson(result));
       }
 
       for (var shop in coffeeShops) {
-        print('Name: ${shop.name}');
-        print('Rating: ${shop.rating}');
-        print('Vicinity: ${shop.vicinity}');
-        print('-------------------------');
+        cafePlaceId.add(shop.placeId);
+        // print('Name: ${shop.name}');
+        // print('Rating: ${shop.rating}');
+        // print('Vicinity: ${shop.vicinity}');
+        // print('-------------------------');
       }
     }
+    return cafePlaceId;
+  }
+
+  static Future<CafeDataModel> getCafeData(String placeId) async {
+    List<String> coffeeShops = [];
+    final apiKey = 'AIzaSyDuffSA5RQdjpsvpirWS_0tom8G9dxYPxY';
+
+    final url = Uri.parse(
+        'https://maps.googleapis.com/maps/api/place/details/json?place_id=$placeId&key=$apiKey');
+    final response = await http.get(url);
+    if (response.statusCode == 200) {
+      String jsonData = response.body;
+      Map<String, dynamic> cafeData = json.decode(jsonData);
+      Map<String, dynamic> results = cafeData['result'];
+      CafeDataModel cafeDataModel = CafeDataModel.fromJson(results);
+
+      return cafeDataModel;
+    }
+    throw Error();
   }
 }

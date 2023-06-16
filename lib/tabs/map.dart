@@ -93,6 +93,8 @@ class _CafeMapState extends State<CafeMap> {
     });
   }
 
+  // Create a set of markers from the coordinates
+
   @override
   void dispose() {
     _focusNode.removeListener(_onFocusChange);
