@@ -16,22 +16,25 @@ class _CafeMapState extends State<CafeMap> {
 
   Position? currentPosition;
   List<Marker> markers = [];
-  Future<Position> _getCurrentPosition() async {
-    final position = await CurrentLocationData.getCurrentPosition();
 
-    return position;
-  }
+  // Future<Position> getCurrentPosition() async {
+  //   Position position = await Geolocator.getCurrentPosition(
+  //       desiredAccuracy: LocationAccuracy.best);
+  //   currentPosition = position;
+  //   return position;
+  // }
 
   Future<List<Marker>> findMarkers() async {
-    List<dynamic> cafePlaceIds = await CafeDataApi.getCafePlaceId();
-    List<Marker> markers = [];
+    var position = await _goToCurrentPosition();
+
+    List<dynamic> cafePlaceIds = await CafeDataApi.getCafePlaceId(position);
 
     for (var cafePlaceId in cafePlaceIds) {
       CafeDataApi.getCafeData(cafePlaceId, markers);
     }
 
     while (markers.length != cafePlaceIds.length) {
-      await Future.delayed(Duration(milliseconds: 10));
+      await Future.delayed(Duration(milliseconds: 1));
     }
 
     return markers;
@@ -42,29 +45,30 @@ class _CafeMapState extends State<CafeMap> {
     print('initstate');
     super.initState();
 
-    setState(() {
-      _getCurrentPosition().then((position) {
-        setState(() {
-          currentPosition = position;
-        });
-      }).onError((error, stacktrace) => null);
-
-      findMarkers().then((getMarkers) {
-        setState(() {
-          markers = getMarkers;
-          print(markers);
-        });
-      }).onError((error, stacktrace) => null);
-    });
+    findMarkers().then((getMarkers) {
+      markers = getMarkers;
+      print(markers);
+      setState(() {
+        _goToCurrentPosition();
+      });
+    }).onError((error, stacktrace) => null);
   }
 
-  void _goToCurrentPosition() {
-    LatLng currentLocation = LatLng(
-        currentPosition?.latitude ?? 0.0, currentPosition?.longitude ?? 0.0);
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+  }
+
+  Future<Position> _goToCurrentPosition() async {
+    var position = await Geolocator.getCurrentPosition(
+        desiredAccuracy: LocationAccuracy.best);
+
+    LatLng currentLocation = LatLng(position.latitude, position.longitude);
     _controller?.moveCamera(
       CameraUpdate.scrollTo(currentLocation),
     );
     print("goToCurrentPosition $currentLocation");
+    return position;
   }
 
   void _onFocusChange() {
@@ -120,8 +124,8 @@ class _CafeMapState extends State<CafeMap> {
 
   @override
   Widget build(BuildContext context) {
-    _goToCurrentPosition();
     print('build');
+
     return Scaffold(
       body: Stack(
         children: [
@@ -129,11 +133,13 @@ class _CafeMapState extends State<CafeMap> {
             initialCameraPosition: CameraPosition(
               target: LatLng(currentPosition?.latitude ?? 0.0,
                   currentPosition?.longitude ?? 0.0),
-              zoom: 13.0,
+              zoom: 15.0,
             ),
             onMapCreated: (controller) {
               _controller = controller;
             },
+            minZoom: 10.0,
+            maxZoom: 20.0,
             markers: markers,
           ),
           GestureDetector(
