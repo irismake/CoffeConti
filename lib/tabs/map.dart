@@ -15,76 +15,56 @@ class _CafeMapState extends State<CafeMap> {
   NaverMapController? _controller;
 
   Position? currentPosition;
+  List<Marker> markers = [];
   Future<Position> _getCurrentPosition() async {
-    final position = await CafeDataApi.getCurrentPosition();
+    final position = await CurrentLocationData.getCurrentPosition();
 
-    print("await Position");
     return position;
   }
-  // Future<Position> _getCurrentPosition() async {
-  //   Position position = await Geolocator.getCurrentPosition(
-  //       desiredAccuracy: LocationAccuracy.best);
 
-  //   LatLng currentLocation = LatLng(
-  //       position.latitude,
-  //       position
-  //           .longitude); // Replace with the desired latitude and longitude values
-  //   _controller?.moveCamera(
-  //     CameraUpdate.scrollTo(currentLocation),
-  //   );
-  //   return position;
-  // }
+  Future<List<Marker>> findMarkers() async {
+    List<dynamic> cafePlaceIds = await CafeDataApi.getCafePlaceId();
+    List<Marker> markers = [];
+
+    for (var cafePlaceId in cafePlaceIds) {
+      CafeDataApi.getCafeData(cafePlaceId, markers);
+    }
+
+    while (markers.length != cafePlaceIds.length) {
+      await Future.delayed(Duration(milliseconds: 10));
+    }
+
+    return markers;
+  }
 
   @override
   void initState() {
     print('initstate');
     super.initState();
+
     setState(() {
       _getCurrentPosition().then((position) {
         setState(() {
           currentPosition = position;
-          print("check ${position.latitude},${position.longitude}");
+        });
+      }).onError((error, stacktrace) => null);
+
+      findMarkers().then((getMarkers) {
+        setState(() {
+          markers = getMarkers;
+          print(markers);
         });
       }).onError((error, stacktrace) => null);
     });
-
-    // _getCurrentPosition().then((position) {
-    //   setState(() {});
-    //   currentPosition = position;
-    //   print("check ${position.latitude},${position.longitude}");
-    //   LatLng currentLocation = LatLng(
-    //       currentPosition!.latitude,
-    //       currentPosition!
-    //           .longitude); // Replace with the desired latitude and longitude values
-    //   _controller?.moveCamera(
-    //     CameraUpdate.scrollTo(currentLocation),
-    //   );
-    //   print("go current position");
-    // }).onError((error, stacktrace) => null);
   }
 
-  //final d = CafeDataApi().getLocation();
-  // currentPosition = position;
-  // LatLng currentLocation = LatLng(
-  //     currentPosition!.latitude,
-  //     currentPosition!
-  //         .longitude); // Replace with the desired latitude and longitude values
-  // _controller?.moveCamera(
-  //   CameraUpdate.scrollTo(currentLocation),
-  // );
-  //print(d);
-
   void _goToCurrentPosition() {
-    setState(() {
-      LatLng currentLocation = LatLng(
-          currentPosition?.latitude ?? 0.0,
-          currentPosition?.longitude ??
-              0.0); // Replace with the desired latitude and longitude values
-      _controller?.moveCamera(
-        CameraUpdate.scrollTo(currentLocation),
-      );
-      print("go current position");
-    });
+    LatLng currentLocation = LatLng(
+        currentPosition?.latitude ?? 0.0, currentPosition?.longitude ?? 0.0);
+    _controller?.moveCamera(
+      CameraUpdate.scrollTo(currentLocation),
+    );
+    print("goToCurrentPosition $currentLocation");
   }
 
   void _onFocusChange() {
@@ -93,7 +73,15 @@ class _CafeMapState extends State<CafeMap> {
     });
   }
 
-  // Create a set of markers from the coordinates
+  // List<Marker> _getMarkers() {
+  //   findMarkers();
+  //   return locations.map((location) {
+  //     return Marker(
+  //       markerId: (location['id']),
+  //       position: LatLng(location['latitude'], location['longitude']),
+  //     );
+  //   }).toList();
+  // }
 
   @override
   void dispose() {
@@ -132,9 +120,8 @@ class _CafeMapState extends State<CafeMap> {
 
   @override
   Widget build(BuildContext context) {
-    print('build');
-    print(currentPosition);
     _goToCurrentPosition();
+    print('build');
     return Scaffold(
       body: Stack(
         children: [
@@ -147,6 +134,7 @@ class _CafeMapState extends State<CafeMap> {
             onMapCreated: (controller) {
               _controller = controller;
             },
+            markers: markers,
           ),
           GestureDetector(
             behavior: HitTestBehavior.translucent,

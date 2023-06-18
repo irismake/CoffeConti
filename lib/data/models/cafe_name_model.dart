@@ -1,3 +1,5 @@
+import 'package:geolocator/geolocator.dart';
+
 class CafePlaceIdModel {
   final String placeId;
   CafePlaceIdModel({required this.placeId});
@@ -11,7 +13,7 @@ class CafePlaceIdModel {
 
 class CafeDataModel {
   final String name;
-  OpeningHours openingHours;
+  OpeningHours? openingHours;
   Geometry geometry;
   CafeDataModel(
       {required this.name, required this.geometry, required this.openingHours});
@@ -19,7 +21,9 @@ class CafeDataModel {
   CafeDataModel.fromJson(Map<String, dynamic> json)
       : name = json['name'],
         geometry = Geometry.fromJson(json['geometry']),
-        openingHours = OpeningHours.fromJson(json['current_opening_hours']);
+        openingHours = json.containsKey('current_opening_hours')
+            ? OpeningHours.fromJson(json['current_opening_hours'])
+            : null;
 }
 
 class Geometry {

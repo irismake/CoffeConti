@@ -14,24 +14,10 @@ class UserProfile extends StatefulWidget {
   State<UserProfile> createState() => _UserProfileState();
 }
 
-void main() async {
-  List<dynamic> cafePlaceId = await CafeDataApi.getCafePlaceId();
-
-  print(cafePlaceId);
-  CafeDataModel cafeDataModel =
-      await CafeDataApi.getCafeData('ChIJ993jM5alfDURK3Yb1pmmBf8');
-  print(cafeDataModel.geometry.location);
-  print(cafeDataModel.openingHours.weekdayText);
-}
-
 class _UserProfileState extends State<UserProfile> {
   @override
   void initState() {
     super.initState();
-
-    setState(() {
-      main();
-    });
   }
 
   @override
