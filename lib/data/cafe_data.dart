@@ -1,4 +1,4 @@
-import 'package:coffeeconti/tabs/map.dart';
+import 'package:coffeeconti/tabs/map_tab/map.dart';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:geolocator_platform_interface/src/models/position.dart';

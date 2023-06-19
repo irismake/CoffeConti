@@ -8,7 +8,7 @@ import 'package:coffeeconti/tabs/add.dart';
 import 'package:coffeeconti/tabs/discover.dart';
 import 'package:permission_handler/permission_handler.dart';
 
-import 'package:coffeeconti/tabs/map.dart';
+import 'package:coffeeconti/tabs/map_tab/map.dart';
 import 'package:coffeeconti/tabs/profile.dart';
 import '../../constants/sizes.dart';
 import '../../constants/gaps.dart';
@@ -107,6 +107,5 @@ Future<void> _permission() async {
     return Future.value(true);
   } else {
     exit(0);
-    //return Future.value(false);
   }
 }
