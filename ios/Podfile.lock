@@ -10,12 +10,15 @@ PODS:
   - NMapsGeometry (1.0.1)
   - NMapsMap (3.16.2):
     - NMapsGeometry
+  - permission_handler_apple (9.1.0):
+    - Flutter
 
 DEPENDENCIES:
   - Flutter (from `Flutter`)
   - flutter_keyboard_visibility (from `.symlinks/plugins/flutter_keyboard_visibility/ios`)
   - geolocator_apple (from `.symlinks/plugins/geolocator_apple/ios`)
   - naver_map_plugin (from `.symlinks/plugins/naver_map_plugin/ios`)
+  - permission_handler_apple (from `.symlinks/plugins/permission_handler_apple/ios`)
 
 SPEC REPOS:
   trunk:
@@ -31,6 +34,8 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/geolocator_apple/ios"
   naver_map_plugin:
     :path: ".symlinks/plugins/naver_map_plugin/ios"
+  permission_handler_apple:
+    :path: ".symlinks/plugins/permission_handler_apple/ios"
 
 SPEC CHECKSUMS:
   Flutter: f04841e97a9d0b0a8025694d0796dd46242b2854
@@ -39,7 +44,8 @@ SPEC CHECKSUMS:
   naver_map_plugin: d1d67733c56b20b88270d9da51218e18fa916232
   NMapsGeometry: 53c573ead66466681cf123f99f698dc8071a4b83
   NMapsMap: aaa64717249b06ae82c3a3addb3a01f0e33100ab
+  permission_handler_apple: 8f116445eff3c0e7c65ad60f5fef5490aa94b4e4
 
-PODFILE CHECKSUM: 8af43dce73477f8081653613ebb69f4a696cc4a6
+PODFILE CHECKSUM: d1b24cec8fd3514eedf6f939e6f215fd91002db1
 
 COCOAPODS: 1.11.3

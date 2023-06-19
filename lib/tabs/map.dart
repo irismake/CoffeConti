@@ -13,7 +13,6 @@ class CafeMap extends StatefulWidget {
 
 class _CafeMapState extends State<CafeMap> {
   NaverMapController? _controller;
-
   Position? currentPosition;
   List<Marker> markers = [];
 
@@ -41,6 +40,16 @@ class _CafeMapState extends State<CafeMap> {
   }
 
   @override
+  void onMapCreated(NaverMapController controller) {
+    _controller = controller;
+    requestLocationPermission();
+  }
+
+  void requestLocationPermission() async {
+    _controller!.setLocationTrackingMode(LocationTrackingMode.Follow);
+  }
+
+  @override
   void initState() {
     print('initstate');
     super.initState();
@@ -60,9 +69,12 @@ class _CafeMapState extends State<CafeMap> {
   }
 
   Future<Position> _goToCurrentPosition() async {
+    LocationPermission permission = await Geolocator.requestPermission();
     var position = await Geolocator.getCurrentPosition(
         desiredAccuracy: LocationAccuracy.best);
-
+    setState(() {
+      currentPosition = position;
+    });
     LatLng currentLocation = LatLng(position.latitude, position.longitude);
     _controller?.moveCamera(
       CameraUpdate.scrollTo(currentLocation),
@@ -76,16 +88,6 @@ class _CafeMapState extends State<CafeMap> {
       _showSuggestions = _focusNode.hasFocus;
     });
   }
-
-  // List<Marker> _getMarkers() {
-  //   findMarkers();
-  //   return locations.map((location) {
-  //     return Marker(
-  //       markerId: (location['id']),
-  //       position: LatLng(location['latitude'], location['longitude']),
-  //     );
-  //   }).toList();
-  // }
 
   @override
   void dispose() {
@@ -131,13 +133,11 @@ class _CafeMapState extends State<CafeMap> {
         children: [
           NaverMap(
             initialCameraPosition: CameraPosition(
-              target: LatLng(currentPosition?.latitude ?? 0.0,
-                  currentPosition?.longitude ?? 0.0),
+              target: LatLng(currentPosition?.latitude ?? 37.613,
+                  currentPosition?.longitude ?? 127.039352),
               zoom: 15.0,
             ),
-            onMapCreated: (controller) {
-              _controller = controller;
-            },
+            onMapCreated: onMapCreated,
             minZoom: 10.0,
             maxZoom: 20.0,
             markers: markers,

@@ -1,9 +1,12 @@
+import 'dart:io';
+
 import 'package:coffeeconti/data/cafe_data.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:coffeeconti/tabs/add.dart';
 import 'package:coffeeconti/tabs/discover.dart';
+import 'package:permission_handler/permission_handler.dart';
 
 import 'package:coffeeconti/tabs/map.dart';
 import 'package:coffeeconti/tabs/profile.dart';
@@ -37,6 +40,7 @@ class _MainNavigationScreenState extends State<MainNavigationScreen> {
   @override
   void initState() {
     super.initState();
+    _permission;
   }
 
   @override
@@ -92,5 +96,17 @@ class _MainNavigationScreenState extends State<MainNavigationScreen> {
         ),
       ),
     );
+  }
+}
+
+Future<void> _permission() async {
+  Map<Permission, PermissionStatus> status =
+      await [Permission.location].request(); // [] 권한배열에 권한을 작성
+
+  if (await Permission.location.isGranted) {
+    return Future.value(true);
+  } else {
+    exit(0);
+    //return Future.value(false);
   }
 }
