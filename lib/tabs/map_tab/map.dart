@@ -48,21 +48,21 @@ class _CafeMapState extends State<CafeMap> {
     super.initState();
 
     findMarkers().then((getMarkers) {
-      markers = getMarkers;
-      print(markers);
       setState(() {
-        _goToCurrentPosition();
+        markers = getMarkers;
+        print(markers);
       });
+
+      //_goToCurrentPosition();
     }).onError((error, stacktrace) => null);
   }
 
   Future<Position> _goToCurrentPosition() async {
-    LocationPermission permission = await Geolocator.requestPermission();
     var position = await Geolocator.getCurrentPosition(
         desiredAccuracy: LocationAccuracy.best);
-    setState(() {
-      currentPosition = position;
-    });
+
+    currentPosition = position;
+
     LatLng currentLocation = LatLng(position.latitude, position.longitude);
     _controller?.moveCamera(
       CameraUpdate.scrollTo(currentLocation),
@@ -93,6 +93,7 @@ class _CafeMapState extends State<CafeMap> {
       body: Stack(
         children: [
           NaverMap(
+            locationButtonEnable: true,
             initialCameraPosition: CameraPosition(
               target: LatLng(currentPosition?.latitude ?? 37.613,
                   currentPosition?.longitude ?? 127.039352),
@@ -125,18 +126,18 @@ class _CafeMapState extends State<CafeMap> {
               },
             ),
           ),
-          Positioned(
-            bottom: 16,
-            right: 16,
-            child: FloatingActionButton(
-              backgroundColor: Colors.white,
-              onPressed: _goToCurrentPosition,
-              child: Icon(
-                Icons.my_location,
-                color: Colors.teal,
-              ),
-            ),
-          ),
+          // Positioned(
+          //   bottom: 16,
+          //   right: 16,
+          //   child: FloatingActionButton(
+          //     backgroundColor: Colors.white,
+          //     onPressed: _goToCurrentPosition,
+          //     child: Icon(
+          //       Icons.my_location,
+          //       color: Colors.teal,
+          //     ),
+          //   ),
+          // ),
         ],
       ),
     );
