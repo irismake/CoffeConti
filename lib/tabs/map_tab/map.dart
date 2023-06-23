@@ -1,5 +1,5 @@
 import 'package:coffeeconti/data/cafe_data.dart';
-import 'package:coffeeconti/tabs/map_tab/search_tab.dart';
+import 'package:coffeeconti/tabs/map_tab/search_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:naver_map_plugin/naver_map_plugin.dart';
@@ -52,8 +52,6 @@ class _CafeMapState extends State<CafeMap> {
         markers = getMarkers;
         print(markers);
       });
-
-      //_goToCurrentPosition();
     }).onError((error, stacktrace) => null);
   }
 
@@ -74,16 +72,15 @@ class _CafeMapState extends State<CafeMap> {
 
   @override
   void dispose() {
+    //_controller?.dispose();
     super.dispose();
     print('dispose');
   }
 
   void _onPressedSearchTap() {
-    Navigator.of(context).pop(
-      Navigator.push(
-        context,
-        MaterialPageRoute(builder: (context) => SearchTab()),
-      ),
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => SearchScreen()),
     );
   }
 
@@ -115,8 +112,6 @@ class _CafeMapState extends State<CafeMap> {
                   foregroundColor: Colors.grey[600],
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(10)),
-
-                  //minimumSize: Size(500, 20), //width, height
                   fixedSize: Size(500, 50),
                   alignment: Alignment.centerLeft,
                   textStyle: const TextStyle(
@@ -128,18 +123,6 @@ class _CafeMapState extends State<CafeMap> {
               },
             ),
           ),
-          // Positioned(
-          //   bottom: 16,
-          //   right: 16,
-          //   child: FloatingActionButton(
-          //     backgroundColor: Colors.white,
-          //     onPressed: _goToCurrentPosition,
-          //     child: Icon(
-          //       Icons.my_location,
-          //       color: Colors.teal,
-          //     ),
-          //   ),
-          // ),
         ],
       ),
     );

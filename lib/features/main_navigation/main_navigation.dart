@@ -27,7 +27,7 @@ class _MainNavigationScreenState extends State<MainNavigationScreen> {
   final List<Widget> _widgetOptions = <Widget>[
     CafeMap(),
     Discover(),
-    AddMyCafe(),
+    Discover(),
     UserProfile(),
   ];
 
