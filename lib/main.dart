@@ -1,6 +1,9 @@
+import 'package:coffeeconti/permission.dart';
+import 'package:permission_handler/permission_handler.dart';
+
 import 'package:flutter/material.dart';
-import 'features/main_navigation/main_navigation.dart';
 import 'constants/sizes.dart';
+import 'features/main_navigation/main_navigation.dart';
 
 void main() {
   runApp(const MyApp());
@@ -26,7 +29,7 @@ class MyApp extends StatelessWidget {
               fontWeight: FontWeight.w600,
             ),
           )),
-      home: MainNavigationScreen(),
+      home: PermissionTab(),
     );
   }
 }

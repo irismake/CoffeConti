@@ -1,8 +1,8 @@
 import 'package:coffeeconti/data/cafe_data.dart';
 import 'package:coffeeconti/tabs/map_tab/search_tab.dart';
 import 'package:flutter/material.dart';
-import 'package:naver_map_plugin/naver_map_plugin.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:naver_map_plugin/naver_map_plugin.dart';
 
 class CafeMap extends StatefulWidget {
   const CafeMap({super.key});
@@ -58,6 +58,7 @@ class _CafeMapState extends State<CafeMap> {
   }
 
   Future<Position> _goToCurrentPosition() async {
+    LocationPermission permission = await Geolocator.requestPermission();
     var position = await Geolocator.getCurrentPosition(
         desiredAccuracy: LocationAccuracy.best);
 
@@ -78,9 +79,10 @@ class _CafeMapState extends State<CafeMap> {
   }
 
   void _onPressedSearchTap() {
-    Navigator.of(context).push(
-      MaterialPageRoute(
-        builder: (context) => SearchTab(),
+    Navigator.of(context).pop(
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => SearchTab()),
       ),
     );
   }
@@ -110,7 +112,7 @@ class _CafeMapState extends State<CafeMap> {
             child: ElevatedButton(
               style: ElevatedButton.styleFrom(
                   backgroundColor: Colors.white,
-                  foregroundColor: Colors.black,
+                  foregroundColor: Colors.grey[600],
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(10)),
 

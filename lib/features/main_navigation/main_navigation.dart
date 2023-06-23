@@ -40,7 +40,6 @@ class _MainNavigationScreenState extends State<MainNavigationScreen> {
   @override
   void initState() {
     super.initState();
-    _permission;
   }
 
   @override
@@ -96,16 +95,5 @@ class _MainNavigationScreenState extends State<MainNavigationScreen> {
         ),
       ),
     );
-  }
-}
-
-Future<void> _permission() async {
-  Map<Permission, PermissionStatus> status =
-      await [Permission.location].request(); // [] 권한배열에 권한을 작성
-
-  if (await Permission.location.isGranted) {
-    return Future.value(true);
-  } else {
-    exit(0);
   }
 }

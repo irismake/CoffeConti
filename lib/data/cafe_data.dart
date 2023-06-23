@@ -1,7 +1,4 @@
-import 'package:coffeeconti/tabs/map_tab/map.dart';
-import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
-import 'package:geolocator_platform_interface/src/models/position.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
