@@ -105,7 +105,7 @@ class _CafeMapState extends State<CafeMap> {
           ),
           Padding(
             padding:
-                const EdgeInsets.symmetric(vertical: 10.0, horizontal: 10.0),
+                const EdgeInsets.symmetric(vertical: 50.0, horizontal: 10.0),
             child: ElevatedButton(
               style: ElevatedButton.styleFrom(
                   backgroundColor: Colors.white,
