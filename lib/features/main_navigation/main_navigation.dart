@@ -8,7 +8,6 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:coffeeconti/tabs/discover.dart';
 
 import 'package:coffeeconti/tabs/map_tab/map.dart';
-import 'package:coffeeconti/tabs/profile.dart';
 import '../../constants/sizes.dart';
 import 'widgets/nav_tab.dart';
 
@@ -26,7 +25,7 @@ class _MainNavigationScreenState extends State<MainNavigationScreen> {
     CafeMap(),
     Discover(),
     Discover(),
-    UserProfile(),
+    Discover(),
   ];
 
   void _onTap(int index) {

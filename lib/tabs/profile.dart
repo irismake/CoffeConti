@@ -1,24 +1,17 @@
-import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/framework.dart';
 
-class UserProfile extends StatefulWidget {
-  const UserProfile({super.key});
+// // controller.addOverlayAll{ NMarker(
+// //                 id: 'test',
+// //                 position:
+// //                     const NLatLng(37.506932467450326, 127.05578661133796))
 
-  @override
-  State<UserProfile> createState() => _UserProfileState();
-}
-
-class _UserProfileState extends State<UserProfile> {
-  @override
-  void initState() {
-    super.initState();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(),
-      //bottomNavigationBar: MainNavigationScreen(),
-    );
-  }
-}
+// //                   , NMarker(
+// //                 id: 'test1',
+// //                 position:
+// //                     const NLatLng(37.606932467450326, 127.05578661133796))}
+// mapController.addOverlayAll({
+//         NMarker(id: 'test', position: NLatLng(37.612941, 127.039381)),
+//         NMarker(
+//                id: 'test1',
+//                  position:
+//                     const NLatLng(37.606932467450326, 127.05578661133796))
+//       }
