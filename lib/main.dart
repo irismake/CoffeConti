@@ -1,12 +1,19 @@
 import 'package:coffeeconti/permission.dart';
-import 'package:permission_handler/permission_handler.dart';
-
+import 'package:flutter_naver_map/flutter_naver_map.dart';
 import 'package:flutter/material.dart';
 import 'constants/sizes.dart';
-import 'features/main_navigation/main_navigation.dart';
 
-void main() {
+void main() async {
+  await _initialize();
+
   runApp(const MyApp());
+}
+
+Future<void> _initialize() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await NaverMapSdk.instance.initialize(
+      clientId: 'mdla0gzhf3',
+      onAuthFailed: (ex) => print("********* 네이버맵 인증오류 : $ex *********"));
 }
 
 class MyApp extends StatelessWidget {

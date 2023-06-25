@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
-import 'package:flutter/src/widgets/placeholder.dart';
-import 'package:coffeeconti/features/main_navigation/main_navigation.dart';
 
 class AddMyCafe extends StatefulWidget {
   const AddMyCafe({super.key});

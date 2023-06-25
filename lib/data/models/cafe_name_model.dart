@@ -1,5 +1,3 @@
-import 'package:geolocator/geolocator.dart';
-
 class CafePlaceIdModel {
   final String placeId;
   CafePlaceIdModel({required this.placeId});

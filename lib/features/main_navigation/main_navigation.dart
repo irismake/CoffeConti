@@ -1,17 +1,15 @@
-import 'dart:io';
+//import 'dart:io';
 
-import 'package:coffeeconti/data/cafe_data.dart';
+//import 'package:coffeeconti/data/cafe_data.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:coffeeconti/tabs/add.dart';
+
 import 'package:coffeeconti/tabs/discover.dart';
-import 'package:permission_handler/permission_handler.dart';
 
 import 'package:coffeeconti/tabs/map_tab/map.dart';
 import 'package:coffeeconti/tabs/profile.dart';
 import '../../constants/sizes.dart';
-import '../../constants/gaps.dart';
 import 'widgets/nav_tab.dart';
 
 class MainNavigationScreen extends StatefulWidget {

@@ -1,11 +1,5 @@
-import 'package:coffeeconti/data/cafe_data.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
-import 'package:flutter/src/widgets/placeholder.dart';
-import 'package:coffeeconti/features/main_navigation/main_navigation.dart';
-
-import '../data/models/cafe_name_model.dart';
 
 class UserProfile extends StatefulWidget {
   const UserProfile({super.key});

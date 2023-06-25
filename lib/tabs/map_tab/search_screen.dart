@@ -1,10 +1,7 @@
-import 'package:coffeeconti/features/main_navigation/main_navigation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:coffeeconti/associated_search.dart';
-import '../../constants/gaps.dart';
-import '../../constants/sizes.dart';
 
 const interests = [
   'Apple',

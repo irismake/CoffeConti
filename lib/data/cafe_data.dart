@@ -2,7 +2,7 @@ import 'package:geolocator/geolocator.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
-import 'package:naver_map_plugin/naver_map_plugin.dart';
+//import 'package:naver_map_plugin/naver_map_plugin.dart';
 
 import 'models/cafe_name_model.dart';
 
@@ -49,27 +49,27 @@ class CafeDataApi {
     return cafePlaceIds;
   }
 
-  static void getCafeData(String placeId, List<Marker> markers) async {
-    List<String> coffeeShops = [];
-    final apiKey = 'AIzaSyDuffSA5RQdjpsvpirWS_0tom8G9dxYPxY';
+  // static void getCafeData(String placeId, List<Marker> markers) async {
+  //   List<String> coffeeShops = [];
+  //   final apiKey = 'AIzaSyDuffSA5RQdjpsvpirWS_0tom8G9dxYPxY';
 
-    final url = Uri.parse(
-        'https://maps.googleapis.com/maps/api/place/details/json?place_id=$placeId&key=$apiKey');
-    final response = await http.get(url);
+  //   final url = Uri.parse(
+  //       'https://maps.googleapis.com/maps/api/place/details/json?place_id=$placeId&key=$apiKey');
+  //   final response = await http.get(url);
 
-    if (response.statusCode == 200) {
-      String jsonData = response.body;
-      Map<String, dynamic> cafeData = json.decode(jsonData);
-      Map<String, dynamic> results = cafeData['result'];
-      CafeDataModel cafeDataModel = CafeDataModel.fromJson(results);
-      var marker = Marker(
-          width: 30,
-          height: 30,
-          markerId: placeId,
-          captionText: cafeDataModel.name,
-          position: LatLng(cafeDataModel.geometry.location['lat'],
-              cafeDataModel.geometry.location['lng']));
-      markers.add(marker);
-    }
-  }
+  //   if (response.statusCode == 200) {
+  //     String jsonData = response.body;
+  //     Map<String, dynamic> cafeData = json.decode(jsonData);
+  //     Map<String, dynamic> results = cafeData['result'];
+  //     CafeDataModel cafeDataModel = CafeDataModel.fromJson(results);
+  //     var marker = Marker(
+  //         width: 30,
+  //         height: 30,
+  //         markerId: placeId,
+  //         captionText: cafeDataModel.name,
+  //         position: LatLng(cafeDataModel.geometry.location['lat'],
+  //             cafeDataModel.geometry.location['lng']));
+  //     markers.add(marker);
+  //   }
+  // }
 }
