@@ -1,5 +1,6 @@
-import 'package:coffeeconti/features/main_navigation/main_navigation.dart';
+import 'package:coffeeconti/tabs/map_tab/map.dart';
 import 'package:flutter/material.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:permission_handler/permission_handler.dart';
 
 class PermissionTab extends StatelessWidget {
@@ -35,9 +36,14 @@ Future<bool> requestLocationPermission(BuildContext context) async {
         });
     return false;
   } else {
+    // LocationPermission permission = await Geolocator.requestPermission();
+    final position = await Geolocator.getCurrentPosition(
+        desiredAccuracy: LocationAccuracy.best);
+    print("goToCurrentPosition $position");
+
     Navigator.of(context).pushAndRemoveUntil(
         MaterialPageRoute(
-          builder: ((context) => MainNavigationScreen()),
+          builder: ((context) => CafeMap(currentPosition: position)),
         ), (route) {
       return false;
     });

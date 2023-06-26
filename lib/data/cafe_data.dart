@@ -51,7 +51,7 @@ class CafeDataApi {
     return cafePlaceIds;
   }
 
-  static void getCafeData(String placeId, List<NMarker> markers) async {
+  static void getCafeData(String placeId, Set<NMarker> markerSets) async {
     final apiKey = 'AIzaSyDuffSA5RQdjpsvpirWS_0tom8G9dxYPxY';
 
     final url = Uri.parse(
@@ -69,9 +69,7 @@ class CafeDataApi {
         position: NLatLng(cafeDataModel.geometry.location['lat'],
             cafeDataModel.geometry.location['lng']),
       );
-      markers.add(marker);
-
-      //print(marker);
+      markerSets.add(marker);
     }
   }
 }
