@@ -72,10 +72,23 @@ class _CafeMapState extends State<CafeMap> {
   }
 
   void onMapReady(NaverMapController mapController) async {
+    // final icon = await NOverlayImage.fromWidget(
+    //     widget: const FlutterLogo(),
+    //     size: const Size(24, 24),
+    //     context: context);
+    // final assetIcon = NOverlayImage.fromAssetImage('assets/icon.png');
     print('onMapReady');
     await findMarkers();
-
-    mapController.addOverlayAll(markerSets);
+    // final marker = NMarker(
+    //     id: "icon_test_1",
+    //     position: NLatLng(
+    //         widget.currentPosition.latitude, widget.currentPosition.longitude),
+    //     icon: assetIcon,
+    //     alpha: 1,
+    //     size: NSize(30.0, 50.0));
+    setState(() {
+      mapController.addOverlayAll(markerSets);
+    });
 
     mapController.setLocationTrackingMode(NLocationTrackingMode.noFollow);
   }

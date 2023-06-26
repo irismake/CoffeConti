@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:flutter_naver_map/flutter_naver_map.dart';
 
 import 'package:geolocator/geolocator.dart';
@@ -42,8 +43,10 @@ class CafeDataApi {
     return cafePlaceIds;
   }
 
+  NOverlayImage? flutterIcon;
+
   static void getCafeData(String placeId, Set<NMarker> markerSets) async {
-    final iconImage = NOverlayImage.fromAssetImage("assets/coffeeIcon.png");
+    // final iconImage = await NOverlayImage.fromAssetImage("assets/icon.png");
 
     final apiKey = 'AIzaSyDuffSA5RQdjpsvpirWS_0tom8G9dxYPxY';
 
@@ -62,14 +65,14 @@ class CafeDataApi {
         id: placeId,
         position: NLatLng(cafeDataModel.geometry.location['lat'],
             cafeDataModel.geometry.location['lng']),
-        icon: iconImage,
+        icon: NOverlayImage.fromAssetImage("assets/icons/coffeeIcon.png"),
 
-        isIconPerspectiveEnabled: true,
+        //isIconPerspectiveEnabled: true,
         alpha: 1,
-        isHideCollidedMarkers: true,
-        isForceShowIcon: true,
-        iconTintColor: NLocationOverlay.defaultCircleColor,
-        size: NSize(30.0, 50.0),
+        // isHideCollidedMarkers: true,
+        // isForceShowIcon: true,
+        // iconTintColor: NLocationOverlay.defaultCircleColor,
+        size: NSize(50.0, 50.0),
         // size: NLocationOverlay.autoSize
       );
       markerSets.add(marker);
