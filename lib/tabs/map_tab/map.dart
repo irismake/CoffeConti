@@ -20,7 +20,7 @@ class _CafeMapState extends State<CafeMap> {
         widget.currentPosition.latitude, widget.currentPosition.longitude),
     zoom: 15,
     bearing: 45,
-    tilt: 30,
+    tilt: 0,
   );
 
   Future<Set<NMarker>> findMarkers() async {
@@ -74,9 +74,10 @@ class _CafeMapState extends State<CafeMap> {
   void onMapReady(NaverMapController mapController) async {
     print('onMapReady');
     await findMarkers();
+
     mapController.addOverlayAll(markerSets);
 
-    cameraPosition;
+    mapController.setLocationTrackingMode(NLocationTrackingMode.noFollow);
   }
 
   void onMapTapped(NPoint point, NLatLng latLng) {

@@ -3,19 +3,10 @@ import 'package:flutter_naver_map/flutter_naver_map.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
-
-//import 'package:naver_map_plugin/naver_map_plugin.dart';
+import 'package:flutter/services.dart' show AssetImage;
+import 'package:flutter/widgets.dart' show AssetImage;
 
 import 'models/cafe_name_model.dart';
-
-// class CurrentLocationData {
-//   static Future<Position> getCurrentPosition() async {
-//     Position position = await Geolocator.getCurrentPosition(
-//         desiredAccuracy: LocationAccuracy.best);
-
-//     return position;
-//   }
-// }
 
 class CafeDataApi {
   static final baseUrl =
@@ -52,6 +43,8 @@ class CafeDataApi {
   }
 
   static void getCafeData(String placeId, Set<NMarker> markerSets) async {
+    final iconImage = NOverlayImage.fromAssetImage("assets/coffeeIcon.png");
+
     final apiKey = 'AIzaSyDuffSA5RQdjpsvpirWS_0tom8G9dxYPxY';
 
     final url = Uri.parse(
@@ -65,9 +58,19 @@ class CafeDataApi {
       CafeDataModel cafeDataModel = CafeDataModel.fromJson(results);
 
       final marker = NMarker(
+        caption: NOverlayCaption(text: placeId),
         id: placeId,
         position: NLatLng(cafeDataModel.geometry.location['lat'],
             cafeDataModel.geometry.location['lng']),
+        icon: iconImage,
+
+        isIconPerspectiveEnabled: true,
+        alpha: 1,
+        isHideCollidedMarkers: true,
+        isForceShowIcon: true,
+        iconTintColor: NLocationOverlay.defaultCircleColor,
+        size: NSize(30.0, 50.0),
+        // size: NLocationOverlay.autoSize
       );
       markerSets.add(marker);
     }
