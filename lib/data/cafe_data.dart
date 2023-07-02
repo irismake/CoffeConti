@@ -1,43 +1,56 @@
-import 'package:flutter/material.dart';
 import 'package:flutter_naver_map/flutter_naver_map.dart';
 
 import 'package:geolocator/geolocator.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
-import 'package:flutter/services.dart' show AssetImage;
-import 'package:flutter/widgets.dart' show AssetImage;
 
 import 'models/cafe_name_model.dart';
 
 class CafeDataApi {
   static final baseUrl =
       'https://maps.googleapis.com/maps/api/place/nearbysearch/json';
+  static final apiKey = 'AIzaSyDuffSA5RQdjpsvpirWS_0tom8G9dxYPxY';
 
   static Future<List<String>> getCafePlaceId(Position position) async {
     List<CafePlaceIdModel> coffeeShops = [];
-
+    List<dynamic> results = [];
     List<String> cafePlaceIds = [];
-    final apiKey = 'AIzaSyDuffSA5RQdjpsvpirWS_0tom8G9dxYPxY';
-
     final latitude = position.latitude;
     final longitude = position.longitude;
-    final radius = '10000';
+    final radius = '1000';
     final url = Uri.parse(
         '$baseUrl?location=$latitude,$longitude&radius=$radius&type=cafe&key=$apiKey');
+
     final response = await http.get(url);
 
     if (response.statusCode == 200) {
       String jsonData = response.body;
       Map<String, dynamic> cafeData = json.decode(jsonData);
+      results = cafeData['results'];
+      var pageToken = cafeData['next_page_token'];
+      print(pageToken);
+      for (int i = 0; i < 3 && pageToken != null; i++) {
+        await Future.delayed(Duration(seconds: 2));
+        final url = Uri.parse(
+          '$baseUrl?key=$apiKey&pagetoken=$pageToken',
+        );
+        final response = await http.get(url);
 
-      List<dynamic> results = cafeData['results'];
+        if (response.statusCode == 200) {
+          String jsonData = response.body;
+          Map<String, dynamic> cafeData = json.decode(jsonData);
+          final resultso = cafeData['results'];
+          pageToken = cafeData['next_page_token'];
+          print("nextPageToken : $pageToken");
+          results.addAll(resultso);
+        }
+      }
 
       for (var result in results) {
         coffeeShops.add(CafePlaceIdModel.fromJson(result));
       }
-
-      for (var shop in coffeeShops) {
-        cafePlaceIds.add(shop.placeId);
+      for (var coffeShop in coffeeShops) {
+        cafePlaceIds.add(coffeShop.placeId);
       }
     }
     return cafePlaceIds;
@@ -60,20 +73,28 @@ class CafeDataApi {
       Map<String, dynamic> results = cafeData['result'];
       CafeDataModel cafeDataModel = CafeDataModel.fromJson(results);
 
+      final openNow = cafeDataModel.openingHours?.openNow;
+      final openHour;
+      int iconColor;
+      if (openNow == null) {
+        iconColor = 0;
+        openHour = null;
+      } else if (openNow == true) {
+        iconColor = 4;
+      } else {
+        iconColor = 1;
+      }
+
       final marker = NMarker(
-        caption: NOverlayCaption(text: placeId),
-        id: placeId,
+        caption: NOverlayCaption(text: cafeDataModel.name),
+        id: cafeDataModel.name,
         position: NLatLng(cafeDataModel.geometry.location['lat'],
             cafeDataModel.geometry.location['lng']),
-        icon: NOverlayImage.fromAssetImage("assets/icons/coffeeIcon.png"),
-
-        //isIconPerspectiveEnabled: true,
+        icon: NOverlayImage.fromAssetImage(
+            "assets/icons/coffeeIcon$iconColor.png"),
         alpha: 1,
-        // isHideCollidedMarkers: true,
-        // isForceShowIcon: true,
-        // iconTintColor: NLocationOverlay.defaultCircleColor,
+        //iconTintColor: openNow != null ? Colors.black : Colors.blue,
         size: NSize(50.0, 50.0),
-        // size: NLocationOverlay.autoSize
       );
       markerSets.add(marker);
     }

@@ -32,7 +32,6 @@ class _CafeMapState extends State<CafeMap> {
     while (markerSets.length != cafePlaceIds.length) {
       await Future.delayed(Duration(milliseconds: 1));
     }
-    print(markerSets);
     return markerSets;
   }
 
