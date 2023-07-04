@@ -2,6 +2,7 @@ import 'package:flutter_naver_map/flutter_naver_map.dart';
 
 import 'package:geolocator/geolocator.dart';
 import 'package:http/http.dart' as http;
+import 'package:intl/intl.dart';
 import 'dart:convert';
 
 import 'models/cafe_name_model.dart';
@@ -19,7 +20,7 @@ class CafeDataApi {
     final longitude = position.longitude;
     final radius = '1000';
     final url = Uri.parse(
-        '$baseUrl?location=$latitude,$longitude&radius=$radius&type=cafe&key=$apiKey');
+        '$baseUrl?location=$latitude,$longitude&radius=$radius&type=cafe|keword=cafe&opennow=true&key=$apiKey');
 
     final response = await http.get(url);
 
@@ -53,12 +54,14 @@ class CafeDataApi {
         cafePlaceIds.add(coffeShop.placeId);
       }
     }
+    print(cafePlaceIds.length);
     return cafePlaceIds;
   }
 
   NOverlayImage? flutterIcon;
 
-  static void getCafeData(String placeId, Set<NMarker> markerSets) async {
+  static void getCafeData(String placeId, Set<NMarker> markerSets,
+      String currentTime, String weekDay) async {
     // final iconImage = await NOverlayImage.fromAssetImage("assets/icon.png");
 
     final apiKey = 'AIzaSyDuffSA5RQdjpsvpirWS_0tom8G9dxYPxY';
@@ -74,11 +77,40 @@ class CafeDataApi {
       CafeDataModel cafeDataModel = CafeDataModel.fromJson(results);
 
       final openNow = cafeDataModel.openingHours?.openNow;
-      final openHour;
+      final schedules = cafeDataModel.openingHours?.weekdayOperatingTime;
+
+      String todaySchedule = schedules
+          .where((element) => element.toString().contains(weekDay))
+          .join(', ');
+
+      print(todaySchedule);
+      List<String> scheduleParts = todaySchedule.split(": ");
+      print(scheduleParts);
+
+      String operatingHour = scheduleParts[1]
+          .replaceAll(" ", "")
+          .replaceAll("–", "-")
+          .replaceAll(" ", "")
+          .replaceAll('\u202F', '')
+          .replaceAll('\u2009', '');
+
+      print(operatingHour);
+
+      // Map<String, String> scheduleMap = {weekfDay: operatingHour};
+      // print(scheduleMap.values);
+      // final time = scheduleMap.values;
+
+      List<String> timeParts = operatingHour.split("-");
+      print(timeParts);
+      String startTimeString = timeParts.first;
+      String endTimeString = timeParts.last;
+
+      print(startTimeString);
+      print(endTimeString);
+
       int iconColor;
       if (openNow == null) {
         iconColor = 0;
-        openHour = null;
       } else if (openNow == true) {
         iconColor = 4;
       } else {

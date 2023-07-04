@@ -32,7 +32,10 @@ class Geometry {
 
 class OpeningHours {
   final openNow;
-  OpeningHours({required this.openNow});
+  final weekdayOperatingTime;
+  OpeningHours({required this.openNow, required this.weekdayOperatingTime});
 
-  OpeningHours.fromJson(Map<String, dynamic> json) : openNow = json['open_now'];
+  OpeningHours.fromJson(Map<String, dynamic> json)
+      : openNow = json['open_now'],
+        weekdayOperatingTime = json['weekday_text'];
 }
