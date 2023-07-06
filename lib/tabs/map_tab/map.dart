@@ -26,15 +26,12 @@ class _CafeMapState extends State<CafeMap> {
 
   Future<Set<NMarker>> findMarkers() async {
     DateTime now = DateTime.now();
-
     DateFormat formatter = DateFormat('EEEE');
-    String currentTime = DateFormat.jm().format(now);
-
     String weekDay = formatter.format(now);
     List<dynamic> cafePlaceIds =
         await CafeDataApi.getCafePlaceId(widget.currentPosition);
     for (var cafePlaceId in cafePlaceIds) {
-      CafeDataApi.getCafeData(cafePlaceId, markerSets, currentTime, weekDay);
+      CafeDataApi.getCafeData(cafePlaceId, markerSets, weekDay, now);
     }
     while (markerSets.length != cafePlaceIds.length) {
       await Future.delayed(Duration(milliseconds: 1));

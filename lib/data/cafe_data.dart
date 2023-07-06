@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:flutter_naver_map/flutter_naver_map.dart';
 
 import 'package:geolocator/geolocator.dart';
@@ -61,7 +62,7 @@ class CafeDataApi {
   NOverlayImage? flutterIcon;
 
   static void getCafeData(String placeId, Set<NMarker> markerSets,
-      String currentTime, String weekDay) async {
+      String weekDay, DateTime now) async {
     // final iconImage = await NOverlayImage.fromAssetImage("assets/icon.png");
 
     final apiKey = 'AIzaSyDuffSA5RQdjpsvpirWS_0tom8G9dxYPxY';
@@ -75,17 +76,16 @@ class CafeDataApi {
       Map<String, dynamic> cafeData = json.decode(jsonData);
       Map<String, dynamic> results = cafeData['result'];
       CafeDataModel cafeDataModel = CafeDataModel.fromJson(results);
-
+      int remainHours;
+      int remainMinutes;
+      int iconColor;
       final openNow = cafeDataModel.openingHours?.openNow;
       final schedules = cafeDataModel.openingHours?.weekdayOperatingTime;
-
       String todaySchedule = schedules
           .where((element) => element.toString().contains(weekDay))
           .join(', ');
 
-      print(todaySchedule);
       List<String> scheduleParts = todaySchedule.split(": ");
-      print(scheduleParts);
 
       String operatingHour = scheduleParts[1]
           .replaceAll(" ", "")
@@ -94,27 +94,69 @@ class CafeDataApi {
           .replaceAll('\u202F', '')
           .replaceAll('\u2009', '');
 
-      print(operatingHour);
-
       // Map<String, String> scheduleMap = {weekfDay: operatingHour};
       // print(scheduleMap.values);
       // final time = scheduleMap.values;
 
       List<String> timeParts = operatingHour.split("-");
-      print(timeParts);
-      String startTimeString = timeParts.first;
-      String endTimeString = timeParts.last;
+      String openTimeString = timeParts.first;
+      String closeTimeString = timeParts.last;
 
-      print(startTimeString);
-      print(endTimeString);
+      try {
+        DateFormat format = DateFormat('hh:mma');
+        DateTime openDateTime = format.parse(openTimeString);
+        DateTime closeDateTime = format.parse(closeTimeString);
 
-      int iconColor;
-      if (openNow == null) {
+        DateTime openHour = DateTime(
+            now.year,
+            now.month,
+            now.day,
+            openDateTime.hour,
+            openDateTime.minute,
+            openDateTime.second,
+            openDateTime.millisecond,
+            openDateTime.microsecond);
+        DateTime closeHour = DateTime(
+            now.year,
+            now.month,
+            now.day,
+            closeDateTime.hour,
+            closeDateTime.minute,
+            closeDateTime.second,
+            closeDateTime.millisecond,
+            closeDateTime.microsecond);
+
+        if (closeDateTime.hour <= 12 && closeDateTime.hour >= 0) {
+          closeHour = DateTime(
+              now.year,
+              now.month,
+              now.day + 1,
+              closeDateTime.hour,
+              closeDateTime.minute,
+              closeDateTime.second,
+              closeDateTime.millisecond,
+              closeDateTime.microsecond);
+          print("AM");
+        }
+
+        print(openHour);
+        print(closeHour);
+
+        Duration difference = closeHour.difference(now);
+        remainHours = difference.inHours;
+        remainMinutes = difference.inMinutes.remainder(60);
+
+        print("차이: $remainHours시간 $remainMinutes분");
+        if (remainHours == 0) {
+          iconColor = 2;
+        } else if (remainHours == 1) {
+          iconColor = 3;
+        } else {
+          iconColor = 4;
+        }
+      } catch (e) {
         iconColor = 0;
-      } else if (openNow == true) {
-        iconColor = 4;
-      } else {
-        iconColor = 1;
+        print("잘못된 형식의 문자열입니다.");
       }
 
       final marker = NMarker(
@@ -129,6 +171,7 @@ class CafeDataApi {
         size: NSize(50.0, 50.0),
       );
       markerSets.add(marker);
+      print(cafeDataModel.name);
     }
   }
 }
