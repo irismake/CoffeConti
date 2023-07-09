@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_naver_map/flutter_naver_map.dart';
 import 'package:geolocator/geolocator.dart';
 import '../../data/cafe_data.dart';
-import 'package:intl/intl.dart';
 
 class CafeMap extends StatefulWidget {
   const CafeMap({super.key, required this.currentPosition});
@@ -25,13 +24,10 @@ class _CafeMapState extends State<CafeMap> {
   );
 
   Future<Set<NMarker>> findMarkers() async {
-    DateTime now = DateTime.now();
-    DateFormat formatter = DateFormat('EEEE');
-    String weekDay = formatter.format(now);
     List<dynamic> cafePlaceIds =
         await CafeDataApi.getCafePlaceId(widget.currentPosition);
     for (var cafePlaceId in cafePlaceIds) {
-      CafeDataApi.getCafeData(cafePlaceId, markerSets, weekDay, now);
+      CafeDataApi.getCafeData(cafePlaceId, markerSets);
     }
     while (markerSets.length != cafePlaceIds.length) {
       await Future.delayed(Duration(milliseconds: 1));

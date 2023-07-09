@@ -1,6 +1,4 @@
-import 'package:flutter/material.dart';
 import 'package:flutter_naver_map/flutter_naver_map.dart';
-
 import 'package:geolocator/geolocator.dart';
 import 'package:http/http.dart' as http;
 import 'package:intl/intl.dart';
@@ -43,7 +41,6 @@ class CafeDataApi {
           Map<String, dynamic> cafeData = json.decode(jsonData);
           final resultso = cafeData['results'];
           pageToken = cafeData['next_page_token'];
-          print("nextPageToken : $pageToken");
           results.addAll(resultso);
         }
       }
@@ -55,21 +52,16 @@ class CafeDataApi {
         cafePlaceIds.add(coffeShop.placeId);
       }
     }
-    print(cafePlaceIds.length);
     return cafePlaceIds;
   }
 
-  NOverlayImage? flutterIcon;
-
-  static void getCafeData(String placeId, Set<NMarker> markerSets,
-      String weekDay, DateTime now) async {
-    // final iconImage = await NOverlayImage.fromAssetImage("assets/icon.png");
-
-    final apiKey = 'AIzaSyDuffSA5RQdjpsvpirWS_0tom8G9dxYPxY';
-
+  static void getCafeData(String placeId, Set<NMarker> markerSets) async {
     final url = Uri.parse(
         'https://maps.googleapis.com/maps/api/place/details/json?place_id=$placeId&key=$apiKey');
     final response = await http.get(url);
+    DateTime now = DateTime.now();
+    DateFormat formatter = DateFormat('EEEE');
+    String weekDay = formatter.format(now);
 
     if (response.statusCode == 200) {
       String jsonData = response.body;
@@ -79,28 +71,19 @@ class CafeDataApi {
       int remainHours;
       int remainMinutes;
       int iconColor;
-      final openNow = cafeDataModel.openingHours?.openNow;
+
       final schedules = cafeDataModel.openingHours?.weekdayOperatingTime;
       String todaySchedule = schedules
           .where((element) => element.toString().contains(weekDay))
           .join(', ');
 
-      List<String> scheduleParts = todaySchedule.split(": ");
+      List<String> seperateSchedule = todaySchedule.split(": ");
+      String operatingHour =
+          seperateSchedule[1].replaceAll(RegExp(r'[\u202F\u2009]'), '');
 
-      String operatingHour = scheduleParts[1]
-          .replaceAll(" ", "")
-          .replaceAll("–", "-")
-          .replaceAll(" ", "")
-          .replaceAll('\u202F', '')
-          .replaceAll('\u2009', '');
-
-      // Map<String, String> scheduleMap = {weekfDay: operatingHour};
-      // print(scheduleMap.values);
-      // final time = scheduleMap.values;
-
-      List<String> timeParts = operatingHour.split("-");
-      String openTimeString = timeParts.first;
-      String closeTimeString = timeParts.last;
+      List<String> seperateOpenClose = operatingHour.split("–");
+      String openTimeString = seperateOpenClose.first;
+      String closeTimeString = seperateOpenClose.last;
 
       try {
         DateFormat format = DateFormat('hh:mma');
@@ -127,26 +110,14 @@ class CafeDataApi {
             closeDateTime.microsecond);
 
         if (closeDateTime.hour <= 12 && closeDateTime.hour >= 0) {
-          closeHour = DateTime(
-              now.year,
-              now.month,
-              now.day + 1,
-              closeDateTime.hour,
-              closeDateTime.minute,
-              closeDateTime.second,
-              closeDateTime.millisecond,
-              closeDateTime.microsecond);
-          print("AM");
+          closeHour = closeHour.add(Duration(days: 1));
         }
-
-        print(openHour);
-        print(closeHour);
 
         Duration difference = closeHour.difference(now);
         remainHours = difference.inHours;
         remainMinutes = difference.inMinutes.remainder(60);
 
-        print("차이: $remainHours시간 $remainMinutes분");
+        print("남은시간: $remainHours시간 $remainMinutes분");
         if (remainHours == 0) {
           iconColor = 2;
         } else if (remainHours == 1) {
@@ -167,7 +138,6 @@ class CafeDataApi {
         icon: NOverlayImage.fromAssetImage(
             "assets/icons/coffeeIcon$iconColor.png"),
         alpha: 1,
-        //iconTintColor: openNow != null ? Colors.black : Colors.blue,
         size: NSize(50.0, 50.0),
       );
       markerSets.add(marker);
