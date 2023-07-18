@@ -19,7 +19,6 @@ class _CafeMapState extends State<CafeMap> {
     target: NLatLng(
         widget.currentPosition.latitude, widget.currentPosition.longitude),
     zoom: 15,
-    bearing: 45,
     tilt: 0,
   );
 
@@ -60,7 +59,7 @@ class _CafeMapState extends State<CafeMap> {
             locationButtonEnable: true),
         // consumeSymbolTapEvents: false),
         onMapReady: onMapReady,
-
+        onMapTapped: onMapTapped,
         // onMapTapped: onMapTapped,
         // onSymbolTapped: onSymbolTapped,
         //onCameraChange: onCameraChange,
@@ -71,29 +70,29 @@ class _CafeMapState extends State<CafeMap> {
   }
 
   void onMapReady(NaverMapController mapController) async {
-    // final icon = await NOverlayImage.fromWidget(
-    //     widget: const FlutterLogo(),
-    //     size: const Size(24, 24),
-    //     context: context);
-    // final assetIcon = NOverlayImage.fromAssetImage('assets/icon.png');
     print('onMapReady');
+    mapController.setLocationTrackingMode(NLocationTrackingMode.follow);
     await findMarkers();
-    // final marker = NMarker(
-    //     id: "icon_test_1",
-    //     position: NLatLng(
-    //         widget.currentPosition.latitude, widget.currentPosition.longitude),
-    //     icon: assetIcon,
-    //     alpha: 1,
-    //     size: NSize(30.0, 50.0));
-    setState(() {
-      mapController.addOverlayAll(markerSets);
-    });
 
-    //mapController.setLocationTrackingMode(NLocationTrackingMode.follow);
+    mapController.addOverlayAll(markerSets);
+    markerSets.forEach((marker) {
+      marker.setOnTapListener((NMarker tappedMarker) {
+        print(tappedMarker);
+        print("Marker is tapped!");
+        final cameraUpdate = NCameraUpdate.scrollAndZoomTo(
+          target: tappedMarker.position,
+        );
+        mapController.updateCamera(cameraUpdate);
+      });
+    });
   }
 
-  void onMapTapped(NPoint point, NLatLng latLng) {
-    // ...
+  void onMapTapped(NPoint point, NLatLng latLng) async {
+    // print(CafeDataApi.clickMarker.position);
+    // final cameraUpdate = NCameraUpdate.scrollAndZoomTo(
+    //   target: CafeDataApi.clickMarker.position,
+    // );
+    // mapController.updateCamera(cameraUpdate);
   }
 
   void onSymbolTapped(NSymbolInfo symbolInfo) {

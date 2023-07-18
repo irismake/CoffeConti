@@ -1,3 +1,4 @@
+import 'package:coffeeconti/tabs/map_tab/map.dart';
 import 'package:flutter_naver_map/flutter_naver_map.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:http/http.dart' as http;
@@ -17,6 +18,7 @@ class CafeDataApi {
     List<String> cafePlaceIds = [];
     final latitude = position.latitude;
     final longitude = position.longitude;
+
     final radius = '1000';
     final url = Uri.parse(
         '$baseUrl?location=$latitude,$longitude&radius=$radius&type=cafe|keword=cafe&opennow=true&key=$apiKey');
@@ -141,7 +143,16 @@ class CafeDataApi {
         size: NSize(50.0, 50.0),
       );
       markerSets.add(marker);
-      print(cafeDataModel.name);
     }
+  }
+
+  static NMarker getMarkerData(String id, NLatLng cafePosition) {
+    print("ID : $id");
+    print("clickCafePosition $cafePosition");
+
+    return NMarker(
+      id: id,
+      position: cafePosition,
+    );
   }
 }
