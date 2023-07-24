@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_naver_map/flutter_naver_map.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:provider/provider.dart';
 import '../../data/cafe_data.dart';
+import '../../data/location_provider.dart';
 
 class CafeMap extends StatefulWidget {
-  const CafeMap({super.key, required this.currentPosition});
-  final Position currentPosition;
+  const CafeMap({super.key});
+
   @override
   State<CafeMap> createState() => _CafeMapState();
 }
@@ -14,25 +16,37 @@ class _CafeMapState extends State<CafeMap> {
   late NaverMapController mapController;
 
   Set<NMarker> markerSets = {};
+  Position? _currentPosition;
+
+  void _fetchUserLocation() async {
+    final locationProvider =
+        Provider.of<LocationProvider>(context, listen: false);
+    _currentPosition =
+        await locationProvider.requestLocationPermission(context);
+
+    //LocationProvider locationProvider = LocationProvider();
+    // final _temporaryLocation = locationProvider.position;
+    print(_currentPosition);
+    await findMarkers(_currentPosition!);
+    mapController.addOverlayAll(markerSets);
+    markerSets.forEach((marker) {
+      marker.setOnTapListener((NMarker tappedMarker) {
+        print(tappedMarker);
+        print("Marker is tapped!");
+        final cameraUpdate = NCameraUpdate.scrollAndZoomTo(
+          target: tappedMarker.position,
+        );
+        mapController.updateCamera(cameraUpdate);
+      });
+    });
+  }
 
   late final cameraPosition = NCameraPosition(
     target: NLatLng(
-        widget.currentPosition.latitude, widget.currentPosition.longitude),
+        _currentPosition?.latitude ?? 0.0, _currentPosition?.longitude ?? 0.0),
     zoom: 15,
     tilt: 0,
   );
-
-  Future<Set<NMarker>> findMarkers() async {
-    List<dynamic> cafePlaceIds =
-        await CafeDataApi.getCafePlaceId(widget.currentPosition);
-    for (var cafePlaceId in cafePlaceIds) {
-      CafeDataApi.getCafeData(cafePlaceId, markerSets);
-    }
-    while (markerSets.length != cafePlaceIds.length) {
-      await Future.delayed(Duration(milliseconds: 1));
-    }
-    return markerSets;
-  }
 
   @override
   void initState() {
@@ -50,6 +64,7 @@ class _CafeMapState extends State<CafeMap> {
   @override
   Widget build(BuildContext context) {
     print('build');
+    _fetchUserLocation();
     return Scaffold(
       body: NaverMap(
         options: NaverMapViewOptions(
@@ -72,19 +87,6 @@ class _CafeMapState extends State<CafeMap> {
   void onMapReady(NaverMapController mapController) async {
     print('onMapReady');
     mapController.setLocationTrackingMode(NLocationTrackingMode.follow);
-    await findMarkers();
-
-    mapController.addOverlayAll(markerSets);
-    markerSets.forEach((marker) {
-      marker.setOnTapListener((NMarker tappedMarker) {
-        print(tappedMarker);
-        print("Marker is tapped!");
-        final cameraUpdate = NCameraUpdate.scrollAndZoomTo(
-          target: tappedMarker.position,
-        );
-        mapController.updateCamera(cameraUpdate);
-      });
-    });
   }
 
   void onMapTapped(NPoint point, NLatLng latLng) async {
@@ -107,5 +109,18 @@ class _CafeMapState extends State<CafeMap> {
 
   void onSelectedIndoorChanged(NSelectedIndoor? selectedIndoor) {
     // ...
+  }
+
+  Future<Set<NMarker>> findMarkers(Position currentPosition) async {
+    print('find marker function');
+    List<dynamic> cafePlaceIds =
+        await CafeDataApi.getCafePlaceId(currentPosition);
+    for (var cafePlaceId in cafePlaceIds) {
+      CafeDataApi.getCafeData(cafePlaceId, markerSets);
+    }
+    while (markerSets.length != cafePlaceIds.length) {
+      await Future.delayed(Duration(milliseconds: 1));
+    }
+    return markerSets;
   }
 }
