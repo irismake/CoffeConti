@@ -13,32 +13,29 @@ class CafeMap extends StatefulWidget {
 }
 
 class _CafeMapState extends State<CafeMap> {
+  late LocationProvider _locationProvider;
   late NaverMapController mapController;
 
   Set<NMarker> markerSets = {};
   Position? _currentPosition;
 
   void _fetchUserLocation() async {
-    final locationProvider =
-        Provider.of<LocationProvider>(context, listen: false);
-    _currentPosition =
-        await locationProvider.requestLocationPermission(context);
-
     //LocationProvider locationProvider = LocationProvider();
     // final _temporaryLocation = locationProvider.position;
-    print(_currentPosition);
-    await findMarkers(_currentPosition!);
-    mapController.addOverlayAll(markerSets);
-    markerSets.forEach((marker) {
-      marker.setOnTapListener((NMarker tappedMarker) {
-        print(tappedMarker);
-        print("Marker is tapped!");
-        final cameraUpdate = NCameraUpdate.scrollAndZoomTo(
-          target: tappedMarker.position,
-        );
-        mapController.updateCamera(cameraUpdate);
-      });
-    });
+    print("fetch");
+  }
+
+  Future<Set<NMarker>> findMarkers() async {
+    print('find marker function');
+    List<dynamic> cafePlaceIds =
+        await CafeDataApi.getCafePlaceId(_currentPosition!);
+    for (var cafePlaceId in cafePlaceIds) {
+      CafeDataApi.getCafeData(cafePlaceId, markerSets);
+    }
+    while (markerSets.length != cafePlaceIds.length) {
+      await Future.delayed(Duration(milliseconds: 1));
+    }
+    return markerSets;
   }
 
   late final cameraPosition = NCameraPosition(
@@ -52,19 +49,20 @@ class _CafeMapState extends State<CafeMap> {
   void initState() {
     print('initstate');
     super.initState();
+    // _fetchUserLocation();
   }
 
   @override
   void dispose() {
     print('dispose');
-
+    mapController.dispose();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
     print('build');
-    _fetchUserLocation();
+    _locationProvider = Provider.of<LocationProvider>(context, listen: false);
     return Scaffold(
       body: NaverMap(
         options: NaverMapViewOptions(
@@ -84,8 +82,24 @@ class _CafeMapState extends State<CafeMap> {
     );
   }
 
-  void onMapReady(NaverMapController mapController) async {
+  void onMapReady(NaverMapController controller) async {
+    _currentPosition =
+        await _locationProvider.requestLocationPermission(context);
+    mapController = controller;
     print('onMapReady');
+    await findMarkers();
+    mapController.addOverlayAll(markerSets);
+
+    markerSets.forEach((marker) {
+      marker.setOnTapListener((NMarker tappedMarker) {
+        print(tappedMarker);
+        print("Marker is tapped!");
+        final cameraUpdate = NCameraUpdate.scrollAndZoomTo(
+          target: tappedMarker.position,
+        );
+        mapController.updateCamera(cameraUpdate);
+      });
+    });
     mapController.setLocationTrackingMode(NLocationTrackingMode.follow);
   }
 
@@ -109,18 +123,5 @@ class _CafeMapState extends State<CafeMap> {
 
   void onSelectedIndoorChanged(NSelectedIndoor? selectedIndoor) {
     // ...
-  }
-
-  Future<Set<NMarker>> findMarkers(Position currentPosition) async {
-    print('find marker function');
-    List<dynamic> cafePlaceIds =
-        await CafeDataApi.getCafePlaceId(currentPosition);
-    for (var cafePlaceId in cafePlaceIds) {
-      CafeDataApi.getCafeData(cafePlaceId, markerSets);
-    }
-    while (markerSets.length != cafePlaceIds.length) {
-      await Future.delayed(Duration(milliseconds: 1));
-    }
-    return markerSets;
   }
 }

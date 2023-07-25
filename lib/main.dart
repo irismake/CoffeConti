@@ -1,3 +1,4 @@
+import 'package:coffeeconti/features/main_navigation/main_navigation.dart';
 import 'package:flutter_naver_map/flutter_naver_map.dart';
 import 'package:flutter/material.dart';
 import 'constants/sizes.dart';
@@ -7,7 +8,6 @@ import 'package:coffeeconti/data/location_provider.dart';
 
 void main() async {
   await _initialize();
-
   runApp(const MyApp());
 }
 
@@ -54,12 +54,7 @@ class MyHomePage extends StatelessWidget {
         Provider.of<LocationProvider>(context, listen: false);
     locationProvider.requestLocationPermission(context);
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Home Page'),
-      ),
-      body: Center(
-        child: Text('Location permission is being requested...'),
-      ),
+      body: MainNavigationScreen(),
     );
   }
 }
