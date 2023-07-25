@@ -6,6 +6,8 @@ import 'package:provider/provider.dart';
 
 import 'package:coffeeconti/data/location_provider.dart';
 
+import 'permission_location.dart';
+
 void main() async {
   await _initialize();
   runApp(const MyApp());
@@ -40,21 +42,8 @@ class MyApp extends StatelessWidget {
                 fontWeight: FontWeight.w600,
               ),
             )),
-        home: MyHomePage(),
+        home: PermissionLocation(),
       ),
-    );
-  }
-}
-
-class MyHomePage extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    // LocationProvider의 인스턴스를 가져옵니다.
-    final locationProvider =
-        Provider.of<LocationProvider>(context, listen: false);
-    locationProvider.requestLocationPermission(context);
-    return Scaffold(
-      body: MainNavigationScreen(),
     );
   }
 }

@@ -83,8 +83,7 @@ class _CafeMapState extends State<CafeMap> {
   }
 
   void onMapReady(NaverMapController controller) async {
-    _currentPosition =
-        await _locationProvider.requestLocationPermission(context);
+    _currentPosition = await _locationProvider.requestLocationPermission();
     mapController = controller;
     print('onMapReady');
     await findMarkers();
