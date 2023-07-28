@@ -42,7 +42,7 @@ class MyApp extends StatelessWidget {
                 fontWeight: FontWeight.w600,
               ),
             )),
-        home: PermissionLocation(),
+        home: MainNavigationScreen(),
       ),
     );
   }

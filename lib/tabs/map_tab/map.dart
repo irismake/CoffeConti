@@ -19,12 +19,6 @@ class _CafeMapState extends State<CafeMap> {
   Set<NMarker> markerSets = {};
   Position? _currentPosition;
 
-  void _fetchUserLocation() async {
-    //LocationProvider locationProvider = LocationProvider();
-    // final _temporaryLocation = locationProvider.position;
-    print("fetch");
-  }
-
   Future<Set<NMarker>> findMarkers() async {
     print('find marker function');
     List<dynamic> cafePlaceIds =
@@ -49,6 +43,9 @@ class _CafeMapState extends State<CafeMap> {
   void initState() {
     print('initstate');
     super.initState();
+
+    _locationProvider = Provider.of<LocationProvider>(context, listen: false);
+
     // _fetchUserLocation();
   }
 
@@ -62,7 +59,6 @@ class _CafeMapState extends State<CafeMap> {
   @override
   Widget build(BuildContext context) {
     print('build');
-    _locationProvider = Provider.of<LocationProvider>(context, listen: false);
     return Scaffold(
       body: NaverMap(
         options: NaverMapViewOptions(
@@ -72,6 +68,7 @@ class _CafeMapState extends State<CafeMap> {
             locationButtonEnable: true),
         // consumeSymbolTapEvents: false),
         onMapReady: onMapReady,
+
         onMapTapped: onMapTapped,
         // onMapTapped: onMapTapped,
         // onSymbolTapped: onSymbolTapped,
@@ -83,12 +80,13 @@ class _CafeMapState extends State<CafeMap> {
   }
 
   void onMapReady(NaverMapController controller) async {
-    _currentPosition = await _locationProvider.requestLocationPermission();
+    _currentPosition = await _locationProvider.getCurrentPosition(context);
     mapController = controller;
     print('onMapReady');
-    await findMarkers();
+    if (_currentPosition != null) {
+      await findMarkers();
+    }
     mapController.addOverlayAll(markerSets);
-
     markerSets.forEach((marker) {
       marker.setOnTapListener((NMarker tappedMarker) {
         print(tappedMarker);
