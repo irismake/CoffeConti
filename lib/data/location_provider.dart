@@ -17,13 +17,18 @@ class LocationProvider extends ChangeNotifier {
       notifyListeners();
       print('change the position');
     } else {
-      Navigator.of(context).pushAndRemoveUntil(
-        MaterialPageRoute(
-          builder: ((context) => GoToOpenAppSettings()),
-        ),
-        (route) => false,
-      );
+      _showPermissionPopup(context);
     }
     return _position;
   }
+}
+
+void _showPermissionPopup(BuildContext context) {
+  showDialog(
+    barrierDismissible: false,
+    context: context,
+    builder: (BuildContext context) {
+      return GoToOpenAppSettings(); // Show the MyPopup widget as the content of the dialog
+    },
+  );
 }
