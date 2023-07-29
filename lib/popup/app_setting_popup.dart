@@ -1,6 +1,4 @@
-import 'package:coffeeconti/features/main_navigation/main_navigation.dart';
 import 'package:flutter/material.dart';
-import 'package:geolocator/geolocator.dart';
 import 'package:permission_handler/permission_handler.dart';
 
 class GoToOpenAppSettings extends StatelessWidget {

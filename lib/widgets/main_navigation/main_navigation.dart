@@ -2,9 +2,9 @@ import 'package:coffeeconti/tabs/map_tab/map.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:coffeeconti/tabs/discover.dart';
 
 import '../../constants/sizes.dart';
+import '../tabs/discover.dart';
 import 'widgets/nav_tab.dart';
 
 class MainNavigationScreen extends StatefulWidget {

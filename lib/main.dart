@@ -1,4 +1,3 @@
-import 'package:coffeeconti/features/main_navigation/main_navigation.dart';
 import 'package:flutter_naver_map/flutter_naver_map.dart';
 import 'package:flutter/material.dart';
 import 'constants/sizes.dart';
@@ -6,7 +5,8 @@ import 'package:provider/provider.dart';
 
 import 'package:coffeeconti/data/location_provider.dart';
 
-import 'permission_location.dart';
+import 'app_setting_popup.dart';
+import 'widgets/main_navigation/main_navigation.dart';
 
 void main() async {
   await _initialize();

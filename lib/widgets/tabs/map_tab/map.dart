@@ -2,8 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_naver_map/flutter_naver_map.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:provider/provider.dart';
-import '../../data/cafe_data.dart';
-import '../../data/location_provider.dart';
+
+import '../../../data/cafe_data.dart';
+import '../../../data/location_provider.dart';
 
 class CafeMap extends StatefulWidget {
   const CafeMap({super.key});
@@ -43,10 +44,7 @@ class _CafeMapState extends State<CafeMap> {
   void initState() {
     print('initstate');
     super.initState();
-
     _locationProvider = Provider.of<LocationProvider>(context, listen: false);
-
-    // _fetchUserLocation();
   }
 
   @override
@@ -63,12 +61,10 @@ class _CafeMapState extends State<CafeMap> {
       body: NaverMap(
         options: NaverMapViewOptions(
             initialCameraPosition: cameraPosition,
-
             // indoorEnable: true,
             locationButtonEnable: true),
         // consumeSymbolTapEvents: false),
         onMapReady: onMapReady,
-
         onMapTapped: onMapTapped,
         // onMapTapped: onMapTapped,
         // onSymbolTapped: onSymbolTapped,
@@ -83,9 +79,9 @@ class _CafeMapState extends State<CafeMap> {
     _currentPosition = await _locationProvider.getCurrentPosition(context);
     mapController = controller;
     print('onMapReady');
-    if (_currentPosition != null) {
-      await findMarkers();
-    }
+
+    await findMarkers();
+
     mapController.addOverlayAll(markerSets);
     markerSets.forEach((marker) {
       marker.setOnTapListener((NMarker tappedMarker) {
