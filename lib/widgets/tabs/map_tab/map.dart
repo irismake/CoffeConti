@@ -5,6 +5,7 @@ import 'package:provider/provider.dart';
 
 import '../../../data/cafe_data.dart';
 import '../../../data/location_provider.dart';
+import '../../../popup/ cafe_tutorial.dart';
 
 class CafeMap extends StatefulWidget {
   const CafeMap({super.key});
@@ -58,19 +59,24 @@ class _CafeMapState extends State<CafeMap> {
   Widget build(BuildContext context) {
     print('build');
     return Scaffold(
-      body: NaverMap(
-        options: NaverMapViewOptions(
-            initialCameraPosition: cameraPosition,
-            // indoorEnable: true,
-            locationButtonEnable: true),
-        // consumeSymbolTapEvents: false),
-        onMapReady: onMapReady,
-        onMapTapped: onMapTapped,
-        // onMapTapped: onMapTapped,
-        // onSymbolTapped: onSymbolTapped,
-        //onCameraChange: onCameraChange,
-        //onCameraIdle: onCameraIdle,
-        // onSelectedIndoorChanged: onSelectedIndoorChanged,
+      body: Stack(
+        children: [
+          NaverMap(
+            options: NaverMapViewOptions(
+                initialCameraPosition: cameraPosition,
+                // indoorEnable: true,
+                locationButtonEnable: true),
+            // consumeSymbolTapEvents: false),
+            onMapReady: onMapReady,
+            onMapTapped: onMapTapped,
+            // onMapTapped: onMapTapped,
+            // onSymbolTapped: onSymbolTapped,
+            //onCameraChange: onCameraChange,
+            //onCameraIdle: onCameraIdle,
+            // onSelectedIndoorChanged: onSelectedIndoorChanged,
+          ),
+          CafeTutorial(context),
+        ],
       ),
     );
   }

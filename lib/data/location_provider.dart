@@ -45,7 +45,8 @@ void _errorPopup(BuildContext context) {
     barrierDismissible: true,
     context: context,
     builder: (BuildContext context) {
-      return ShowErrorMessage(); // Show the MyPopup widget as the content of the dialog
+      return ShowErrorMessage(
+          context); // Show the MyPopup widget as the content of the dialog
     },
   );
 }
