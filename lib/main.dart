@@ -2,10 +2,7 @@ import 'package:flutter_naver_map/flutter_naver_map.dart';
 import 'package:flutter/material.dart';
 import 'constants/sizes.dart';
 import 'package:provider/provider.dart';
-
 import 'package:coffeeconti/data/location_provider.dart';
-
-import 'app_setting_popup.dart';
 import 'widgets/main_navigation/main_navigation.dart';
 
 void main() async {

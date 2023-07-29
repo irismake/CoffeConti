@@ -1,8 +1,10 @@
-import 'package:coffeeconti/app_setting_popup.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:permission_handler/permission_handler.dart';
+
+import '../popup/app_setting_popup.dart';
+import '../popup/error_message_popup.dart';
 
 class LocationProvider extends ChangeNotifier {
   Position? _position;
@@ -17,6 +19,7 @@ class LocationProvider extends ChangeNotifier {
         );
       } catch (e) {
         print('Dont get currentPosition');
+        _errorPopup(context);
       }
       notifyListeners();
       print('change the position');
@@ -32,17 +35,17 @@ void _showPermissionPopup(BuildContext context) {
     barrierDismissible: false,
     context: context,
     builder: (BuildContext context) {
-      return GoToOpenAppSettings(); // Show the MyPopup widget as the content of the dialog
+      return ShowAppSettingMessage(); // Show the MyPopup widget as the content of the dialog
     },
   );
 }
 
 void _errorPopup(BuildContext context) {
   showDialog(
-    barrierDismissible: false,
+    barrierDismissible: true,
     context: context,
     builder: (BuildContext context) {
-      return Container(); // Show the MyPopup widget as the content of the dialog
+      return ShowErrorMessage(); // Show the MyPopup widget as the content of the dialog
     },
   );
 }

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:permission_handler/permission_handler.dart';
 
-class GoToOpenAppSettings extends StatelessWidget {
-  const GoToOpenAppSettings({super.key});
+class ShowAppSettingMessage extends StatelessWidget {
+  const ShowAppSettingMessage({super.key});
 
   @override
   Widget build(BuildContext context) {
