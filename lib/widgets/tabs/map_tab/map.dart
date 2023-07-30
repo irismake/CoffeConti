@@ -17,9 +17,11 @@ class CafeMap extends StatefulWidget {
 class _CafeMapState extends State<CafeMap> {
   late LocationProvider _locationProvider;
   late NaverMapController mapController;
-  late OverlayEntry overlayEntry;
+  OverlayEntry? overlayEntry;
   double bottomPadding = 10.0;
-  bool _showCafeTutorialState = false;
+  final ValueNotifier<bool> _showCafeTutorialStateNotifier =
+      ValueNotifier<bool>(false);
+
   Set<NMarker> markerSets = {};
   Position? _currentPosition;
 
@@ -53,6 +55,7 @@ class _CafeMapState extends State<CafeMap> {
   @override
   void dispose() {
     print('dispose');
+    overlayEntry?.remove();
     mapController.dispose();
     super.dispose();
   }
@@ -61,20 +64,38 @@ class _CafeMapState extends State<CafeMap> {
   Widget build(BuildContext context) {
     print('build');
     return Scaffold(
-      body: NaverMap(
-        options: NaverMapViewOptions(
-            initialCameraPosition: cameraPosition,
-            contentPadding: EdgeInsets.symmetric(vertical: bottomPadding),
-            // indoorEnable: true,
-            locationButtonEnable: true),
-        // consumeSymbolTapEvents: false),
-        onMapReady: onMapReady,
-        onMapTapped: onMapTapped,
+      body: ValueListenableBuilder<bool>(
+        valueListenable: _showCafeTutorialStateNotifier,
+        builder: (context, value, _) {
+          return Stack(
+            children: [
+              NaverMap(
+                options: NaverMapViewOptions(
+                  initialCameraPosition: cameraPosition,
+                ),
 
-        // onSymbolTapped: onSymbolTapped,
-        //onCameraChange: onCameraChange,
-        //onCameraIdle: onCameraIdle,
-        // onSelectedIndoorChanged: onSelectedIndoorChanged,
+                onMapReady: onMapReady,
+                onMapTapped: onMapTapped,
+
+                // onSymbolTapped: onSymbolTapped,
+                //onCameraChange: onCameraChange,
+                //onCameraIdle: onCameraIdle,
+                // onSelectedIndoorChanged: onSelectedIndoorChanged,
+              ),
+              Positioned(
+                bottom: value ? 150.0 : 20.0,
+                right: 16,
+                child: FloatingActionButton(
+                  onPressed: () {
+                    mapController
+                        .setLocationTrackingMode(NLocationTrackingMode.follow);
+                  },
+                  child: Icon(Icons.my_location),
+                ),
+              ),
+            ],
+          );
+        },
       ),
     );
   }
@@ -85,28 +106,30 @@ class _CafeMapState extends State<CafeMap> {
     print('onMapReady');
     await findMarkers();
     mapController.addOverlayAll(markerSets);
-    markerSets.forEach((marker) {
-      marker.setOnTapListener((NMarker tappedMarker) {
-        print("Marker is tapped!");
-        _showCafeTutorial(context);
-        final cameraUpdate = NCameraUpdate.scrollAndZoomTo(
-          target: tappedMarker.position,
-        );
-        mapController.updateCamera(cameraUpdate);
-      });
-    });
+    markerSets.forEach(_setMarkerTapListener);
     mapController.setLocationTrackingMode(NLocationTrackingMode.follow);
   }
 
-  void onMapTapped(NPoint point, NLatLng latLng) async {
-    if (_showCafeTutorialState == true) {
-      print('ontap');
+  void _setMarkerTapListener(NMarker marker) {
+    marker.setOnTapListener((NMarker tappedMarker) {
+      print(tappedMarker);
 
-      await Future.delayed(Duration(milliseconds: 200));
-      setState(() {
-        overlayEntry.remove();
-        _showCafeTutorialState = false;
-      });
+      if (!_showCafeTutorialStateNotifier.value) {
+        _showCafeTutorial(context);
+      }
+
+      final cameraUpdate = NCameraUpdate.scrollAndZoomTo(
+        target: tappedMarker.position,
+      );
+      mapController.updateCamera(cameraUpdate);
+    });
+  }
+
+  void onMapTapped(NPoint point, NLatLng latLng) async {
+    if (_showCafeTutorialStateNotifier.value) {
+      print('ontap');
+      overlayEntry?.remove();
+      _showCafeTutorialStateNotifier.value = false;
     }
   }
 
@@ -125,7 +148,7 @@ class _CafeMapState extends State<CafeMap> {
   }
 
   void _showCafeTutorial(BuildContext context) {
-    _showCafeTutorialState = true;
+    _showCafeTutorialStateNotifier.value = true;
     final overlay = Overlay.of(context);
 
     overlayEntry = OverlayEntry(
@@ -134,6 +157,6 @@ class _CafeMapState extends State<CafeMap> {
       },
     );
 
-    overlay.insert(overlayEntry);
+    overlay.insert(overlayEntry!);
   }
 }
