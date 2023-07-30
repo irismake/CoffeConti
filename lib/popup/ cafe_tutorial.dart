@@ -12,15 +12,20 @@ class CafeTutorial extends StatelessWidget {
         print('gg');
       },
       child: Padding(
-        padding: EdgeInsets.symmetric(vertical: 50.0),
-        child: AlertDialog(
-          alignment: Alignment.bottomCenter,
-          contentPadding: EdgeInsets.symmetric(vertical: 5.0, horizontal: 5.0),
-          content: Container(
-            color: Colors.deepOrange,
-            width: 700,
-            height: 150,
-          ),
+        padding: EdgeInsets.only(top: 550, bottom: 110),
+        child: Container(
+          margin: EdgeInsets.all(20.0),
+          decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(10.0),
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.grey.withOpacity(0.7),
+                  spreadRadius: 0,
+                  blurRadius: 5.0,
+                  offset: Offset(0, 10), // changes position of shadow
+                ),
+              ]),
         ),
       ),
     );

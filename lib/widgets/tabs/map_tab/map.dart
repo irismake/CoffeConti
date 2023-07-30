@@ -83,7 +83,7 @@ class _CafeMapState extends State<CafeMap> {
                 // onSelectedIndoorChanged: onSelectedIndoorChanged,
               ),
               Positioned(
-                bottom: value ? 150.0 : 20.0,
+                bottom: value ? 200.0 : 20.0,
                 right: 16,
                 child: FloatingActionButton(
                   backgroundColor: Colors.white,

@@ -132,7 +132,6 @@ class CafeDataApi {
       }
 
       final marker = NMarker(
-        caption: NOverlayCaption(text: cafeDataModel.name),
         id: cafeDataModel.name,
         position: NLatLng(cafeDataModel.geometry.location['lat'],
             cafeDataModel.geometry.location['lng']),
