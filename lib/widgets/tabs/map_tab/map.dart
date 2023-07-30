@@ -137,20 +137,6 @@ class _CafeMapState extends State<CafeMap> {
     }
   }
 
-  void onSymbolTapped(NSymbolInfo symbolInfo) {
-    // ...
-  }
-
-  void onCameraChange(NCameraUpdateReason reason, bool isGesture) {}
-
-  void onCameraIdle() {
-    // ...
-  }
-
-  void onSelectedIndoorChanged(NSelectedIndoor? selectedIndoor) {
-    // ...
-  }
-
   void _showCafeTutorial(BuildContext context) {
     _showCafeTutorialStateNotifier.value = true;
     final overlay = Overlay.of(context);

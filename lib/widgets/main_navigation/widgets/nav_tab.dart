@@ -8,7 +8,6 @@ class NavTab extends StatefulWidget {
     super.key,
     required this.text,
     required this.isSelected,
-    required this.selectedIndex,
     required this.icon,
     required this.selectedIcon,
     required this.onTap,
@@ -16,7 +15,7 @@ class NavTab extends StatefulWidget {
 
   final String text;
   final bool isSelected;
-  final int selectedIndex;
+
   final IconData icon;
   final IconData selectedIcon;
   final Function onTap;
@@ -26,38 +25,31 @@ class NavTab extends StatefulWidget {
 }
 
 class _NavTabState extends State<NavTab> {
-  // void _onTap(int index) {
-  //   Navigator.of(context).push(
-  //     MaterialPageRoute(
-  //       builder: (context) => _widgetOptions.elementAt(index),
-  //       fullscreenDialog: false,
-  //     ),
-  //   );
-  // }
-
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () => widget.onTap(),
       child: Container(
         color: Colors.black,
-        child: AnimatedOpacity(
-          opacity: widget.isSelected ? 1 : 0.6,
-          duration: Duration(milliseconds: 200),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              FaIcon(
-                widget.isSelected ? widget.selectedIcon : widget.icon,
-                color: Colors.white,
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            FaIcon(
+              widget.isSelected ? widget.selectedIcon : widget.icon,
+              color: widget.isSelected
+                  ? Theme.of(context).primaryColor
+                  : Colors.grey[600],
+            ),
+            Gaps.v5,
+            Text(
+              widget.text,
+              style: TextStyle(
+                color: widget.isSelected
+                    ? Theme.of(context).primaryColor
+                    : Colors.grey[600],
               ),
-              Gaps.v5,
-              Text(
-                widget.text,
-                style: TextStyle(color: Colors.white),
-              )
-            ],
-          ),
+            )
+          ],
         ),
       ),
     );

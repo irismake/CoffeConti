@@ -21,7 +21,6 @@ class _MainNavigationScreenState extends State<MainNavigationScreen> {
     CafeMap(),
     Discover(),
     Discover(),
-    Discover(),
   ];
 
   void _onTap(int index) {
@@ -51,31 +50,20 @@ class _MainNavigationScreenState extends State<MainNavigationScreen> {
             children: [
               NavTab(
                 text: 'Map',
-                selectedIndex: 0,
                 isSelected: selectedIndex == 0,
                 icon: Icons.location_on_outlined,
                 selectedIcon: Icons.location_on_rounded,
                 onTap: () => _onTap(0),
               ),
               NavTab(
-                text: 'Discover',
-                selectedIndex: 1,
+                text: 'Order',
                 isSelected: selectedIndex == 1,
-                icon: FontAwesomeIcons.compass,
-                selectedIcon: FontAwesomeIcons.solidCompass,
+                icon: Icons.shopping_bag_outlined,
+                selectedIcon: Icons.shopping_bag,
                 onTap: () => _onTap(1),
               ),
               NavTab(
-                text: 'Add',
-                selectedIndex: 2,
-                isSelected: selectedIndex == 2,
-                icon: FontAwesomeIcons.plus,
-                selectedIcon: FontAwesomeIcons.plus,
-                onTap: () => _onTap(2),
-              ),
-              NavTab(
                 text: 'Profile',
-                selectedIndex: 3,
                 isSelected: selectedIndex == 3,
                 icon: FontAwesomeIcons.user,
                 selectedIcon: FontAwesomeIcons.solidUser,
