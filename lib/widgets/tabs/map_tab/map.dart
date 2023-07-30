@@ -86,11 +86,15 @@ class _CafeMapState extends State<CafeMap> {
                 bottom: value ? 150.0 : 20.0,
                 right: 16,
                 child: FloatingActionButton(
+                  backgroundColor: Colors.white,
                   onPressed: () {
                     mapController
                         .setLocationTrackingMode(NLocationTrackingMode.follow);
                   },
-                  child: Icon(Icons.my_location),
+                  child: Icon(
+                    Icons.my_location,
+                    color: Theme.of(context).primaryColor,
+                  ),
                 ),
               ),
             ],
