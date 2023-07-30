@@ -39,7 +39,7 @@ class _MainNavigationScreenState extends State<MainNavigationScreen> {
     return Scaffold(
       body: _widgetOptions.elementAt(selectedIndex),
       bottomNavigationBar: BottomAppBar(
-        color: Colors.black,
+        color: Colors.white,
         child: Padding(
           padding: const EdgeInsets.symmetric(
             horizontal: Sizes.size2,
@@ -64,10 +64,10 @@ class _MainNavigationScreenState extends State<MainNavigationScreen> {
               ),
               NavTab(
                 text: 'Profile',
-                isSelected: selectedIndex == 3,
+                isSelected: selectedIndex == 2,
                 icon: FontAwesomeIcons.user,
                 selectedIcon: FontAwesomeIcons.solidUser,
-                onTap: () => _onTap(3),
+                onTap: () => _onTap(2),
               )
             ],
           ),

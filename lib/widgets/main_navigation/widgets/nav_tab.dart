@@ -27,29 +27,31 @@ class NavTab extends StatefulWidget {
 class _NavTabState extends State<NavTab> {
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: () => widget.onTap(),
-      child: Container(
-        color: Colors.black,
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            FaIcon(
-              widget.isSelected ? widget.selectedIcon : widget.icon,
-              color: widget.isSelected
-                  ? Theme.of(context).primaryColor
-                  : Colors.grey[600],
-            ),
-            Gaps.v5,
-            Text(
-              widget.text,
-              style: TextStyle(
+    return Expanded(
+      child: GestureDetector(
+        onTap: () => widget.onTap(),
+        child: Container(
+          color: Colors.transparent,
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              FaIcon(
+                widget.isSelected ? widget.selectedIcon : widget.icon,
                 color: widget.isSelected
                     ? Theme.of(context).primaryColor
                     : Colors.grey[600],
               ),
-            )
-          ],
+              Gaps.v5,
+              Text(
+                widget.text,
+                style: TextStyle(
+                  color: widget.isSelected
+                      ? Theme.of(context).primaryColor
+                      : Colors.grey[600],
+                ),
+              )
+            ],
+          ),
         ),
       ),
     );

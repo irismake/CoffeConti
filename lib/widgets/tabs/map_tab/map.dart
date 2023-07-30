@@ -116,11 +116,12 @@ class _CafeMapState extends State<CafeMap> {
 
   void _setMarkerTapListener(NMarker marker) {
     marker.setOnTapListener((NMarker tappedMarker) {
-      print(tappedMarker);
-
-      if (!_showCafeTutorialStateNotifier.value) {
-        _showCafeTutorial(context);
+      print(marker);
+      final cafeName = tappedMarker.info.id;
+      if (_showCafeTutorialStateNotifier.value) {
+        overlayEntry?.remove();
       }
+      _showCafeTutorial(context, cafeName);
 
       final cameraUpdate = NCameraUpdate.scrollAndZoomTo(
         target: tappedMarker.position,
@@ -129,21 +130,20 @@ class _CafeMapState extends State<CafeMap> {
     });
   }
 
-  void onMapTapped(NPoint point, NLatLng latLng) async {
-    if (_showCafeTutorialStateNotifier.value) {
-      print('ontap');
-      overlayEntry?.remove();
-      _showCafeTutorialStateNotifier.value = false;
-    }
+  void onMapTapped(NPoint point, NLatLng latLng) {
+    print('ontap');
+    overlayEntry?.remove();
+    _showCafeTutorialStateNotifier.value = false;
   }
 
-  void _showCafeTutorial(BuildContext context) {
+  void _showCafeTutorial(BuildContext context, final cafeName) {
     _showCafeTutorialStateNotifier.value = true;
     final overlay = Overlay.of(context);
-
     overlayEntry = OverlayEntry(
       builder: (context) {
-        return CafeTutorial();
+        return CafeTutorial(
+          cafeName: cafeName,
+        );
       },
     );
 
