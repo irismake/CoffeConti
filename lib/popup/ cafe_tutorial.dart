@@ -1,20 +1,21 @@
 import 'package:coffeeconti/constants/gaps.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_naver_map/flutter_naver_map.dart';
 
 class CafeTutorial extends StatelessWidget {
-  final cafeName;
-  const CafeTutorial({super.key, required this.cafeName});
+  NMarker tappedMarker;
+  CafeTutorial({super.key, required this.tappedMarker});
 
   @override
   Widget build(BuildContext context) {
-    print("cafeName : $cafeName");
+    print("cafeName : $tappedMarker");
     return GestureDetector(
       // behavior: HitTestBehavior.opaque,
       onTap: () {
         print('gg');
       },
       child: Padding(
-        padding: EdgeInsets.only(top: 550, bottom: 110),
+        padding: EdgeInsets.only(top: 400, bottom: 110),
         child: Container(
           margin: EdgeInsets.all(20.0),
           decoration: BoxDecoration(
@@ -31,13 +32,25 @@ class CafeTutorial extends StatelessWidget {
           ),
           child: Padding(
             padding: EdgeInsets.all(10.0),
-            child: Text(
-              cafeName.toString(),
-              style: TextStyle(
-                fontSize: 20,
-                color: Colors.black,
-              ),
-              textAlign: TextAlign.center,
+            child: Column(
+              children: [
+                Text(
+                  tappedMarker.info.id,
+                  style: TextStyle(
+                    fontSize: 20,
+                    color: Colors.black,
+                  ),
+                  textAlign: TextAlign.center,
+                ),
+                Text(
+                  " ",
+                  style: TextStyle(
+                    fontSize: 20,
+                    color: Colors.black,
+                  ),
+                  textAlign: TextAlign.center,
+                ),
+              ],
             ),
           ),
         ),

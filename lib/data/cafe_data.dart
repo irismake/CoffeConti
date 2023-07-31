@@ -29,7 +29,7 @@ class CafeDataApi {
       Map<String, dynamic> cafeData = json.decode(jsonData);
       results = cafeData['results'];
       var pageToken = cafeData['next_page_token'];
-      print(pageToken);
+
       for (int i = 0; i < 3 && pageToken != null; i++) {
         await Future.delayed(Duration(seconds: 2));
         final url = Uri.parse(
@@ -42,6 +42,7 @@ class CafeDataApi {
           Map<String, dynamic> cafeData = json.decode(jsonData);
           final resultso = cafeData['results'];
           pageToken = cafeData['next_page_token'];
+          print(pageToken);
           results.addAll(resultso);
         }
       }
@@ -69,9 +70,11 @@ class CafeDataApi {
       Map<String, dynamic> cafeData = json.decode(jsonData);
       Map<String, dynamic> results = cafeData['result'];
       CafeDataModel cafeDataModel = CafeDataModel.fromJson(results);
+      Duration timeDifference;
       int remainHours;
       int remainMinutes;
       int iconColor;
+      String cafeId = '';
 
       final schedules = cafeDataModel.openingHours?.weekdayOperatingTime;
       String todaySchedule = schedules
@@ -114,10 +117,10 @@ class CafeDataApi {
           closeHour = closeHour.add(Duration(days: 1));
         }
 
-        Duration difference = closeHour.difference(now);
-        remainHours = difference.inHours;
-        remainMinutes = difference.inMinutes.remainder(60);
+        timeDifference = closeHour.difference(now);
 
+        remainHours = timeDifference.inHours;
+        remainMinutes = timeDifference.inMinutes.remainder(60);
         print("남은시간: $remainHours시간 $remainMinutes분");
         if (remainHours == 0) {
           iconColor = 2;
@@ -126,13 +129,14 @@ class CafeDataApi {
         } else {
           iconColor = 4;
         }
+        cafeId = toPassById(cafeDataModel.name, timeDifference);
       } catch (e) {
         iconColor = 0;
         print("잘못된 형식의 문자열입니다.");
       }
 
       final marker = NMarker(
-        id: cafeDataModel.name,
+        id: cafeId,
         position: NLatLng(cafeDataModel.geometry.location['lat'],
             cafeDataModel.geometry.location['lng']),
         icon: NOverlayImage.fromAssetImage(
@@ -140,8 +144,14 @@ class CafeDataApi {
         alpha: 1,
         size: NSize(50.0, 50.0),
       );
+
       markerSets.add(marker);
     }
+  }
+
+  static String toPassById(String cafeName, Duration timeDifference) {
+    String markerId = '$cafeName - ${timeDifference}';
+    return markerId;
   }
 
   static NMarker getMarkerData(String id, NLatLng cafePosition) {

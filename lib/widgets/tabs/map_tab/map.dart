@@ -23,6 +23,7 @@ class _CafeMapState extends State<CafeMap> {
       ValueNotifier<bool>(false);
 
   Set<NMarker> markerSets = {};
+  List<dynamic> remainHour = [];
   Position? _currentPosition;
 
   Future<Set<NMarker>> findMarkers() async {
@@ -120,11 +121,11 @@ class _CafeMapState extends State<CafeMap> {
   void _setMarkerTapListener(NMarker marker) {
     marker.setOnTapListener((NMarker tappedMarker) {
       print(marker);
-      final cafeName = tappedMarker.info.id;
+
       if (_showCafeTutorialStateNotifier.value) {
         overlayEntry?.remove();
       }
-      _showCafeTutorial(context, cafeName);
+      _showCafeTutorial(context, tappedMarker);
 
       final cameraUpdate = NCameraUpdate.scrollAndZoomTo(
         target: tappedMarker.position,
@@ -139,13 +140,13 @@ class _CafeMapState extends State<CafeMap> {
     _showCafeTutorialStateNotifier.value = false;
   }
 
-  void _showCafeTutorial(BuildContext context, final cafeName) {
+  void _showCafeTutorial(BuildContext context, NMarker tappedMarker) {
     _showCafeTutorialStateNotifier.value = true;
     final overlay = Overlay.of(context);
     overlayEntry = OverlayEntry(
       builder: (context) {
         return CafeTutorial(
-          cafeName: cafeName,
+          tappedMarker: tappedMarker,
         );
       },
     );
