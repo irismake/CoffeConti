@@ -61,79 +61,17 @@ class CafeDataApi {
     final url = Uri.parse(
         'https://maps.googleapis.com/maps/api/place/details/json?place_id=$placeId&key=$apiKey');
     final response = await http.get(url);
-    DateTime now = DateTime.now();
-    DateFormat formatter = DateFormat('EEEE');
-    String weekDay = formatter.format(now);
 
     if (response.statusCode == 200) {
       String jsonData = response.body;
       Map<String, dynamic> cafeData = json.decode(jsonData);
       Map<String, dynamic> results = cafeData['result'];
       CafeDataModel cafeDataModel = CafeDataModel.fromJson(results);
-      Duration timeDifference;
-      int remainHours;
-      int remainMinutes;
-      int iconColor;
-      String cafeId = '';
-
       final schedules = cafeDataModel.openingHours?.weekdayOperatingTime;
-      String todaySchedule = schedules
-          .where((element) => element.toString().contains(weekDay))
-          .join(', ');
+      final remainTime = calculateRemainTime(schedules);
 
-      List<String> seperateSchedule = todaySchedule.split(": ");
-      String operatingHour =
-          seperateSchedule[1].replaceAll(RegExp(r'[\u202F\u2009]'), '');
-
-      List<String> seperateOpenClose = operatingHour.split("–");
-      String openTimeString = seperateOpenClose.first;
-      String closeTimeString = seperateOpenClose.last;
-
-      try {
-        DateFormat format = DateFormat('hh:mma');
-        DateTime openDateTime = format.parse(openTimeString);
-        DateTime closeDateTime = format.parse(closeTimeString);
-
-        DateTime openHour = DateTime(
-            now.year,
-            now.month,
-            now.day,
-            openDateTime.hour,
-            openDateTime.minute,
-            openDateTime.second,
-            openDateTime.millisecond,
-            openDateTime.microsecond);
-        DateTime closeHour = DateTime(
-            now.year,
-            now.month,
-            now.day,
-            closeDateTime.hour,
-            closeDateTime.minute,
-            closeDateTime.second,
-            closeDateTime.millisecond,
-            closeDateTime.microsecond);
-
-        if (closeDateTime.hour <= 12 && closeDateTime.hour >= 0) {
-          closeHour = closeHour.add(Duration(days: 1));
-        }
-
-        timeDifference = closeHour.difference(now);
-
-        remainHours = timeDifference.inHours;
-        remainMinutes = timeDifference.inMinutes.remainder(60);
-        print("남은시간: $remainHours시간 $remainMinutes분");
-        if (remainHours == 0) {
-          iconColor = 2;
-        } else if (remainHours == 1) {
-          iconColor = 3;
-        } else {
-          iconColor = 4;
-        }
-        cafeId = toPassById(cafeDataModel.name, timeDifference);
-      } catch (e) {
-        iconColor = 0;
-        print("잘못된 형식의 문자열입니다.");
-      }
+      String cafeId = toPassCafeId(cafeDataModel.name, remainTime);
+      int iconColor = setMarkerColor(remainTime);
 
       final marker = NMarker(
         id: cafeId,
@@ -149,18 +87,94 @@ class CafeDataApi {
     }
   }
 
-  static String toPassById(String cafeName, Duration timeDifference) {
-    String markerId = '$cafeName - ${timeDifference}';
+  static Duration calculateRemainTime(dynamic schedules) {
+    DateTime now = DateTime.now();
+    DateFormat formatter = DateFormat('EEEE');
+    String weekDay = formatter.format(now);
+
+    String todaySchedule = schedules
+        .where((element) => element.toString().contains(weekDay))
+        .join(', ');
+    List<String> seperateSchedule = todaySchedule.split(": ");
+    String operatingHour =
+        seperateSchedule[1].replaceAll(RegExp(r'[\u202F\u2009]'), '');
+
+    List<String> seperateOpenClose = operatingHour.split("–");
+    String openTimeString = seperateOpenClose.first;
+    String closeTimeString = seperateOpenClose.last;
+    try {
+      DateFormat format = DateFormat('hh:mma');
+      DateTime openDateTime = format.parse(openTimeString);
+      DateTime closeDateTime = format.parse(closeTimeString);
+
+      DateTime openHour = DateTime(
+          now.year,
+          now.month,
+          now.day,
+          openDateTime.hour,
+          openDateTime.minute,
+          openDateTime.second,
+          openDateTime.millisecond,
+          openDateTime.microsecond);
+      DateTime closeHour = DateTime(
+          now.year,
+          now.month,
+          now.day,
+          closeDateTime.hour,
+          closeDateTime.minute,
+          closeDateTime.second,
+          closeDateTime.millisecond,
+          closeDateTime.microsecond);
+
+      if (closeDateTime.hour <= 12 && closeDateTime.hour >= 0) {
+        closeHour = closeHour.add(Duration(days: 1));
+      }
+      Duration timeDifference = closeHour.difference(now);
+
+      return timeDifference;
+    } catch (e) {
+      print("잘못된 형식의 문자열입니다.");
+      return Duration(hours: 0, minutes: 0, seconds: 0);
+    }
+  }
+
+  static int setMarkerColor(Duration timeDifference) {
+    int remainHours = timeDifference.inHours;
+    int remainMinutes = timeDifference.inMinutes.remainder(60);
+
+    switch (remainHours) {
+      case 0:
+        return (remainMinutes != 0) ? 2 : 0;
+      case 1:
+        return 3;
+      default:
+        return (remainHours >= 2) ? 4 : 0;
+    }
+    //   if (remainHours == 0 && remainMinutes != 0) {
+    //     iconColor = 2;
+    //   } else if (remainHours == 1) {
+    //     iconColor = 3;
+    //   } else if (remainHours >= 2) {
+    //     iconColor = 4;
+    //   } else {
+    //     iconColor = 0;
+    //   }
+    //   return iconColor;
+    // }
+  }
+
+  static String toPassCafeId(String cafeName, Duration timeDifference) {
+    String markerId = '$cafeName-$timeDifference';
     return markerId;
   }
 
-  static NMarker getMarkerData(String id, NLatLng cafePosition) {
-    print("ID : $id");
-    print("clickCafePosition $cafePosition");
+  // static NMarker getMarkerData(String id, NLatLng cafePosition) {
+  //   print("ID : $id");
+  //   print("clickCafePosition $cafePosition");
 
-    return NMarker(
-      id: id,
-      position: cafePosition,
-    );
-  }
+  //   return NMarker(
+  //     id: id,
+  //     position: cafePosition,
+  //   );
+  // }
 }
