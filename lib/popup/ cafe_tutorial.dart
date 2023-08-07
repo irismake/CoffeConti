@@ -1,54 +1,99 @@
 import 'package:coffeeconti/constants/gaps.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_naver_map/flutter_naver_map.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+
+import '../constants/screenSize.dart';
+import '../constants/sizes.dart';
 
 class CafeTutorial extends StatelessWidget {
-  NMarker tappedMarker;
-  CafeTutorial({super.key, required this.tappedMarker});
+  final cafeName;
+  final stringRemainTime;
+
+  CafeTutorial({
+    super.key,
+    required this.cafeName,
+    required this.stringRemainTime,
+  });
 
   @override
   Widget build(BuildContext context) {
-    print("cafeName : $tappedMarker");
-    return GestureDetector(
-      // behavior: HitTestBehavior.opaque,
-      onTap: () {
-        print('gg');
-      },
-      child: Padding(
-        padding: EdgeInsets.only(top: 400, bottom: 110),
-        child: Container(
-          margin: EdgeInsets.all(20.0),
-          decoration: BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.circular(10.0),
-            boxShadow: [
-              BoxShadow(
-                color: Colors.grey.withOpacity(0.7),
-                spreadRadius: 0,
-                blurRadius: 5.0,
-                offset: Offset(0, 10), // changes position of shadow
-              ),
-            ],
-          ),
-          child: Padding(
-            padding: EdgeInsets.all(10.0),
-            child: Column(
-              children: [
-                Text(
-                  tappedMarker.info.id,
-                  style: TextStyle(
-                    fontSize: 20,
-                    color: Colors.black,
-                  ),
-                  textAlign: TextAlign.center,
+    return SafeArea(
+      child: GestureDetector(
+        // behavior: HitTestBehavior.opaque,
+        onTap: () {
+          print('gg');
+        },
+        child: Padding(
+          padding: EdgeInsets.only(
+              top: screenHeight(context) * 3 / 5,
+              bottom: screenHeight(context) * 1 / 12),
+          child: Container(
+            margin: EdgeInsets.all(screenWidth(context) * 1 / 20),
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(10.0),
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.grey.withOpacity(0.7),
+                  spreadRadius: 0,
+                  blurRadius: 5.0,
+                  offset: Offset(0, 5), // changes position of shadow
                 ),
-                Text(
-                  " ",
-                  style: TextStyle(
-                    fontSize: 20,
-                    color: Colors.black,
+              ],
+            ),
+            child: Row(
+              children: [
+                SizedBox(
+                  width: screenWidth(context) * 9 / 10 * 3 / 4,
+                  child: Padding(
+                    padding: EdgeInsets.all(Sizes.size24),
+                    child: Column(
+                      children: [
+                        SizedBox(
+                          width: double.infinity,
+                          height: 25,
+                          child: FittedBox(
+                            fit: BoxFit.contain,
+                            child: DefaultTextStyle(
+                              style: TextStyle(
+                                fontSize: 20,
+                                fontWeight: FontWeight.w600,
+                                color: Colors.black,
+                              ),
+                              child: Text(
+                                cafeName,
+                              ),
+                            ),
+                          ),
+                        ),
+                        Gaps.v20,
+                        DefaultTextStyle(
+                          style: TextStyle(
+                            fontSize: 18,
+
+                            //fontFamily: ,
+                            fontWeight: FontWeight.w600,
+                            color: Theme.of(context).primaryColor,
+                          ),
+                          child: Text(
+                            stringRemainTime,
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
-                  textAlign: TextAlign.center,
+                ),
+                FloatingActionButton(
+                  onPressed: () {
+                    print('footprint');
+                  },
+                  backgroundColor: Colors.grey.shade100,
+                  elevation: 0,
+                  child: FaIcon(
+                    FontAwesomeIcons.shoePrints,
+                    color: Theme.of(context).primaryColor,
+                    size: 20,
+                  ),
                 ),
               ],
             ),

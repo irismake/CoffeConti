@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
+import '../../constants/screenSize.dart';
 import '../../constants/sizes.dart';
 import '../tabs/discover.dart';
 import '../tabs/map_tab/map.dart';
@@ -40,11 +41,8 @@ class _MainNavigationScreenState extends State<MainNavigationScreen> {
       body: _widgetOptions.elementAt(selectedIndex),
       bottomNavigationBar: BottomAppBar(
         color: Colors.white,
-        child: Padding(
-          padding: const EdgeInsets.symmetric(
-            horizontal: Sizes.size2,
-            vertical: Sizes.size12,
-          ),
+        child: SizedBox(
+          height: screenHeight(context) * 1 / 12,
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
@@ -63,7 +61,7 @@ class _MainNavigationScreenState extends State<MainNavigationScreen> {
                 onTap: () => _onTap(1),
               ),
               NavTab(
-                text: 'Profile',
+                text: 'My',
                 isSelected: selectedIndex == 2,
                 icon: FontAwesomeIcons.user,
                 selectedIcon: FontAwesomeIcons.solidUser,

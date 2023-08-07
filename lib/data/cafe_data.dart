@@ -107,15 +107,15 @@ class CafeDataApi {
       DateTime openDateTime = format.parse(openTimeString);
       DateTime closeDateTime = format.parse(closeTimeString);
 
-      DateTime openHour = DateTime(
-          now.year,
-          now.month,
-          now.day,
-          openDateTime.hour,
-          openDateTime.minute,
-          openDateTime.second,
-          openDateTime.millisecond,
-          openDateTime.microsecond);
+      // DateTime openHour = DateTime(
+      //     now.year,
+      //     now.month,
+      //     now.day,
+      //     openDateTime.hour,
+      //     openDateTime.minute,
+      //     openDateTime.second,
+      //     openDateTime.millisecond,
+      //     openDateTime.microsecond);
       DateTime closeHour = DateTime(
           now.year,
           now.month,
@@ -130,7 +130,7 @@ class CafeDataApi {
         closeHour = closeHour.add(Duration(days: 1));
       }
       Duration timeDifference = closeHour.difference(now);
-
+      print(timeDifference);
       return timeDifference;
     } catch (e) {
       print("잘못된 형식의 문자열입니다.");

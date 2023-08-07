@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_naver_map/flutter_naver_map.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:provider/provider.dart';
 
+import '../../../constants/screenSize.dart';
 import '../../../data/cafe_data.dart';
 import '../../../data/location_provider.dart';
 import '../../../popup/ cafe_tutorial.dart';
@@ -84,7 +86,9 @@ class _CafeMapState extends State<CafeMap> {
                 // onSelectedIndoorChanged: onSelectedIndoorChanged,
               ),
               Positioned(
-                bottom: value ? 200.0 : 20.0,
+                top: value
+                    ? screenHeight(context) * 3 / 5
+                    : screenHeight(context) * 3 / 4,
                 right: 16,
                 child: FloatingActionButton(
                   backgroundColor: Colors.white,
@@ -92,8 +96,8 @@ class _CafeMapState extends State<CafeMap> {
                     mapController
                         .setLocationTrackingMode(NLocationTrackingMode.follow);
                   },
-                  child: Icon(
-                    Icons.my_location,
+                  child: FaIcon(
+                    FontAwesomeIcons.locationCrosshairs,
                     color: Theme.of(context).primaryColor,
                   ),
                 ),
@@ -143,11 +147,17 @@ class _CafeMapState extends State<CafeMap> {
   void _showCafeTutorial(BuildContext context, NMarker tappedMarker) {
     _showCafeTutorialStateNotifier.value = true;
     final overlay = Overlay.of(context);
+    String cafeId = tappedMarker.info.id;
+    String cafeName = cafeId.split('-')[0];
+    List<String> timeComponents = cafeId.split('-')[1].trim().split(':');
+    String stringRemainTime = (timeComponents[0] == "0")
+        ? '${timeComponents[1]}분'
+        : '${timeComponents[0]}시간 ${timeComponents[1]}분';
+
     overlayEntry = OverlayEntry(
       builder: (context) {
         return CafeTutorial(
-          tappedMarker: tappedMarker,
-        );
+            cafeName: cafeName, stringRemainTime: stringRemainTime);
       },
     );
 
