@@ -86,9 +86,9 @@ class _CafeMapState extends State<CafeMap> {
                 // onSelectedIndoorChanged: onSelectedIndoorChanged,
               ),
               Positioned(
-                top: value
-                    ? screenHeight(context) * 3 / 5
-                    : screenHeight(context) * 3 / 4,
+                bottom: value
+                    ? FocusCurrentPosition(context) //
+                    : UnfocusCurrentPosition(context),
                 right: 16,
                 child: FloatingActionButton(
                   backgroundColor: Colors.white,

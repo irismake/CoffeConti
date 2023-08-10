@@ -17,73 +17,74 @@ class CafeTutorial extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: GestureDetector(
-        // behavior: HitTestBehavior.opaque,
-        onTap: () {
-          print('gg');
-        },
-        child: Padding(
-          padding: EdgeInsets.only(
-              top: screenHeight(context) * 3 / 5,
-              bottom: screenHeight(context) * 1 / 12),
-          child: Container(
-            margin: EdgeInsets.all(screenWidth(context) * 1 / 20),
-            decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.circular(10.0),
-              boxShadow: [
-                BoxShadow(
-                  color: Colors.grey.withOpacity(0.7),
-                  spreadRadius: 0,
-                  blurRadius: 5.0,
-                  offset: Offset(0, 5), // changes position of shadow
-                ),
-              ],
-            ),
-            child: Row(
-              children: [
-                SizedBox(
-                  width: screenWidth(context) * 9 / 10 * 3 / 4,
-                  child: Padding(
-                    padding: EdgeInsets.all(Sizes.size24),
-                    child: Column(
-                      children: [
-                        SizedBox(
-                          width: double.infinity,
-                          height: 25,
-                          child: FittedBox(
-                            fit: BoxFit.contain,
-                            child: DefaultTextStyle(
-                              style: TextStyle(
-                                fontSize: 20,
-                                fontWeight: FontWeight.w600,
-                                color: Colors.black,
-                              ),
-                              child: Text(
-                                cafeName,
-                              ),
+    return GestureDetector(
+      // behavior: HitTestBehavior.opaque,
+      onTap: () {
+        print('gg');
+      },
+      child: Padding(
+        padding: EdgeInsets.only(
+          top: cafeTutorialTopPosition(context),
+          bottom: cafeTutorialBottomPosition(context),
+        ),
+        child: Container(
+          margin: EdgeInsets.all(screenWidth(context) * 1 / 20),
+          decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(10.0),
+            boxShadow: [
+              BoxShadow(
+                color: Colors.grey.withOpacity(0.7),
+                spreadRadius: 0,
+                blurRadius: 5.0,
+                offset: Offset(0, 5), // changes position of shadow
+              ),
+            ],
+          ),
+          child: Row(
+            children: [
+              SizedBox(
+                width: screenWidth(context) * 9 / 10 * 3 / 4,
+                child: Padding(
+                  padding: EdgeInsets.all(Sizes.size24),
+                  child: Column(
+                    children: [
+                      SizedBox(
+                        width: double.infinity,
+                        height: 25,
+                        child: FittedBox(
+                          fit: BoxFit.contain,
+                          child: DefaultTextStyle(
+                            style: TextStyle(
+                              fontSize: 20,
+                              fontWeight: FontWeight.w600,
+                              color: Colors.black,
+                            ),
+                            child: Text(
+                              cafeName,
                             ),
                           ),
                         ),
-                        Gaps.v20,
-                        DefaultTextStyle(
-                          style: TextStyle(
-                            fontSize: 18,
+                      ),
+                      Gaps.v20,
+                      DefaultTextStyle(
+                        style: TextStyle(
+                          fontSize: 18,
 
-                            //fontFamily: ,
-                            fontWeight: FontWeight.w600,
-                            color: Theme.of(context).primaryColor,
-                          ),
-                          child: Text(
-                            stringRemainTime,
-                          ),
+                          //fontFamily: ,
+                          fontWeight: FontWeight.w600,
+                          color: Theme.of(context).primaryColor,
                         ),
-                      ],
-                    ),
+                        child: Text(
+                          stringRemainTime,
+                        ),
+                      ),
+                    ],
                   ),
                 ),
-                FloatingActionButton(
+              ),
+              Expanded(
+                child: FloatingActionButton(
                   onPressed: () {
                     print('footprint');
                   },
@@ -95,8 +96,8 @@ class CafeTutorial extends StatelessWidget {
                     size: 20,
                   ),
                 ),
-              ],
-            ),
+              ),
+            ],
           ),
         ),
       ),
