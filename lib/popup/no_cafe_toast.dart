@@ -14,21 +14,41 @@ class NoCafeToast extends StatelessWidget {
   Widget build(BuildContext context) {
     return Center(
       child: Container(
-        width: screenWidth(context) * 3 / 4,
-        height: screenHeight(context) * 1 / 5,
-        decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.circular(10.0),
-          boxShadow: [
-            BoxShadow(
-              color: Colors.grey.withOpacity(0.7),
-              spreadRadius: 0,
-              blurRadius: 5.0,
-              offset: Offset(0, 5), // changes position of shadow
-            ),
-          ],
-        ),
-      ),
+          padding: EdgeInsets.all(15),
+          width: 250,
+          height: 120,
+          decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(12.0),
+            boxShadow: [
+              BoxShadow(
+                color: Colors.grey.withOpacity(0.8),
+                spreadRadius: 0,
+                blurRadius: 9.0,
+              ),
+            ],
+          ),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              FaIcon(
+                FontAwesomeIcons.faceSadTear,
+                color: Theme.of(context).primaryColor,
+                size: 30,
+              ),
+              Gaps.v10,
+              DefaultTextStyle(
+                style: TextStyle(
+                  fontSize: 15,
+                  fontWeight: FontWeight.w600,
+                  color: Colors.grey[700],
+                ),
+                child: Text(
+                  "주변에 이용가능한 카페가 없습니다.",
+                ),
+              ),
+            ],
+          )),
     );
   }
 }
