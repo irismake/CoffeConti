@@ -13,7 +13,7 @@ double bottomNavigationBarHeight(BuildContext context) {
 }
 
 double cafeTutorialTopPosition(BuildContext context) {
-  return MediaQuery.of(context).size.height * 4 / 6;
+  return MediaQuery.of(context).size.height * 3 / 5;
 }
 
 double cafeTutorialBottomPosition(BuildContext context) {
@@ -24,8 +24,23 @@ double UnfocusCurrentPosition(BuildContext context) {
   return 20;
 }
 
+EdgeInsets ViewPaddingSize(BuildContext context) {
+  return MediaQuery.of(context).viewPadding;
+}
+
+double CafeTutorialMarginSize(BuildContext context) {
+  return 20.0;
+}
+
 double FocusCurrentPosition(BuildContext context) {
+  EdgeInsets viewPadding = ViewPaddingSize(context);
+
+  double top = viewPadding.top;
+  double bottom = viewPadding.bottom;
+
   return screenHeight(context) -
+      top -
+      bottom -
       cafeTutorialTopPosition(context) -
       cafeTutorialBottomPosition(context);
 }
