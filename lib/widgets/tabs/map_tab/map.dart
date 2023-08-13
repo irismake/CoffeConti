@@ -1,3 +1,4 @@
+import 'package:coffeeconti/popup/no_cafe_toast.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_naver_map/flutter_naver_map.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -59,6 +60,7 @@ class _CafeMapState extends State<CafeMap> {
   void dispose() {
     print('dispose');
     overlayEntry?.remove();
+
     mapController.dispose();
     super.dispose();
   }
@@ -118,6 +120,10 @@ class _CafeMapState extends State<CafeMap> {
     }
 
     mapController.addOverlayAll(markerSets);
+    print(markerSets);
+    if (markerSets.isEmpty) {
+      _showNoCafeToast(context);
+    }
     markerSets.forEach(_setMarkerTapListener);
     mapController.setLocationTrackingMode(NLocationTrackingMode.follow);
   }
@@ -128,6 +134,7 @@ class _CafeMapState extends State<CafeMap> {
 
       if (_showCafeTutorialStateNotifier.value) {
         overlayEntry?.remove();
+        //overlayEntry = null;
       }
       _showCafeTutorial(context, tappedMarker);
 
@@ -141,6 +148,7 @@ class _CafeMapState extends State<CafeMap> {
   void onMapTapped(NPoint point, NLatLng latLng) {
     print('ontap');
     overlayEntry?.remove();
+    overlayEntry = null;
     _showCafeTutorialStateNotifier.value = false;
   }
 
@@ -162,5 +170,23 @@ class _CafeMapState extends State<CafeMap> {
     );
 
     overlay.insert(overlayEntry!);
+  }
+
+  void _showNoCafeToast(BuildContext context) {
+    final overlay = Overlay.of(context);
+    // OverlayEntry overlayEntry;
+
+    overlayEntry = OverlayEntry(
+      builder: (BuildContext context) {
+        return NoCafeToast();
+      },
+    );
+
+    overlay.insert(overlayEntry!);
+
+    // Remove the toast after a certain duration
+    // Future.delayed(Duration(seconds: 2), () {
+    //   overlayEntry.remove();
+    // });
   }
 }
