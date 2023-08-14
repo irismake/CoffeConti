@@ -8,6 +8,14 @@ double screenWidth(BuildContext context) {
   return MediaQuery.of(context).size.width;
 }
 
+double ViewPaddingTopSize(BuildContext context) {
+  return MediaQuery.of(context).viewPadding.top;
+}
+
+double ViewPaddingBottomSize(BuildContext context) {
+  return MediaQuery.of(context).viewPadding.bottom;
+}
+
 double bottomNavigationBarHeight(BuildContext context) {
   return 70.0;
 }
@@ -17,15 +25,11 @@ double cafeTutorialTopPosition(BuildContext context) {
 }
 
 double cafeTutorialBottomPosition(BuildContext context) {
-  return bottomNavigationBarHeight(context);
+  return bottomNavigationBarHeight(context) + ViewPaddingBottomSize(context);
 }
 
 double UnfocusCurrentPosition(BuildContext context) {
   return 20;
-}
-
-EdgeInsets ViewPaddingSize(BuildContext context) {
-  return MediaQuery.of(context).viewPadding;
 }
 
 double CafeTutorialMarginSize(BuildContext context) {
@@ -33,14 +37,10 @@ double CafeTutorialMarginSize(BuildContext context) {
 }
 
 double FocusCurrentPosition(BuildContext context) {
-  EdgeInsets viewPadding = ViewPaddingSize(context);
-
-  double top = viewPadding.top;
-  double bottom = viewPadding.bottom;
-
   return screenHeight(context) -
-      top -
-      bottom -
+      ViewPaddingTopSize(context) -
+      ViewPaddingBottomSize(context) -
       cafeTutorialTopPosition(context) -
-      cafeTutorialBottomPosition(context);
+      cafeTutorialBottomPosition(context) +
+      CafeTutorialMarginSize(context);
 }

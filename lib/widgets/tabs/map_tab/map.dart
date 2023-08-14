@@ -116,14 +116,16 @@ class _CafeMapState extends State<CafeMap> {
     mapController = controller;
     print('onMapReady');
     if (_currentPosition != null) {
-      await findMarkers();
+      await findMarkers().then((markerSets) {
+        if (markerSets.isEmpty) {
+          _showNoCafeToast(context);
+        }
+      });
     }
 
     mapController.addOverlayAll(markerSets);
     print(markerSets);
-    if (markerSets.isEmpty) {
-      _showNoCafeToast(context);
-    }
+
     markerSets.forEach(_setMarkerTapListener);
     mapController.setLocationTrackingMode(NLocationTrackingMode.follow);
   }

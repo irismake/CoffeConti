@@ -54,6 +54,7 @@ class CafeDataApi {
         cafePlaceIds.add(coffeShop.placeId);
       }
     }
+
     return cafePlaceIds;
   }
 

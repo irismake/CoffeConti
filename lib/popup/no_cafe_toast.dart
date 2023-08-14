@@ -2,9 +2,6 @@ import 'package:coffeeconti/constants/gaps.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
-import '../constants/screenSize.dart';
-import '../constants/sizes.dart';
-
 class NoCafeToast extends StatelessWidget {
   NoCafeToast({
     super.key,
@@ -43,7 +40,7 @@ class NoCafeToast extends StatelessWidget {
                   fontWeight: FontWeight.w600,
                   color: Colors.grey[700],
                 ),
-                child: Text(
+                child: const Text(
                   "주변에 이용가능한 카페가 없습니다.",
                 ),
               ),
