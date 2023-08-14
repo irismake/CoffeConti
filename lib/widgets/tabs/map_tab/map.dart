@@ -76,6 +76,7 @@ class _CafeMapState extends State<CafeMap> {
             children: [
               NaverMap(
                 options: NaverMapViewOptions(
+                  scrollGesturesEnable: true,
                   initialCameraPosition: cameraPosition,
                 ),
 
