@@ -1,4 +1,5 @@
 import 'package:coffeeconti/constants/gaps.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
@@ -37,59 +38,98 @@ class CafeTutorial extends StatelessWidget {
             borderRadius: BorderRadius.circular(10.0),
             boxShadow: [
               BoxShadow(
-                color: Colors.grey.withOpacity(0.7),
-                spreadRadius: 0,
+                color: Colors.grey.withOpacity(0.5),
+                spreadRadius: 1,
                 blurRadius: 5.0,
-                offset: Offset(0, 5), // changes position of shadow
+                offset: Offset(0, 5),
               ),
             ],
           ),
           child: Row(
+            // mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
               Expanded(
                 flex: 2,
-                //width: screenWidth(context) * 9 / 10 * 3 / 4,
+                child: Container(
+                  // width: 110,
+                  color: Colors.grey[200],
+                ),
+              ),
+              Expanded(
+                flex: 3,
                 child: Padding(
-                  padding: EdgeInsets.all(Sizes.size20),
+                  padding: EdgeInsets.symmetric(
+                    horizontal: 10,
+                    vertical: 25,
+                  ),
                   child: Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Expanded(
-                        flex: 1,
+                      Container(
+                        padding: EdgeInsets.symmetric(horizontal: 5),
+                        height: 30,
+                        // color: Colors.amber,
+                        alignment: Alignment.centerLeft,
                         child: FittedBox(
                           fit: BoxFit.contain,
                           child: DefaultTextStyle(
                             style: TextStyle(
-                              fontSize: 20,
+                              fontSize: 30,
                               fontWeight: FontWeight.w600,
                               color: Colors.black,
                             ),
                             child: Text(
-                              cafeName,
+                              limitTextLength(cafeName, 10),
+                              overflow: TextOverflow.ellipsis,
                             ),
                           ),
                         ),
                       ),
-                      Gaps.v16,
-                      Expanded(
-                        flex: 1,
-                        child: DefaultTextStyle(
-                          style: TextStyle(
-                            fontSize: 18,
-                            //fontFamily: ,
-                            fontWeight: FontWeight.w600,
-                            color: Theme.of(context).primaryColor,
+                      Row(
+                        children: [
+                          Icon(Icons.access_time, size: 20),
+                          SizedBox(width: 5),
+                          DefaultTextStyle(
+                            style: TextStyle(
+                              fontSize: 15,
+                              //fontFamily: ,
+                              fontWeight: FontWeight.w600,
+                              color: Colors.black,
+                            ),
+                            child: Text(
+                              stringRemainTime,
+                            ),
                           ),
-                          child: Text(
-                            stringRemainTime,
+                        ],
+                      ),
+                      Row(
+                        children: [
+                          Icon(
+                            Icons.location_on,
+                            size: 20,
                           ),
-                        ),
+                          SizedBox(width: 5),
+                          DefaultTextStyle(
+                            style: const TextStyle(
+                              fontSize: 15,
+                              //fontFamily: ,
+                              fontWeight: FontWeight.w600,
+                              color: Colors.black,
+                            ),
+                            child: Text(
+                              "30m",
+                            ),
+                          ),
+                        ],
                       ),
                     ],
                   ),
                 ),
               ),
-              Expanded(
-                flex: 1,
+              Container(
+                width: 100,
+                height: 60,
+                //color: Colors.yellow,
                 child: FloatingActionButton(
                   onPressed: () {
                     print('footprint');
@@ -108,5 +148,13 @@ class CafeTutorial extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  String limitTextLength(String text, int maxLength) {
+    if (text.length <= maxLength) {
+      return text;
+    } else {
+      return text.substring(0, maxLength) + "...";
+    }
   }
 }
