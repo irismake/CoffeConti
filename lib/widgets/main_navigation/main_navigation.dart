@@ -42,7 +42,7 @@ class _MainNavigationScreenState extends State<MainNavigationScreen> {
       bottomNavigationBar: BottomAppBar(
         color: Colors.white,
         child: SizedBox(
-          height: 70,
+          height: bottomNavigationBarHeight(context),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [

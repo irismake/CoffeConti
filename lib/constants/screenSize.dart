@@ -17,15 +17,24 @@ double ViewPaddingBottomSize(BuildContext context) {
 }
 
 double bottomNavigationBarHeight(BuildContext context) {
-  return 70.0;
+  return 80.0;
+}
+
+double cafeTutorialHeight(BuildContext context) {
+  return 200.0;
 }
 
 double cafeTutorialTopPosition(BuildContext context) {
-  return MediaQuery.of(context).size.height * 3 / 5;
+  return MediaQuery.of(context).size.height -
+      ViewPaddingBottomSize(context) -
+      bottomNavigationBarHeight(context) -
+      cafeTutorialHeight(context);
 }
 
 double cafeTutorialBottomPosition(BuildContext context) {
-  return bottomNavigationBarHeight(context) + ViewPaddingBottomSize(context);
+  return bottomNavigationBarHeight(context) +
+      ViewPaddingBottomSize(context) +
+      10;
 }
 
 double UnfocusCurrentPosition(BuildContext context) {
@@ -37,10 +46,11 @@ double CafeTutorialMarginSize(BuildContext context) {
 }
 
 double FocusCurrentPosition(BuildContext context) {
-  return screenHeight(context) -
-      ViewPaddingTopSize(context) -
-      ViewPaddingBottomSize(context) -
-      cafeTutorialTopPosition(context) -
-      cafeTutorialBottomPosition(context) +
-      CafeTutorialMarginSize(context);
+  return cafeTutorialHeight(context);
 }
+  // return screenHeight(context) -
+  //     ViewPaddingTopSize(context) -
+  //     ViewPaddingBottomSize(context) -
+  //     cafeTutorialTopPosition(context) -
+  //     cafeTutorialBottomPosition(context) +
+  //     CafeTutorialMarginSize(context);
