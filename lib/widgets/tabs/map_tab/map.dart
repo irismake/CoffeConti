@@ -11,13 +11,12 @@ import '../../../data/location_provider.dart';
 import '../../../popup/ cafe_tutorial.dart';
 
 class CafeMap extends StatefulWidget {
-  const CafeMap({super.key});
-
+  CafeMap({super.key});
   @override
-  State<CafeMap> createState() => _CafeMapState();
+  State<CafeMap> createState() => CafeMapState();
 }
 
-class _CafeMapState extends State<CafeMap> {
+class CafeMapState extends State<CafeMap> {
   late LocationProvider _locationProvider;
   late NaverMapController mapController;
   OverlayEntry? overlayEntry;
@@ -133,8 +132,6 @@ class _CafeMapState extends State<CafeMap> {
 
   void _setMarkerTapListener(NMarker marker) {
     marker.setOnTapListener((NMarker tappedMarker) {
-      print(marker);
-
       if (_showCafeTutorialStateNotifier.value) {
         overlayEntry?.remove();
         //overlayEntry = null;
@@ -160,6 +157,7 @@ class _CafeMapState extends State<CafeMap> {
     final overlay = Overlay.of(context);
     String cafeId = tappedMarker.info.id;
     String cafeName = cafeId.split('-')[0];
+    final tappedMarkerPosition = tappedMarker.position;
     List<String> timeComponents = cafeId.split('-')[1].trim().split(':');
     String stringRemainTime = (timeComponents[0] == "0")
         ? '${timeComponents[1]}분'
@@ -168,7 +166,10 @@ class _CafeMapState extends State<CafeMap> {
     overlayEntry = OverlayEntry(
       builder: (context) {
         return CafeTutorial(
-            cafeName: cafeName, stringRemainTime: stringRemainTime);
+            cafeName: cafeName,
+            stringRemainTime: stringRemainTime,
+            tappedMarkerPosition: tappedMarkerPosition,
+            currentPosition: _currentPosition);
       },
     );
 
@@ -191,5 +192,15 @@ class _CafeMapState extends State<CafeMap> {
     // Future.delayed(Duration(seconds: 2), () {
     //   overlayEntry.remove();
     // });
+  }
+
+  Future<void> showRoute(List<dynamic> routeCoords) async {
+    print("showRoute");
+    List<NLatLng> convertedPath =
+        routeCoords.map((coord) => NLatLng(coord[1], coord[0])).toList();
+
+    NPathOverlay(id: "test", coords: convertedPath);
+
+    //controller.addOverlay(pathOverlay);
   }
 }

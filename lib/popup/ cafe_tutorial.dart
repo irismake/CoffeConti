@@ -1,4 +1,6 @@
 import 'package:coffeeconti/constants/gaps.dart';
+import 'package:coffeeconti/data/cafe_data.dart';
+import 'package:coffeeconti/widgets/tabs/map_tab/map.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -7,13 +9,19 @@ import '../constants/screenSize.dart';
 import '../constants/sizes.dart';
 
 class CafeTutorial extends StatelessWidget {
+  final GlobalKey<CafeMapState> _cafeMapKey = GlobalKey();
+
   final cafeName;
   final stringRemainTime;
+  final tappedMarkerPosition;
+  final currentPosition;
 
   CafeTutorial({
     super.key,
     required this.cafeName,
     required this.stringRemainTime,
+    required this.tappedMarkerPosition,
+    required this.currentPosition,
   });
 
   @override
@@ -79,7 +87,7 @@ class CafeTutorial extends StatelessWidget {
                               color: Colors.black,
                             ),
                             child: Text(
-                              limitTextLength(cafeName, 10),
+                              limitTextLength(cafeName, 15),
                               overflow: TextOverflow.ellipsis,
                             ),
                           ),
@@ -131,8 +139,12 @@ class CafeTutorial extends StatelessWidget {
                 height: 60,
                 //color: Colors.yellow,
                 child: FloatingActionButton(
-                  onPressed: () {
-                    print('footprint');
+                  onPressed: () async {
+                    print('click');
+
+                    final cafeRoute = await CafeDataApi.getRoute(
+                        currentPosition, tappedMarkerPosition);
+                    _cafeMapKey.currentState?.showRoute(cafeRoute);
                   },
                   backgroundColor: Colors.grey.shade100,
                   elevation: 0,

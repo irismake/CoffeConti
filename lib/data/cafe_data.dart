@@ -1,3 +1,4 @@
+import 'package:coffeeconti/widgets/tabs/map_tab/map.dart';
 import 'package:flutter_naver_map/flutter_naver_map.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:http/http.dart' as http;
@@ -9,7 +10,9 @@ import 'models/cafe_name_model.dart';
 class CafeDataApi {
   static final baseUrl =
       'https://maps.googleapis.com/maps/api/place/nearbysearch/json';
-  static final apiKey = 'AIzaSyDuffSA5RQdjpsvpirWS_0tom8G9dxYPxY';
+  static final googlePlaceApi = 'AIzaSyDuffSA5RQdjpsvpirWS_0tom8G9dxYPxY';
+  static final naverMapSecretKey = 'lDMeTjSLw1DzoRG2630dGJmnEIk5PxMaX7HWC3Mb';
+  static final naverMapApi = 'mdla0gzhf3';
 
   static Future<List<String>> getCafePlaceId(Position position) async {
     List<CafePlaceIdModel> coffeeShops = [];
@@ -20,7 +23,7 @@ class CafeDataApi {
 
     final radius = '1000';
     final url = Uri.parse(
-        '$baseUrl?location=$latitude,$longitude&radius=$radius&type=cafe|keword=cafe&opennow=true&key=$apiKey');
+        '$baseUrl?location=$latitude,$longitude&radius=$radius&type=cafe|keword=cafe&opennow=true&key=$googlePlaceApi');
 
     final response = await http.get(url);
 
@@ -33,7 +36,7 @@ class CafeDataApi {
       for (int i = 0; i < 3 && pageToken != null; i++) {
         await Future.delayed(Duration(seconds: 2));
         final url = Uri.parse(
-          '$baseUrl?key=$apiKey&pagetoken=$pageToken',
+          '$baseUrl?key=$googlePlaceApi&pagetoken=$pageToken',
         );
         final response = await http.get(url);
 
@@ -60,7 +63,7 @@ class CafeDataApi {
 
   static void getCafeData(String placeId, Set<NMarker> markerSets) async {
     final url = Uri.parse(
-        'https://maps.googleapis.com/maps/api/place/details/json?place_id=$placeId&key=$apiKey');
+        'https://maps.googleapis.com/maps/api/place/details/json?place_id=$placeId&key=$googlePlaceApi');
     final response = await http.get(url);
 
     if (response.statusCode == 200) {
@@ -169,13 +172,50 @@ class CafeDataApi {
     return markerId;
   }
 
-  // static NMarker getMarkerData(String id, NLatLng cafePosition) {
-  //   print("ID : $id");
-  //   print("clickCafePosition $cafePosition");
+  static Future<List<dynamic>> getRoute(
+      dynamic startPosition, dynamic goalPosition) async {
+    List<dynamic> cafeRoute = [];
+    final _startPositionLat = startPosition.latitude;
+    final _startPositionLong = startPosition.longitude;
+    final _goalPositionLat = goalPosition.latitude;
+    final _goalPositionLong = goalPosition.longitude;
+    print(
+        "$_startPositionLat , $_startPositionLong, $_goalPositionLat,$_goalPositionLong");
+    try {
+      final response = await http.get(
+          Uri.parse(
+            'https://naveropenapi.apigw.ntruss.com/map-direction/v1/driving?start=$_startPositionLong,$_startPositionLat&goal=$_goalPositionLong,$_goalPositionLat&option=trafast',
+          ),
+          headers: {
+            'X-NCP-APIGW-API-KEY-ID': naverMapApi,
+            'X-NCP-APIGW-API-KEY': naverMapSecretKey,
+          });
 
-  //   return NMarker(
-  //     id: id,
-  //     position: cafePosition,
-  //   );
-  // }
+      if (response.statusCode == 200) {
+        Map<String, dynamic> jsonDataMap = json.decode(response.body);
+        print(jsonDataMap);
+        cafeRoute = jsonDataMap['route']['trafast'][0]['path'];
+        print(cafeRoute);
+
+        // List<LatLng> pathLatLngs =
+        //     pathCoordinates.map((coord) => LatLng(coord[1], coord[0])).toList();
+
+        // // Printing the result
+        // pathLatLngs.forEach((latLng) {
+        //   print('LatLng(${latLng.latitude}, ${latLng.longitude})');
+        // });
+        // final decoded = json.decode(response.body);
+        // final routePoints = decoded['route']['traoptimal'];
+        // final a = CafeRoute.fromJson(routePoints);
+        // print(a);
+        // final pathCoords =
+        //     routePoints.map((point) => LatLng(point['y'], point['x'])).toList();
+      } else {
+        print('Failed to fetch route data: ${response.statusCode}');
+      }
+    } catch (e) {
+      print('Error showing route: $e');
+    }
+    return cafeRoute;
+  }
 }
