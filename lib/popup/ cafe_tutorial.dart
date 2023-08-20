@@ -9,8 +9,6 @@ import '../constants/screenSize.dart';
 import '../constants/sizes.dart';
 
 class CafeTutorial extends StatelessWidget {
-  final GlobalKey<CafeMapState> _cafeMapKey = GlobalKey();
-
   final cafeName;
   final stringRemainTime;
   final tappedMarkerPosition;
@@ -144,7 +142,7 @@ class CafeTutorial extends StatelessWidget {
 
                     final cafeRoute = await CafeDataApi.getRoute(
                         currentPosition, tappedMarkerPosition);
-                    _cafeMapKey.currentState?.showRoute(cafeRoute);
+                    CafeMapState.showRoute(cafeRoute);
                   },
                   backgroundColor: Colors.grey.shade100,
                   elevation: 0,
