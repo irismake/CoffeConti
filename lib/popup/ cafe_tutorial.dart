@@ -142,7 +142,7 @@ class CafeTutorial extends StatelessWidget {
 
                     final cafeRoute = await CafeDataApi.getRoute(
                         currentPosition, tappedMarkerPosition);
-                    CafeMapState.showRoute(cafeRoute);
+                    //showRoute(cafeRoute);
                   },
                   backgroundColor: Colors.grey.shade100,
                   elevation: 0,

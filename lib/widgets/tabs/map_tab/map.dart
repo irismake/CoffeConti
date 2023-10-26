@@ -127,7 +127,7 @@ class CafeMapState extends State<CafeMap> {
     setState(() {
       print('지위기');
 
-      ///controller.clearOverlays();
+      //controller.clearOverlays();
     });
     print(markerSets);
 
@@ -137,6 +137,10 @@ class CafeMapState extends State<CafeMap> {
 
   void _setMarkerTapListener(NMarker marker) {
     marker.setOnTapListener((NMarker tappedMarker) {
+      if (_showCafeTutorialStateNotifier.value) {
+        overlayEntry?.remove();
+        //overlayEntry = null;
+      }
       _showCafeTutorial(context, tappedMarker);
 
       final cameraUpdate = NCameraUpdate.scrollAndZoomTo(
@@ -196,13 +200,13 @@ class CafeMapState extends State<CafeMap> {
     // });
   }
 
-  static Future<NPathOverlay> showRoute(List<dynamic> routeCoords) async {
+  Future<NPathOverlay> showRoute(List<dynamic> routeCoords) async {
     print("showRoute");
     List<NLatLng> convertedPath =
         routeCoords.map((coord) => NLatLng(coord[1], coord[0])).toList();
 
     final pathOverlay = NPathOverlay(id: "test", coords: convertedPath);
-
+    mapController.addOverlay(pathOverlay);
     return pathOverlay;
   }
 }
