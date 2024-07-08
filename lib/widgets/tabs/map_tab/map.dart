@@ -126,10 +126,7 @@ class CafeMapState extends State<CafeMap> {
     mapController.addOverlayAll(markerSets);
     setState(() {
       print('지위기');
-
-      //controller.clearOverlays();
     });
-    print(markerSets);
 
     markerSets.forEach(_setMarkerTapListener);
     mapController.setLocationTrackingMode(NLocationTrackingMode.follow);
@@ -139,7 +136,7 @@ class CafeMapState extends State<CafeMap> {
     marker.setOnTapListener((NMarker tappedMarker) {
       if (_showCafeTutorialStateNotifier.value) {
         overlayEntry?.remove();
-        //overlayEntry = null;
+        overlayEntry = null;
       }
       _showCafeTutorial(context, tappedMarker);
 
@@ -169,6 +166,7 @@ class CafeMapState extends State<CafeMap> {
         ? '${timeComponents[1]}분'
         : '${timeComponents[0]}시간 ${timeComponents[1]}분';
 
+    print('overlay marker');
     overlayEntry = OverlayEntry(
       builder: (context) {
         return CafeTutorial(
@@ -184,7 +182,6 @@ class CafeMapState extends State<CafeMap> {
 
   void _showNoCafeToast(BuildContext context) {
     final overlay = Overlay.of(context);
-    // OverlayEntry overlayEntry;
 
     overlayEntry = OverlayEntry(
       builder: (BuildContext context) {
@@ -193,11 +190,6 @@ class CafeMapState extends State<CafeMap> {
     );
 
     overlay.insert(overlayEntry!);
-
-    // Remove the toast after a certain duration
-    // Future.delayed(Duration(seconds: 2), () {
-    //   overlayEntry.remove();
-    // });
   }
 
   Future<NPathOverlay> showRoute(List<dynamic> routeCoords) async {
