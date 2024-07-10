@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/src/widgets/framework.dart';
 
-class Discover extends StatefulWidget {
-  const Discover({super.key});
+class UserPage extends StatefulWidget {
+  const UserPage({super.key});
 
   @override
-  State<Discover> createState() => _DiscoverState();
+  State<UserPage> createState() => _AddMyCafeState();
 }
 
-class _DiscoverState extends State<Discover> {
+class _AddMyCafeState extends State<UserPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
