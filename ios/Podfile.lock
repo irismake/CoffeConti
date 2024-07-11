@@ -2,13 +2,13 @@ PODS:
   - Flutter (1.0.0)
   - flutter_keyboard_visibility (0.0.1):
     - Flutter
-  - flutter_naver_map (1.0.0):
+  - flutter_naver_map (1.2.3):
     - Flutter
-    - NMapsMap (= 3.16.2)
+    - NMapsMap (= 3.18.1)
   - geolocator_apple (1.2.0):
     - Flutter
-  - NMapsGeometry (1.0.1)
-  - NMapsMap (3.16.2):
+  - NMapsGeometry (1.0.2)
+  - NMapsMap (3.18.1):
     - NMapsGeometry
   - path_provider_foundation (0.0.1):
     - Flutter
@@ -44,15 +44,15 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/permission_handler_apple/ios"
 
 SPEC CHECKSUMS:
-  Flutter: f04841e97a9d0b0a8025694d0796dd46242b2854
+  Flutter: e0871f40cf51350855a761d2e70bf5af5b9b5de7
   flutter_keyboard_visibility: 0339d06371254c3eb25eeb90ba8d17dca8f9c069
-  flutter_naver_map: d1ee15e7a2fe5360a19640648ceed5abf79d82aa
+  flutter_naver_map: 9b36cee8e83421f40782af8a4e7afbdf63ee5f92
   geolocator_apple: cc556e6844d508c95df1e87e3ea6fa4e58c50401
-  NMapsGeometry: 53c573ead66466681cf123f99f698dc8071a4b83
-  NMapsMap: aaa64717249b06ae82c3a3addb3a01f0e33100ab
-  path_provider_foundation: eaf5b3e458fc0e5fbb9940fb09980e853fe058b8
+  NMapsGeometry: 4e02554fa9880ef02ed96b075dc84355d6352479
+  NMapsMap: e879088eeee2d1e3b97f0a609076e1824dce2cad
+  path_provider_foundation: 2b6b4c569c0fb62ec74538f866245ac84301af46
   permission_handler_apple: 8f116445eff3c0e7c65ad60f5fef5490aa94b4e4
 
-PODFILE CHECKSUM: d1b24cec8fd3514eedf6f939e6f215fd91002db1
+PODFILE CHECKSUM: ca60cd30eba0a1c8c1dcd1580b10a956986ead42
 
 COCOAPODS: 1.15.2
