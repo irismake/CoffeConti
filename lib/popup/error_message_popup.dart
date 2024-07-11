@@ -1,4 +1,4 @@
-import 'package:coffeeconti/constants/gaps.dart';
+import 'package:coffeeconti/components/constants/gaps.dart';
 import 'package:flutter/material.dart';
 
 class ShowErrorMessage extends StatelessWidget {

@@ -1,12 +1,11 @@
-import 'package:coffeeconti/constants/gaps.dart';
+import 'package:coffeeconti/components/constants/gaps.dart';
 import 'package:coffeeconti/data/cafe_data.dart';
 import 'package:coffeeconti/widgets/tabs/map_tab/map.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
-import '../constants/screenSize.dart';
-import '../constants/sizes.dart';
+import '../components/constants/screenSize.dart';
+import '../components/constants/sizes.dart';
 
 class CafeTutorial extends StatelessWidget {
   final cafeName;
@@ -129,27 +128,6 @@ class CafeTutorial extends StatelessWidget {
                         ],
                       ),
                     ],
-                  ),
-                ),
-              ),
-              Container(
-                width: 100,
-                height: 60,
-                //color: Colors.yellow,
-                child: FloatingActionButton(
-                  onPressed: () async {
-                    print('click');
-
-                    final cafeRoute = await CafeDataApi.getRoute(
-                        currentPosition, tappedMarkerPosition);
-                    //showRoute(cafeRoute);
-                  },
-                  backgroundColor: Colors.grey.shade100,
-                  elevation: 0,
-                  child: FaIcon(
-                    FontAwesomeIcons.shoePrints,
-                    color: Theme.of(context).primaryColor,
-                    size: 20,
                   ),
                 ),
               ),

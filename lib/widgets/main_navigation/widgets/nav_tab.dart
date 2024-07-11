@@ -1,44 +1,27 @@
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_svg/svg.dart';
 
-import '../../../constants/gaps.dart';
+import '../../../components/constants/gaps.dart';
 
-class NavTab extends StatefulWidget {
+class NavTab extends StatelessWidget {
   const NavTab({
     super.key,
     required this.isSelected,
-    required this.icon,
-    required this.selectedIcon,
+    required this.iconName,
   });
 
   final bool isSelected;
+  final String iconName;
 
-  final IconData icon;
-  final IconData selectedIcon;
-
-  @override
-  State<NavTab> createState() => _NavTabState();
-}
-
-class _NavTabState extends State<NavTab> {
   @override
   Widget build(BuildContext context) {
-    return Expanded(
-      child: Container(
-        color: Colors.transparent,
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            FaIcon(
-              widget.isSelected ? widget.selectedIcon : widget.icon,
-              color: widget.isSelected
-                  ? Theme.of(context).primaryColor
-                  : Colors.grey[600],
-            ),
-            Gaps.v5,
-          ],
-        ),
-      ),
+    return Image.asset(
+      isSelected
+          ? 'assets/icons/${iconName}_fill.png'
+          : 'assets/icons/${iconName}_light.png',
+      height: 32.0.h,
+      width: 32.0.w,
     );
   }
 }
