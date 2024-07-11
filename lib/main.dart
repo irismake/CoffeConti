@@ -1,5 +1,6 @@
 import 'package:flutter_naver_map/flutter_naver_map.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'constants/sizes.dart';
 import 'package:provider/provider.dart';
 import 'package:coffeeconti/data/location_provider.dart';
@@ -7,7 +8,17 @@ import 'widgets/main_navigation/main_navigation.dart';
 
 void main() async {
   await _initialize();
-  runApp(const MyApp());
+  runApp(
+    ScreenUtilInit(
+      builder: (BuildContext context, child) => MaterialApp(
+        home: MyApp(),
+        debugShowCheckedModeBanner: false,
+      ),
+      designSize: const Size(390, 844),
+      minTextAdapt: true,
+      splitScreenMode: true,
+    ),
+  );
 }
 
 Future<void> _initialize() async {
