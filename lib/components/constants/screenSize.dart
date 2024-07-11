@@ -16,6 +16,10 @@ double ViewPaddingBottomSize(BuildContext context) {
   return MediaQuery.of(context).viewPadding.bottom;
 }
 
+double SetTagHeight(BuildContext context) {
+  return screenHeight(context) * 3 / 4;
+}
+
 double bottomNavigationBarHeight(BuildContext context) {
   return 80.0;
 }

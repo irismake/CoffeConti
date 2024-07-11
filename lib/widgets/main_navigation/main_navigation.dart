@@ -2,10 +2,10 @@ import 'package:coffeeconti/widgets/tabs/add.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
-import '../../constants/screenSize.dart';
-import '../../constants/sizes.dart';
+import '../../components/constants/screenSize.dart';
+import '../../components/constants/sizes.dart';
 import '../tabs/discover.dart';
 import '../tabs/map_tab/map.dart';
 import 'widgets/nav_tab.dart';
@@ -52,7 +52,7 @@ class _MainNavigationScreenState extends State<MainNavigationScreen> {
           color: Colors.black,
           child: TabBar(
             dividerHeight: 0,
-            indicatorColor: Theme.of(context).primaryColor,
+            indicatorColor: Colors.transparent,
             isScrollable: false,
             onTap: (index) {
               _onTap(index);
@@ -60,18 +60,15 @@ class _MainNavigationScreenState extends State<MainNavigationScreen> {
             tabs: <Widget>[
               NavTab(
                 isSelected: selectedIndex == 0,
-                icon: Icons.location_on_outlined,
-                selectedIcon: Icons.location_on_rounded,
+                iconName: 'tab_home',
               ),
               NavTab(
                 isSelected: selectedIndex == 1,
-                icon: Icons.shopping_bag_outlined,
-                selectedIcon: Icons.shopping_bag,
+                iconName: 'tab_add',
               ),
               NavTab(
                 isSelected: selectedIndex == 2,
-                icon: FontAwesomeIcons.user,
-                selectedIcon: FontAwesomeIcons.solidUser,
+                iconName: 'tab_user',
               )
             ],
           ),
