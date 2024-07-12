@@ -20,8 +20,6 @@ class NavTab extends StatelessWidget {
       isSelected
           ? 'assets/icons/${iconName}_fill.png'
           : 'assets/icons/${iconName}_light.png',
-      height: 32.0.h,
-      width: 32.0.w,
     );
   }
 }
