@@ -1,6 +1,5 @@
-import 'package:coffeeconti/constants/gaps.dart';
+import 'package:coffeeconti/components/constants/gaps.dart';
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class NoCafeToast extends StatelessWidget {
   NoCafeToast({
@@ -28,11 +27,6 @@ class NoCafeToast extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
-            FaIcon(
-              FontAwesomeIcons.faceSadTear,
-              color: Theme.of(context).primaryColor,
-              size: 30,
-            ),
             Gaps.v10,
             DefaultTextStyle(
               style: TextStyle(
