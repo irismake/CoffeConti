@@ -77,22 +77,9 @@ class _SearchScreenState extends State<SearchScreen> {
               decoration: BoxDecoration(color: Colors.grey[200]),
               child: Padding(
                 padding: EdgeInsets.symmetric(vertical: 15, horizontal: 20),
-                child: TextFormField(
-                  decoration: InputDecoration(
-                    hintText: '장소, 주소 검색',
-                  ),
-                  validator: (value) {
-                    if (value != null && value.isEmpty) {
-                      return "Please write your Password";
-                    }
-                    return null;
-                  },
-                  onSaved: (newValue) {
-                    // if (newValue != null) {
-                    //   formData['password'] = newValue;
-                    // }
-                    // ;
-                  },
+                child: SearchBar(
+                  autoFocus: false,
+                  enabled: false,
                 ),
               ),
             ),
