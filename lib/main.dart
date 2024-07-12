@@ -1,7 +1,7 @@
 import 'package:flutter_naver_map/flutter_naver_map.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'constants/sizes.dart';
+import 'components/constants/sizes.dart';
 import 'package:provider/provider.dart';
 import 'package:coffeeconti/data/location_provider.dart';
 import 'widgets/main_navigation/main_navigation.dart';
@@ -39,7 +39,7 @@ class MyApp extends StatelessWidget {
         title: 'Coffee Conti',
         theme: ThemeData(
             scaffoldBackgroundColor: Colors.white,
-            primaryColor: const Color(0xFFE9435A),
+            primaryColor: const Color(0xffFFBE98),
             appBarTheme: const AppBarTheme(
               foregroundColor: Colors.black,
               backgroundColor: Colors.white,
