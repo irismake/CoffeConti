@@ -22,8 +22,8 @@ class _MainNavigationScreenState extends State<MainNavigationScreen> {
 
   final List<Widget> _widgetOptions = <Widget>[
     CafeMap(),
-    //_agreementPopUp(),
     AddMyCafe(),
+    UserPage(),
     UserPage(),
   ];
 
@@ -43,12 +43,16 @@ class _MainNavigationScreenState extends State<MainNavigationScreen> {
   Widget build(BuildContext context) {
     return DefaultTabController(
       initialIndex: 0,
-      length: 3,
+      length: 4,
       child: Scaffold(
         resizeToAvoidBottomInset: false,
         body: _widgetOptions.elementAt(selectedIndex),
         bottomNavigationBar: BottomAppBar(
-          height: 60.0.h,
+          padding: EdgeInsets.only(
+            top: 14.0.h,
+            bottom: 10.0.h,
+          ),
+          height: 50.0.h,
           color: Colors.black,
           child: TabBar(
             dividerHeight: 0,
@@ -68,6 +72,10 @@ class _MainNavigationScreenState extends State<MainNavigationScreen> {
               ),
               NavTab(
                 isSelected: selectedIndex == 2,
+                iconName: 'tab_bookmark',
+              ),
+              NavTab(
+                isSelected: selectedIndex == 3,
                 iconName: 'tab_user',
               )
             ],
