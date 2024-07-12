@@ -10,23 +10,23 @@ class TagButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.symmetric(vertical: 10.0.h, horizontal: 5.0.w),
-      child: Container(
-        height: 20.0.h,
+      padding: EdgeInsets.symmetric(horizontal: 5.0.w),
+      child: Align(
+        alignment: Alignment.center,
         child: ElevatedButton(
           onPressed: () {
             onTap();
           },
           style: ElevatedButton.styleFrom(
             shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(7.0),
+              borderRadius: BorderRadius.circular(10.0),
             ),
             minimumSize: Size.zero,
             padding: EdgeInsets.symmetric(
-              horizontal: 10.w,
+              horizontal: 16.0.w,
+              vertical: 6.0.h,
             ),
             backgroundColor: Color(0xFF3D3332),
-            elevation: 3,
           ),
           child: Text(
             name,

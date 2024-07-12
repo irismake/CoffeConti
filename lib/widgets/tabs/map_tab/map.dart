@@ -165,20 +165,24 @@ class CafeMapState extends State<CafeMap> {
                   children: [
                     Padding(
                       padding: EdgeInsets.symmetric(
-                          horizontal: 10.0.w, vertical: 10.0.h),
+                        horizontal: 10.0.w,
+                      ),
                       child: SearchPlaceButton(
                         currentAddress: '장위로 10길 10-9',
                       ),
                     ),
-                    SizedBox(
-                      height: 54.0.h,
-                      child: ListView.builder(
-                        shrinkWrap: true,
-                        itemCount: 10,
-                        scrollDirection: Axis.horizontal,
-                        itemBuilder: (context, index) => TagButton(
-                          name: '뷰+${index}',
-                          onTap: _agreementPopUp,
+                    Padding(
+                      padding: EdgeInsets.symmetric(vertical: 10.0.h),
+                      child: SizedBox(
+                        height: 40.0.h,
+                        child: ListView.builder(
+                          shrinkWrap: true,
+                          itemCount: 10,
+                          scrollDirection: Axis.horizontal,
+                          itemBuilder: (context, index) => TagButton(
+                            name: '뷰+${index}',
+                            onTap: _agreementPopUp,
+                          ),
                         ),
                       ),
                     ),
