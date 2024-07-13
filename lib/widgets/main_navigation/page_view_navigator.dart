@@ -8,15 +8,13 @@ import '../keyword_widget.dart';
 
 class CategoryViewNavigator extends StatefulWidget {
   //final dynamic provider;
-  final String tabName_0;
-  final String tabName_1;
+
   final int initialPage;
 
   const CategoryViewNavigator({
     super.key,
     //required this.provider,
-    required this.tabName_0,
-    required this.tabName_1,
+
     required this.initialPage,
   });
 
@@ -93,14 +91,13 @@ class _CategoryViewNavigatorState extends State<CategoryViewNavigator> {
   @override
   Widget build(BuildContext context) {
     //int currentPageNum = widget.initialPage;
-    return Padding(
-      padding: const EdgeInsets.all(8.0),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Container(
-            color: Colors.pink,
-            child: Column(
+    return Expanded(
+      child: Padding(
+        padding: EdgeInsets.symmetric(vertical: 8.0.h),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Column(
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
                 CategoryTabBar(
@@ -110,12 +107,18 @@ class _CategoryViewNavigatorState extends State<CategoryViewNavigator> {
                     categoryOntap(0);
                   },
                 ),
+                SizedBox(
+                  height: 10.0.h,
+                ),
                 CategoryTabBar(
                   pageState: currentPageNum == 1,
                   tabName: categoryName[1],
                   onTap: () {
                     categoryOntap(1);
                   },
+                ),
+                SizedBox(
+                  height: 10.0.h,
                 ),
                 CategoryTabBar(
                   pageState: currentPageNum == 2,
@@ -126,30 +129,30 @@ class _CategoryViewNavigatorState extends State<CategoryViewNavigator> {
                 ),
               ],
             ),
-          ),
-          SizedBox(
-            width: 10.0.w,
-          ),
-          Expanded(
-            child: PageView(
-              scrollDirection: Axis.vertical,
-              controller: _pageController,
-              onPageChanged: (page) {
-                setState(() {
-                  currentPageNum = page;
-                });
-              },
-              children: List.generate(
-                3,
-                (index) {
-                  return KeywordWidget(
-                    keywords: keywords[index],
-                  );
+            SizedBox(
+              width: 18.0.w,
+            ),
+            Expanded(
+              child: PageView(
+                scrollDirection: Axis.vertical,
+                controller: _pageController,
+                onPageChanged: (page) {
+                  setState(() {
+                    currentPageNum = page;
+                  });
                 },
+                children: List.generate(
+                  3,
+                  (index) {
+                    return KeywordWidget(
+                      keywords: keywords[index],
+                    );
+                  },
+                ),
               ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

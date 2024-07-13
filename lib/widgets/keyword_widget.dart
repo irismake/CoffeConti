@@ -49,27 +49,24 @@ class _KeywordWidgetState extends State<KeywordWidget> {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.all(0.0),
-      child: Container(
-        color: Colors.orange,
-        child: Scrollbar(
+      padding: EdgeInsets.symmetric(vertical: 8.0.h),
+      child: Scrollbar(
+        controller: _scrollController,
+        child: SingleChildScrollView(
           controller: _scrollController,
-          child: SingleChildScrollView(
-            controller: _scrollController,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Wrap(
-                  alignment: WrapAlignment.start,
-                  runSpacing: 15,
-                  spacing: 10,
-                  children: [
-                    for (var keyword in widget.keywords)
-                      KeywordButton(keywordName: keyword)
-                  ],
-                )
-              ],
-            ),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Wrap(
+                alignment: WrapAlignment.start,
+                runSpacing: 15,
+                spacing: 10,
+                children: [
+                  for (var keyword in widget.keywords)
+                    KeywordButton(keywordName: keyword)
+                ],
+              )
+            ],
           ),
         ),
       ),
