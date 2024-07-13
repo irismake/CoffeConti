@@ -9,7 +9,7 @@ import '../../../components/button/search_place_button.dart';
 import '../../../components/button/tag_button.dart';
 import '../../../components/constants/screenSize.dart';
 import '../../../data/cafe_data.dart';
-import '../../../data/location_provider.dart';
+import '../../../data/provider/location_provider.dart';
 import '../../../popup/ cafe_tutorial.dart';
 import '../../../popup/set_tag.dart';
 

@@ -27,6 +27,7 @@ class TagButton extends StatelessWidget {
               vertical: 6.0.h,
             ),
             backgroundColor: Color(0xFF3D3332),
+            elevation: 0,
           ),
           child: Text(
             name,

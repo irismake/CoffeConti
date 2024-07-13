@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:permission_handler/permission_handler.dart';
 
-import '../popup/app_setting_popup.dart';
-import '../popup/error_message_popup.dart';
+import '../../popup/app_setting_popup.dart';
+import '../../popup/error_message_popup.dart';
 
 class LocationProvider extends ChangeNotifier {
   Position? _position;
