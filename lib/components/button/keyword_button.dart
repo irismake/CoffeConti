@@ -40,8 +40,8 @@ class _KeywordButtonState extends State<KeywordButton> {
         child: Text(
           widget.keywordName,
           style: TextStyle(
-            color: _isSelected ? Colors.white : Colors.black,
-            fontWeight: FontWeight.bold,
+            color: _isSelected ? Colors.black : Color(0xff868E96),
+            fontWeight: _isSelected ? FontWeight.w700 : FontWeight.w600,
           ),
         ),
       ),

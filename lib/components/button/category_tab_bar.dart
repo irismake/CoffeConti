@@ -19,23 +19,41 @@ class CategoryTabBar extends StatelessWidget {
       onTap: () {
         onTap();
       },
-      child: Container(
-        height: 50.h,
-        width: 70.w,
-        color: pageState ? Colors.teal : Colors.transparent,
-        child: Center(
-          child: Text(
-            tabName,
-            textAlign: TextAlign.center,
-            style: TextStyle(
-              color: pageState ? Color(0xFF343A40) : Color(0xff868E96),
-              fontSize: pageState ? 20.sp : 16.sp,
-              fontFamily: 'Pretendard',
-              fontWeight: FontWeight.w600,
-              height: 1.5.h,
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Container(
+            height: 50.h,
+            width: 70.w,
+            // color: Colors.pink,
+            child: Align(
+              alignment: Alignment.centerRight,
+              child: Text(
+                tabName,
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  color: pageState ? Color(0xFF343A40) : Color(0xff868E96),
+                  fontSize: pageState ? 24.sp : 16.sp,
+                  fontFamily: 'Pretendard',
+                  fontWeight: FontWeight.w600,
+                  height: 1.5.h,
+                ),
+              ),
             ),
           ),
-        ),
+          SizedBox(
+            width: 10.0.w,
+          ),
+          pageState
+              ? Center(
+                  child: Container(
+                    width: 3.0.w,
+                    height: 26.h,
+                    color: Colors.black,
+                  ),
+                )
+              : SizedBox.shrink(),
+        ],
       ),
     );
   }
