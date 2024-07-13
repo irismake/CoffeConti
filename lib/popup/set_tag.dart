@@ -4,8 +4,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../components/button/next_page_button.dart';
 import '../components/constants/screenSize.dart';
 
-class SetTag extends StatelessWidget {
-  SetTag({Key? key}) : super(key: key);
+class SetCategory extends StatelessWidget {
+  SetCategory({Key? key}) : super(key: key);
 
   final checkTextColor = Color(0xff868E96);
   final darkGrayColor = Color(0xff495057);
@@ -22,13 +22,12 @@ class SetTag extends StatelessWidget {
             ),
             color: Colors.white,
           ),
-          height: SetTagHeight(context),
+          height: ModalBottomSheetHeight(context),
           width: double.infinity,
           child: Padding(
             padding: EdgeInsets.only(
               left: 16.0.w,
               right: 16.0.w,
-              top: 10.0.h,
               bottom: 30.0.h,
             ),
             child: Column(
@@ -37,12 +36,12 @@ class SetTag extends StatelessWidget {
                 Center(
                   child: Container(
                     decoration: BoxDecoration(
-                      color: Theme.of(context).hintColor,
+                      color: darkGrayColor,
                       borderRadius: const BorderRadius.all(Radius.circular(10)),
                     ),
                     height: 4,
-                    width: 50,
-                    margin: const EdgeInsets.symmetric(vertical: 20),
+                    width: 50.0.w,
+                    margin: EdgeInsets.symmetric(vertical: 15.0.h),
                   ),
                 ),
                 TagListView(),
