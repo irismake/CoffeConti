@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'components/constants/sizes.dart';
 import 'package:provider/provider.dart';
-import 'package:coffeeconti/data/location_provider.dart';
+import 'package:coffeeconti/data/provider/location_provider.dart';
 import 'widgets/main_navigation/main_navigation.dart';
 
 void main() async {
