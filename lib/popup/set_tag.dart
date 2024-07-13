@@ -3,6 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../components/button/next_page_button.dart';
 import '../components/constants/screenSize.dart';
+import '../widgets/main_navigation/page_view_navigator.dart';
 
 class SetCategory extends StatelessWidget {
   SetCategory({Key? key}) : super(key: key);
@@ -44,7 +45,14 @@ class SetCategory extends StatelessWidget {
                     margin: EdgeInsets.symmetric(vertical: 15.0.h),
                   ),
                 ),
-                TagListView(),
+                Container(
+                    height: 500,
+                    child: CategoryViewNavigator(
+                      tabName_0: '카페',
+                      tabName_1: '음식점',
+                      initialPage: 0,
+                    )),
+                //TagListView(),
                 NextPageButton(
                   firstFieldState: true,
                   secondFieldState: true,
@@ -61,7 +69,6 @@ class SetCategory extends StatelessWidget {
 }
 
 class TagListView extends StatelessWidget {
-  //final ScrollController scrollController;
   TagListView({Key? key}) : super(key: key);
 
   final checkTextColor = Color(0xff868E96);
@@ -75,25 +82,6 @@ class TagListView extends StatelessWidget {
         slivers: [
           SliverList.list(children: const [
             ListTile(title: Text('Jane Doe')),
-            ListTile(title: Text('Jack Reacher')),
-            ListTile(title: Text('Jane Doe')),
-            ListTile(title: Text('Jack Reacher')),
-            ListTile(title: Text('Jane Doe')),
-            ListTile(title: Text('Jack Reacher')),
-            ListTile(title: Text('Jane Doe')),
-            ListTile(title: Text('Jack Reacher')),
-            ListTile(title: Text('Jane Doe')),
-            ListTile(title: Text('Jack Reacher')),
-            ListTile(title: Text('Jane Doe')),
-            ListTile(title: Text('Jack Reacher')),
-            ListTile(title: Text('Jane Doe')),
-            ListTile(title: Text('Jack Reacher')),
-            ListTile(title: Text('Jane Doe')),
-            ListTile(title: Text('Jack Reacher')),
-            ListTile(title: Text('Jane Doe')),
-            ListTile(title: Text('Jack Reacher')),
-            ListTile(title: Text('Jane Doe')),
-            ListTile(title: Text('Jack Reacher')),
           ])
         ],
       ),
