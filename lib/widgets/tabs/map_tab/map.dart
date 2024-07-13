@@ -51,14 +51,14 @@ class CafeMapState extends State<CafeMap> {
     tilt: 0,
   );
 
-  void _agreementPopUp() {
+  void _tapCategory() {
     showModalBottomSheet(
         context: context,
         isScrollControlled: true,
         builder: (context) {
           return StatefulBuilder(
               builder: (BuildContext context, StateSetter setState) {
-            return SetTag();
+            return SetCategory();
           });
         });
   }
@@ -162,6 +162,7 @@ class CafeMapState extends State<CafeMap> {
                 ),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Padding(
                       padding: EdgeInsets.symmetric(
@@ -177,11 +178,11 @@ class CafeMapState extends State<CafeMap> {
                         height: 40.0.h,
                         child: ListView.builder(
                           shrinkWrap: true,
-                          itemCount: 10,
+                          itemCount: 3,
                           scrollDirection: Axis.horizontal,
                           itemBuilder: (context, index) => TagButton(
                             name: '뷰+${index}',
-                            onTap: _agreementPopUp,
+                            onTap: _tapCategory,
                           ),
                         ),
                       ),
