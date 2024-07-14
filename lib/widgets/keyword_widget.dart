@@ -59,25 +59,30 @@ class _KeywordWidgetState extends State<KeywordWidget> {
         KeywordModel keywordModel = provider.getKeywordsData();
         List<KeywordData> keywordLists = keywordModel.keywords;
 
-        return Padding(
-          padding: EdgeInsets.symmetric(vertical: 8.0.h),
-          child: Scrollbar(
-            controller: _scrollController,
-            child: SingleChildScrollView(
+        return Expanded(
+          child: Padding(
+            padding: EdgeInsets.symmetric(
+              vertical: 20.0.h,
+              horizontal: 20.0.w,
+            ),
+            child: Scrollbar(
               controller: _scrollController,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Wrap(
-                    alignment: WrapAlignment.start,
-                    runSpacing: 15,
-                    spacing: 10,
-                    children: [
-                      for (var keyword in keywordLists)
-                        KeywordButton(keywordName: keyword.name)
-                    ],
-                  )
-                ],
+              child: SingleChildScrollView(
+                controller: _scrollController,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Wrap(
+                      alignment: WrapAlignment.spaceAround,
+                      runSpacing: 15,
+                      spacing: 10,
+                      children: [
+                        for (var keyword in keywordLists)
+                          KeywordButton(keywordName: keyword.name)
+                      ],
+                    )
+                  ],
+                ),
               ),
             ),
           ),

@@ -1,29 +1,28 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-import '../../components/button/category_tab_bar.dart';
-
 import '../keyword_widget.dart';
 
 class CategoryViewNavigator extends StatefulWidget {
   //final dynamic provider;
 
-  final int initialPage;
-
   const CategoryViewNavigator({
     super.key,
     //required this.provider,
-
-    required this.initialPage,
   });
 
   @override
   State<CategoryViewNavigator> createState() => _CategoryViewNavigatorState();
 }
 
-class _CategoryViewNavigatorState extends State<CategoryViewNavigator> {
-  late PageController _pageController;
-
+class _CategoryViewNavigatorState extends State<CategoryViewNavigator>
+    with SingleTickerProviderStateMixin {
+  late TabController tabController = TabController(
+    length: 6,
+    vsync: this,
+    initialIndex: 0,
+    animationDuration: const Duration(milliseconds: 150),
+  );
   final List<List<String>> keywords = [
     [
       '공부',
@@ -57,95 +56,76 @@ class _CategoryViewNavigatorState extends State<CategoryViewNavigator> {
   void initState() {
     super.initState();
     //initializeData();
-    _pageController =
-        PageController(initialPage: widget.initialPage, viewportFraction: 1);
   }
 
-  int currentPageNum = 0;
-  List<String> categoryName = ['카페', '음식점', '편의점', '주유소', '주차장'];
+  List<String> categoryName = [
+    '카페',
+    '음식점',
+    '편의점',
+    '주유소',
+    '주차장',
+    '병원',
+  ];
 
   @override
   void dispose() {
-    _pageController.dispose();
+    tabController.dispose();
     super.dispose();
-  }
-
-  void categoryOntap(int index) {
-    _pageController.animateToPage(
-      index,
-      duration: Duration(milliseconds: 150),
-      curve: Curves.easeInOut,
-    );
-    setState(() {
-      currentPageNum = index;
-    });
   }
 
   @override
   Widget build(BuildContext context) {
-    //int currentPageNum = widget.initialPage;
-    return Expanded(
-      child: Padding(
-        padding: EdgeInsets.symmetric(vertical: 8.0.h),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                CategoryTabBar(
-                  pageState: currentPageNum == 0,
-                  tabName: categoryName[0],
-                  onTap: () {
-                    categoryOntap(0);
-                  },
+    return Padding(
+      padding: EdgeInsets.symmetric(vertical: 8.0.h),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.start,
+        children: [
+          Container(
+            width: double.infinity,
+            //color: Colors.purple,
+            child: Center(
+              child: TabBar(
+                controller: tabController,
+                tabAlignment: TabAlignment.start,
+                dividerHeight: 0,
+                padding: EdgeInsets.symmetric(
+                  horizontal: 10.w,
                 ),
-                SizedBox(
-                  height: 10.0.h,
+                unselectedLabelColor: Colors.grey,
+                unselectedLabelStyle: TextStyle(
+                  fontSize: 16.sp,
                 ),
-                CategoryTabBar(
-                  pageState: currentPageNum == 1,
-                  tabName: categoryName[1],
-                  onTap: () {
-                    categoryOntap(1);
-                  },
+                labelColor: Colors.black,
+                labelStyle: TextStyle(
+                  fontSize: 18.sp,
+                  fontWeight: FontWeight.w600,
                 ),
-                SizedBox(
-                  height: 10.0.h,
+                overlayColor: WidgetStatePropertyAll(
+                  Colors.blue.shade100,
                 ),
-                CategoryTabBar(
-                  pageState: currentPageNum == 2,
-                  tabName: categoryName[2],
-                  onTap: () {
-                    categoryOntap(2);
-                  },
-                ),
-              ],
-            ),
-            SizedBox(
-              width: 18.0.w,
-            ),
-            Expanded(
-              child: PageView(
-                scrollDirection: Axis.vertical,
-                controller: _pageController,
-                onPageChanged: (page) {
-                  setState(() {
-                    currentPageNum = page;
-                  });
-                },
-                children: List.generate(
-                  3,
-                  (index) {
-                    return KeywordWidget(
-                      categoryId: index,
-                    );
-                  },
+                splashBorderRadius: BorderRadius.circular(20),
+                indicatorColor: Colors.transparent,
+                isScrollable: true,
+                onTap: (index) {},
+                tabs: List.generate(
+                  6,
+                  (index) => Tab(text: '${categoryName[index]}'),
                 ),
               ),
             ),
-          ],
-        ),
+          ),
+          Expanded(
+            child: TabBarView(
+              controller: tabController,
+              children: List.generate(
+                6,
+                (index) => KeywordWidget(
+                  categoryId: index,
+                ),
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }
