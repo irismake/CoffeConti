@@ -56,10 +56,7 @@ class CafeMapState extends State<CafeMap> {
         context: context,
         isScrollControlled: true,
         builder: (context) {
-          return StatefulBuilder(
-              builder: (BuildContext context, StateSetter setState) {
-            return SetCategory();
-          });
+          return SetCategory();
         });
   }
 

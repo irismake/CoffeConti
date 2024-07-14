@@ -46,8 +46,8 @@ class SetCategory extends StatelessWidget {
                     margin: EdgeInsets.symmetric(vertical: 15.0.h),
                   ),
                 ),
-                CategoryViewNavigator(
-                  initialPage: 0,
+                Expanded(
+                  child: CategoryViewNavigator(),
                 ),
                 //TagListView(),
                 NextPageButton(
