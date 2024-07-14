@@ -1,9 +1,8 @@
-import 'package:coffeeconti/components/constants/sizes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../components/button/category_tab_bar.dart';
-import '../../components/constants/gaps.dart';
+
 import '../keyword_widget.dart';
 
 class CategoryViewNavigator extends StatefulWidget {
@@ -62,12 +61,6 @@ class _CategoryViewNavigatorState extends State<CategoryViewNavigator> {
         PageController(initialPage: widget.initialPage, viewportFraction: 1);
   }
 
-  // Future<void> initializeData() async {
-  //   WidgetsBinding.instance.addPostFrameCallback((_) {
-  //     widget.provider.initializeData();
-  //     widget.provider.pageState = widget.initialPage == 0 ? false : true;
-  //   });
-  // }
   int currentPageNum = 0;
   List<String> categoryName = ['카페', '음식점', '편의점', '주유소', '주차장'];
 
@@ -145,7 +138,7 @@ class _CategoryViewNavigatorState extends State<CategoryViewNavigator> {
                   3,
                   (index) {
                     return KeywordWidget(
-                      keywords: keywords[index],
+                      categoryId: index,
                     );
                   },
                 ),

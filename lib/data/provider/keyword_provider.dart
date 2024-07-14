@@ -1,40 +1,38 @@
 import 'package:flutter/material.dart';
 
+import '../api_service.dart';
 import '../models/keyword_model.dart';
 
 class KeywordsProvider with ChangeNotifier {
-  final List<KeywordData> _keywords = [];
-  bool keywordState = false;
-  int? _selectedIndex;
-  String? _selectedKeyword_1;
-  String? _selectedKeyword_2;
+  final List<KeywordModel> _keywordsModel = [];
+  bool getKeywords = false;
+  int? _categoryId;
 
-  int? get selectedIndex => _selectedIndex;
+  int? get categoryId => _categoryId;
+  List<KeywordModel> get keywordsModel => _keywordsModel;
 
-  set selectedIndex(int? index) {
-    _selectedIndex = index;
-    _selectedKeyword_1 = _keywords[index!].name;
-    notifyListeners();
+  set selectedCategory(int? categoryId) {
+    _categoryId = categoryId;
   }
 
-  void addKeyword(KeywordData data) {
-    _keywords.add(data);
-    keywordState = true;
-    notifyListeners();
+  void saveKeyword() async {
+    if (!getKeywords) {
+      List<KeywordModel> keywords = await ApiService.getKeywords();
+      _keywordsModel.clear();
+      for (var keyword in keywords) {
+        _keywordsModel.add(keyword);
+        print(_keywordsModel);
+      }
+      print('saveKeyword');
+      getKeywords = true;
+    }
   }
 
-  String getKeyword_1() {
-    _selectedKeyword_1 = _keywords[0].name;
-
-    print('_selectedkeyword : $_selectedKeyword_1');
-    return _selectedKeyword_1!;
+  KeywordModel getKeywordsData() {
+    KeywordModel category = _keywordsModel.firstWhere(
+      (element) => element.categoryId == categoryId,
+      orElse: () => KeywordModel(categoryId: -1, name: '', keywords: []),
+    );
+    return category;
   }
-
-  String getKeyword_2() {
-    _selectedKeyword_2 = _keywords[1].name;
-    print('_selectedkeyword : $_selectedKeyword_2');
-    return _selectedKeyword_2!;
-  }
-
-  List<KeywordData> get keywords => _keywords;
 }
