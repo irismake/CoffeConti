@@ -4,19 +4,29 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'components/constants/sizes.dart';
 import 'package:provider/provider.dart';
 import 'package:coffeeconti/data/provider/location_provider.dart';
+import 'data/provider/keyword_provider.dart';
 import 'widgets/main_navigation/main_navigation.dart';
 
 void main() async {
   await _initialize();
   runApp(
-    ScreenUtilInit(
-      builder: (BuildContext context, child) => MaterialApp(
-        home: MyApp(),
-        debugShowCheckedModeBanner: false,
-      ),
-      designSize: const Size(390, 844),
-      minTextAdapt: true,
-      splitScreenMode: true,
+    MultiProvider(
+      providers: [
+        ChangeNotifierProvider<KeywordsProvider>(
+          create: (context) => KeywordsProvider(),
+        ),
+      ],
+      builder: (context, child) {
+        return ScreenUtilInit(
+          builder: (BuildContext context, child) => MaterialApp(
+            home: MyApp(),
+            debugShowCheckedModeBanner: false,
+          ),
+          designSize: const Size(390, 844),
+          minTextAdapt: true,
+          splitScreenMode: true,
+        );
+      },
     ),
   );
 }

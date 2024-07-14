@@ -1,10 +1,9 @@
-import 'package:coffeeconti/data/api_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../components/button/next_page_button.dart';
 import '../components/constants/screenSize.dart';
-import '../data/models/keyword_model.dart';
+
 import '../widgets/main_navigation/page_view_navigator.dart';
 
 class SetCategory extends StatelessWidget {
@@ -55,16 +54,7 @@ class SetCategory extends StatelessWidget {
                   firstFieldState: true,
                   secondFieldState: true,
                   text: '찾기',
-                  onPressed: () async {
-                    List<KeywordData> keywords =
-                        await ApiService.getKeywords(0);
-                    print(keywords);
-
-                    for (var keyword in keywords) {
-                      print(
-                          'Keyword ID: ${keyword.id}, Name: ${keyword.name}, IsSelected: ${keyword.isSelected}');
-                    }
-                  },
+                  onPressed: () async {},
                 )
               ],
             ),

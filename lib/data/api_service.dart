@@ -5,7 +5,7 @@ import 'package:http/http.dart' as http;
 class ApiService {
   static const String baseUrl = '';
 
-  static const List<Map<String, dynamic>> kewordJsonData = [
+  static const List<Map<String, dynamic>> keywordJsonData = [
     {
       "category_id": 0,
       "name": "카페",
@@ -25,7 +25,7 @@ class ApiService {
     {
       "category_id": 1,
       "name": "음식점",
-      "kewords": [
+      "keywords": [
         {
           "id": 0,
           "name": "야간영업",
@@ -40,7 +40,7 @@ class ApiService {
     },
   ];
 
-  static Future<List<KeywordData>> getKeywords(int categoryId) async {
+  static Future<List<KeywordModel>> getKeywords() async {
     try {
       // final getKeywordsResponse = await http.get(
       //   Uri.parse('$baseUrl/'),
@@ -56,21 +56,14 @@ class ApiService {
       // }
 
       // Find the category with the given categoryId
-      final category = kewordJsonData.firstWhere(
-        (element) => element['category_id'] == categoryId,
-        orElse: () => {},
-      );
-
-      if (category.isEmpty) {
-        throw Exception('Category not found');
-      }
 
       // Convert the keywords to a list of KeywordData
-      List<KeywordData> keywords = (category['keywords'] as List)
-          .map((keyword) => KeywordData.fromJson(keyword))
-          .toList();
+      List<KeywordModel> keywordModels =
+          keywordJsonData.map((json) => KeywordModel.fromJson(json)).toList();
 
-      return keywords;
+      print(keywordModels);
+
+      return keywordModels;
     } catch (e) {
       throw Exception('Request error <getKeywords> : $e');
     }

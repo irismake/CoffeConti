@@ -1,13 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:provider/provider.dart';
 
 import '../components/button/keyword_button.dart';
+import '../data/models/keyword_model.dart';
+import '../data/provider/keyword_provider.dart';
 
 class KeywordWidget extends StatefulWidget {
-  final List<String> keywords;
+  final int categoryId;
   const KeywordWidget({
     super.key,
-    required this.keywords,
+    required this.categoryId,
   });
 
   @override
@@ -48,28 +51,38 @@ class _KeywordWidgetState extends State<KeywordWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: EdgeInsets.symmetric(vertical: 8.0.h),
-      child: Scrollbar(
-        controller: _scrollController,
-        child: SingleChildScrollView(
-          controller: _scrollController,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Wrap(
-                alignment: WrapAlignment.start,
-                runSpacing: 15,
-                spacing: 10,
+    return Consumer<KeywordsProvider>(
+      builder: (context, provider, child) {
+        provider.saveKeyword();
+        provider.selectedCategory = widget.categoryId;
+        print('선택한 카테고리 :${provider.categoryId}');
+        KeywordModel keywordModel = provider.getKeywordsData();
+        List<KeywordData> keywordLists = keywordModel.keywords;
+
+        return Padding(
+          padding: EdgeInsets.symmetric(vertical: 8.0.h),
+          child: Scrollbar(
+            controller: _scrollController,
+            child: SingleChildScrollView(
+              controller: _scrollController,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  for (var keyword in widget.keywords)
-                    KeywordButton(keywordName: keyword)
+                  Wrap(
+                    alignment: WrapAlignment.start,
+                    runSpacing: 15,
+                    spacing: 10,
+                    children: [
+                      for (var keyword in keywordLists)
+                        KeywordButton(keywordName: keyword.name)
+                    ],
+                  )
                 ],
-              )
-            ],
+              ),
+            ),
           ),
-        ),
-      ),
+        );
+      },
     );
   }
 }
