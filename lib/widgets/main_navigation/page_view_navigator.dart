@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 
-import '../../data/models/keyword_model.dart';
 import '../../data/provider/keyword_provider.dart';
 import '../keyword_widget.dart';
 
@@ -17,8 +16,6 @@ class CategoryViewNavigator extends StatefulWidget {
 
 class _CategoryViewNavigatorState extends State<CategoryViewNavigator>
     with SingleTickerProviderStateMixin {
-  List<KeywordData> keywordLists = [];
-
   late TabController tabController = TabController(
     length: 6,
     vsync: this,
@@ -29,19 +26,8 @@ class _CategoryViewNavigatorState extends State<CategoryViewNavigator>
   @override
   void initState() {
     super.initState();
-    initializeData();
-  }
 
-  Future<void> initializeData() async {
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      final keywordProvider =
-          Provider.of<KeywordsProvider>(context, listen: false);
-      keywordProvider.fetchAllData().then((_) {
-        keywordProvider.selectedCategory = tabController.index;
-        keywordProvider.getKeywords();
-        keywordLists = keywordProvider.keywordDatas;
-      });
-    });
+    //initializeData();
   }
 
   void categoryTapListener(int index) {
@@ -49,17 +35,7 @@ class _CategoryViewNavigatorState extends State<CategoryViewNavigator>
         Provider.of<KeywordsProvider>(context, listen: false);
     keywordProvider.selectedCategory = index;
     keywordProvider.getKeywords();
-    keywordLists = keywordProvider.keywordDatas;
   }
-
-  List<String> categoryName = [
-    '카페',
-    '음식점',
-    '편의점',
-    '주유소',
-    '주차장',
-    '병원',
-  ];
 
   @override
   void dispose() {
@@ -69,17 +45,26 @@ class _CategoryViewNavigatorState extends State<CategoryViewNavigator>
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<KeywordsProvider>(
-      builder: (context, provider, child) {
-        return Padding(
-          padding: EdgeInsets.symmetric(vertical: 8.0.h),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: [
-              Container(
-                width: double.infinity,
-                //color: Colors.purple,
-                child: Center(
+    final provider = Provider.of<KeywordsProvider>(context, listen: false);
+    provider.selectedCategory = tabController.index;
+    return FutureBuilder(
+      future: provider.initializeData(),
+      builder: (context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return Center(child: CircularProgressIndicator());
+        } else if (snapshot.hasError) {
+          return Center(child: Text('Error: ${snapshot.error}'));
+          //}
+          // else if (!snapshot.hasData) {
+          //   // 데이터가 없을 때 빈 화면 표시
+          //   return Center(child: Text('No data available'));
+        } else {
+          return Padding(
+            padding: EdgeInsets.symmetric(vertical: 8.0.h),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                Center(
                   child: TabBar(
                     controller: tabController,
                     tabAlignment: TabAlignment.start,
@@ -103,24 +88,24 @@ class _CategoryViewNavigatorState extends State<CategoryViewNavigator>
                     },
                     tabs: List.generate(
                       6,
-                      (index) => Tab(text: '${categoryName[index]}'),
+                      (index) => Tab(text: '${provider.categoryNames[index]}'),
                     ),
                   ),
                 ),
-              ),
-              Expanded(
-                child: TabBarView(
-                  controller: tabController,
-                  children: List.generate(
-                    6,
-                    (index) =>
-                        KeywordWidget(keywordDatas: provider.keywordDatas),
+                Expanded(
+                  child: TabBarView(
+                    controller: tabController,
+                    children: List.generate(
+                      6,
+                      (index) =>
+                          KeywordWidget(keywordDatas: provider.keywordDatas),
+                    ),
                   ),
                 ),
-              ),
-            ],
-          ),
-        );
+              ],
+            ),
+          );
+        }
       },
     );
   }
