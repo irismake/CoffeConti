@@ -113,6 +113,26 @@ class ApiService {
         },
       ],
     },
+    {
+      "category_id": 2,
+      "name": "편의점",
+      "keywords": [],
+    },
+    {
+      "category_id": 3,
+      "name": "주유소",
+      "keywords": [],
+    },
+    {
+      "category_id": 4,
+      "name": "주차장",
+      "keywords": [],
+    },
+    {
+      "category_id": 5,
+      "name": "병원",
+      "keywords": [],
+    },
   ];
 
   static Future<List<KeywordModel>> getKeywords() async {
