@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:provider/provider.dart';
 
+import '../../data/models/keyword_model.dart';
+import '../../data/provider/keyword_provider.dart';
 import '../keyword_widget.dart';
 
 class CategoryViewNavigator extends StatefulWidget {
-  //final dynamic provider;
-
   const CategoryViewNavigator({
     super.key,
-    //required this.provider,
   });
 
   @override
@@ -17,45 +17,39 @@ class CategoryViewNavigator extends StatefulWidget {
 
 class _CategoryViewNavigatorState extends State<CategoryViewNavigator>
     with SingleTickerProviderStateMixin {
+  List<KeywordData> keywordLists = [];
+
   late TabController tabController = TabController(
     length: 6,
     vsync: this,
     initialIndex: 0,
     animationDuration: const Duration(milliseconds: 150),
   );
-  final List<List<String>> keywords = [
-    [
-      '공부',
-      '뷰',
-      '모임',
-      '24시간',
-      '늦은 마감',
-      '이른 오픈',
-      '복층',
-      '감성',
-      '디저트',
-      '테이크 아웃',
-      '싼가격',
-      '펫프렌들리',
-      '노키즈존',
-    ],
-    [
-      '심야영업',
-      '노 브레이크 타임',
-      '가성비',
-      '안주맛집',
-    ],
-    [
-      '24시간',
-      '품절대란템',
-      '테라스',
-    ]
-  ];
 
   @override
   void initState() {
     super.initState();
-    //initializeData();
+    initializeData();
+  }
+
+  Future<void> initializeData() async {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      final keywordProvider =
+          Provider.of<KeywordsProvider>(context, listen: false);
+      keywordProvider.fetchAllData().then((_) {
+        keywordProvider.selectedCategory = tabController.index;
+        keywordProvider.getKeywords();
+        keywordLists = keywordProvider.keywordDatas;
+      });
+    });
+  }
+
+  void categoryTapListener(int index) {
+    final keywordProvider =
+        Provider.of<KeywordsProvider>(context, listen: false);
+    keywordProvider.selectedCategory = index;
+    keywordProvider.getKeywords();
+    keywordLists = keywordProvider.keywordDatas;
   }
 
   List<String> categoryName = [
@@ -75,58 +69,59 @@ class _CategoryViewNavigatorState extends State<CategoryViewNavigator>
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: EdgeInsets.symmetric(vertical: 8.0.h),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.start,
-        children: [
-          Container(
-            width: double.infinity,
-            //color: Colors.purple,
-            child: Center(
-              child: TabBar(
-                controller: tabController,
-                tabAlignment: TabAlignment.start,
-                dividerHeight: 0,
-                padding: EdgeInsets.symmetric(
-                  horizontal: 10.w,
-                ),
-                unselectedLabelColor: Colors.grey,
-                unselectedLabelStyle: TextStyle(
-                  fontSize: 16.sp,
-                ),
-                labelColor: Colors.black,
-                labelStyle: TextStyle(
-                  fontSize: 18.sp,
-                  fontWeight: FontWeight.w600,
-                ),
-                overlayColor: WidgetStatePropertyAll(
-                  Colors.blue.shade100,
-                ),
-                splashBorderRadius: BorderRadius.circular(20),
-                indicatorColor: Colors.transparent,
-                isScrollable: true,
-                onTap: (index) {},
-                tabs: List.generate(
-                  6,
-                  (index) => Tab(text: '${categoryName[index]}'),
-                ),
-              ),
-            ),
-          ),
-          Expanded(
-            child: TabBarView(
-              controller: tabController,
-              children: List.generate(
-                6,
-                (index) => KeywordWidget(
-                  categoryId: index,
+    return Consumer<KeywordsProvider>(
+      builder: (context, provider, child) {
+        return Padding(
+          padding: EdgeInsets.symmetric(vertical: 8.0.h),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              Container(
+                width: double.infinity,
+                //color: Colors.purple,
+                child: Center(
+                  child: TabBar(
+                    controller: tabController,
+                    tabAlignment: TabAlignment.start,
+                    dividerHeight: 0,
+                    padding: EdgeInsets.symmetric(
+                      horizontal: 10.w,
+                    ),
+                    unselectedLabelColor: Colors.grey,
+                    unselectedLabelStyle: TextStyle(
+                      fontSize: 16.sp,
+                    ),
+                    labelColor: Colors.black,
+                    labelStyle: TextStyle(
+                      fontSize: 18.sp,
+                      fontWeight: FontWeight.w600,
+                    ),
+                    indicatorColor: Colors.transparent,
+                    isScrollable: true,
+                    onTap: (index) {
+                      categoryTapListener(index);
+                    },
+                    tabs: List.generate(
+                      6,
+                      (index) => Tab(text: '${categoryName[index]}'),
+                    ),
+                  ),
                 ),
               ),
-            ),
+              Expanded(
+                child: TabBarView(
+                  controller: tabController,
+                  children: List.generate(
+                    6,
+                    (index) =>
+                        KeywordWidget(keywordDatas: provider.keywordDatas),
+                  ),
+                ),
+              ),
+            ],
           ),
-        ],
-      ),
+        );
+      },
     );
   }
 }
