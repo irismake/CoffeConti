@@ -71,7 +71,10 @@ class _KeywordWidgetState extends State<KeywordWidget> {
                     spacing: 10,
                     children: [
                       for (var keywordData in widget.keywordDatas)
-                        KeywordButton(keywordName: keywordData.name)
+                        KeywordButton(
+                          keywordName: keywordData.name,
+                          keywordId: keywordData.id,
+                        )
                     ],
                   )
                 ],

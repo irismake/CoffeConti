@@ -1,50 +1,56 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:provider/provider.dart';
 
-class KeywordButton extends StatefulWidget {
+import '../../data/provider/keyword_provider.dart';
+
+class KeywordButton extends StatelessWidget {
+  final String keywordName;
+  final int keywordId;
+
   const KeywordButton({
     Key? key,
     required this.keywordName,
+    required this.keywordId,
   }) : super(key: key);
-
-  final String keywordName;
-
-  @override
-  State<KeywordButton> createState() => _KeywordButtonState();
-}
-
-class _KeywordButtonState extends State<KeywordButton> {
-  bool _isSelected = false;
-
-  void _onTap() {
-    setState(() {
-      _isSelected = !_isSelected;
-    });
-  }
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: _onTap,
-      child: AnimatedContainer(
-        duration: const Duration(milliseconds: 300),
-        padding: EdgeInsets.symmetric(
-          vertical: 10.0.h,
-          horizontal: 20.0.w,
-        ),
-        decoration: BoxDecoration(
-          color: _isSelected ? Theme.of(context).primaryColor : Colors.white,
-          borderRadius: BorderRadius.circular(32),
-          border: Border.all(color: Colors.black.withOpacity(0.1)),
-        ),
-        child: Text(
-          widget.keywordName,
-          style: TextStyle(
-            color: _isSelected ? Colors.black : Color(0xff868E96),
-            fontWeight: _isSelected ? FontWeight.w700 : FontWeight.w600,
+    Provider.of<KeywordsProvider>(context, listen: false)
+        .resetSelectedKeywords();
+    return Consumer<KeywordsProvider>(
+      builder: (context, provider, child) {
+        return GestureDetector(
+          onTap: () {
+            provider.selectKeywords(keywordId);
+          },
+          child: AnimatedContainer(
+            duration: const Duration(milliseconds: 300),
+            padding: EdgeInsets.symmetric(
+              vertical: 10.0.h,
+              horizontal: 20.0.w,
+            ),
+            decoration: BoxDecoration(
+              color: provider.selectedKeywordIds.contains(keywordId)
+                  ? Theme.of(context).primaryColor
+                  : Colors.white,
+              borderRadius: BorderRadius.circular(32),
+              border: Border.all(color: Colors.black.withOpacity(0.1)),
+            ),
+            child: Text(
+              keywordName,
+              style: TextStyle(
+                color: provider.selectedKeywordIds.contains(keywordId)
+                    ? Colors.black
+                    : Color(0xff868E96),
+                fontWeight: provider.selectedKeywordIds.contains(keywordId)
+                    ? FontWeight.w700
+                    : FontWeight.w600,
+              ),
+            ),
           ),
-        ),
-      ),
+        );
+      },
     );
   }
 }

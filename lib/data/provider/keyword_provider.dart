@@ -7,6 +7,7 @@ class KeywordsProvider with ChangeNotifier {
   final List<KeywordModel> _keywordModels = [];
   final List<KeywordData> _keywordDatas = [];
   final List<String> _categoryNames = [];
+  List<int> _selectedKeywordIds = [];
 
   int? _categoryId;
 
@@ -14,14 +15,10 @@ class KeywordsProvider with ChangeNotifier {
   List<KeywordModel> get keywordModels => _keywordModels;
   List<KeywordData> get keywordDatas => _keywordDatas;
   List<String> get categoryNames => _categoryNames;
+  List<int> get selectedKeywordIds => _selectedKeywordIds;
 
   set selectedCategory(int? categoryId) {
     _categoryId = categoryId;
-  }
-
-  Future<void> initializeData() async {
-    await fetchAllData();
-    getKeywords();
   }
 
   Future<void> fetchAllData() async {
@@ -46,5 +43,24 @@ class KeywordsProvider with ChangeNotifier {
       _keywordDatas.add(keyword);
     }
     notifyListeners();
+  }
+
+  Future<void> initializeData() async {
+    await fetchAllData();
+    getKeywords();
+  }
+
+  void selectKeywords(int keywordId) {
+    if (_selectedKeywordIds.contains(keywordId)) {
+      _selectedKeywordIds.remove(keywordId);
+    } else {
+      _selectedKeywordIds.add(keywordId);
+    }
+    print(_selectedKeywordIds);
+    notifyListeners();
+  }
+
+  void resetSelectedKeywords() {
+    _selectedKeywordIds = [];
   }
 }

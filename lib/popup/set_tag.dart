@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:provider/provider.dart';
 
 import '../components/button/next_page_button.dart';
 import '../components/constants/screenSize.dart';
 
+import '../data/provider/keyword_provider.dart';
 import '../widgets/main_navigation/page_view_navigator.dart';
 
 class SetCategory extends StatelessWidget {
@@ -54,7 +56,13 @@ class SetCategory extends StatelessWidget {
                   firstFieldState: true,
                   secondFieldState: true,
                   text: '찾기',
-                  onPressed: () async {},
+                  onPressed: () async {
+                    final provider =
+                        Provider.of<KeywordsProvider>(context, listen: false);
+                    print(provider.categoryId);
+                    print(provider.selectedKeywordIds);
+                    Navigator.pop(context);
+                  },
                 )
               ],
             ),
