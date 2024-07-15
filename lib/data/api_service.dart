@@ -75,6 +75,21 @@ class ApiService {
           "name": "노키즈존",
           "is_selected": false,
         },
+        {
+          "id": 13,
+          "name": "드라이브 스루",
+          "is_selected": false,
+        },
+        {
+          "id": 14,
+          "name": "딜리버리",
+          "is_selected": false,
+        },
+        {
+          "id": 15,
+          "name": "평점 4.0이상",
+          "is_selected": false,
+        },
       ],
     },
     {
@@ -120,8 +135,6 @@ class ApiService {
       // Convert the keywords to a list of KeywordData
       List<KeywordModel> keywordModels =
           keywordJsonData.map((json) => KeywordModel.fromJson(json)).toList();
-
-      print(keywordModels);
 
       return keywordModels;
     } catch (e) {

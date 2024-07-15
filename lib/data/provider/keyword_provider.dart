@@ -4,35 +4,36 @@ import '../api_service.dart';
 import '../models/keyword_model.dart';
 
 class KeywordsProvider with ChangeNotifier {
-  final List<KeywordModel> _keywordsModel = [];
-  bool getKeywords = false;
+  final List<KeywordModel> _keywordModels = [];
+  final List<KeywordData> _keywordDatas = [];
   int? _categoryId;
 
   int? get categoryId => _categoryId;
-  List<KeywordModel> get keywordsModel => _keywordsModel;
+  List<KeywordModel> get keywordModels => _keywordModels;
+  List<KeywordData> get keywordDatas => _keywordDatas;
 
   set selectedCategory(int? categoryId) {
     _categoryId = categoryId;
   }
 
-  void saveKeyword() async {
-    if (!getKeywords) {
-      List<KeywordModel> keywords = await ApiService.getKeywords();
-      _keywordsModel.clear();
-      for (var keyword in keywords) {
-        _keywordsModel.add(keyword);
-        print(_keywordsModel);
-      }
-      print('saveKeyword');
-      getKeywords = true;
+  Future<void> fetchAllData() async {
+    List<KeywordModel> keywordModels = await ApiService.getKeywords();
+    _keywordModels.clear();
+    for (var keywordModel in keywordModels) {
+      _keywordModels.add(keywordModel);
     }
+    print('saveKeyword');
   }
 
-  KeywordModel getKeywordsData() {
-    KeywordModel category = _keywordsModel.firstWhere(
+  void getKeywords() {
+    KeywordModel keywordModel = _keywordModels.firstWhere(
       (element) => element.categoryId == categoryId,
       orElse: () => KeywordModel(categoryId: -1, name: '', keywords: []),
     );
-    return category;
+    _keywordDatas.clear();
+    for (var keyword in keywordModel.keywords) {
+      _keywordDatas.add(keyword);
+    }
+    notifyListeners();
   }
 }
