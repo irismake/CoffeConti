@@ -1,28 +1,24 @@
-import 'package:coffeeconti/widgets/tabs/add.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:coffeeconti/screen/tabs/edit_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 
-import '../../components/constants/screenSize.dart';
-import '../../components/constants/sizes.dart';
-import '../tabs/discover.dart';
+import '../tabs/user_page.dart';
 import '../tabs/map_tab/map.dart';
-import 'widgets/nav_tab.dart';
+import '../../components/button/nav_tab.dart';
 
-class MainNavigationScreen extends StatefulWidget {
-  MainNavigationScreen({super.key});
+class MainViewNavigator extends StatefulWidget {
+  MainViewNavigator({super.key});
 
   @override
-  State<MainNavigationScreen> createState() => _MainNavigationScreenState();
+  State<MainViewNavigator> createState() => _MainViewNavigatorState();
 }
 
-class _MainNavigationScreenState extends State<MainNavigationScreen> {
+class _MainViewNavigatorState extends State<MainViewNavigator> {
   int selectedIndex = 0;
 
   final List<Widget> _widgetOptions = <Widget>[
     CafeMap(),
-    AddMyCafe(),
+    EditPage(),
     UserPage(),
     UserPage(),
   ];
@@ -62,19 +58,19 @@ class _MainNavigationScreenState extends State<MainNavigationScreen> {
               _onTap(index);
             },
             tabs: <Widget>[
-              NavTab(
+              NavTabButton(
                 isSelected: selectedIndex == 0,
                 iconName: 'tab_home',
               ),
-              NavTab(
+              NavTabButton(
                 isSelected: selectedIndex == 1,
                 iconName: 'tab_add',
               ),
-              NavTab(
+              NavTabButton(
                 isSelected: selectedIndex == 2,
                 iconName: 'tab_bookmark',
               ),
-              NavTab(
+              NavTabButton(
                 isSelected: selectedIndex == 3,
                 iconName: 'tab_user',
               )

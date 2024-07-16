@@ -1,6 +1,6 @@
 import 'package:coffeeconti/components/constants/gaps.dart';
 import 'package:coffeeconti/data/cafe_data.dart';
-import 'package:coffeeconti/widgets/tabs/map_tab/map.dart';
+import 'package:coffeeconti/screen/tabs/map_tab/map.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 

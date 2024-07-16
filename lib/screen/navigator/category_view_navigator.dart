@@ -3,7 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 
 import '../../data/provider/keyword_provider.dart';
-import '../keyword_widget.dart';
+import '../../widgets/selection_keyword_widget.dart';
 
 class CategoryViewNavigator extends StatefulWidget {
   const CategoryViewNavigator({
@@ -97,8 +97,9 @@ class _CategoryViewNavigatorState extends State<CategoryViewNavigator>
                     controller: tabController,
                     children: List.generate(
                       6,
-                      (index) =>
-                          KeywordWidget(keywordDatas: provider.keywordDatas),
+                      (index) => SelectionKeywordWidget(
+                        keywordDatas: provider.keywordDatas,
+                      ),
                     ),
                   ),
                 ),
