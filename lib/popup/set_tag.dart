@@ -59,8 +59,13 @@ class SetCategory extends StatelessWidget {
                   onPressed: () async {
                     final provider =
                         Provider.of<KeywordsProvider>(context, listen: false);
-                    print(provider.categoryId);
-                    print(provider.selectedKeywordIds);
+                    print(provider.tempCategoryId);
+                    print(provider.tempKeywordIds);
+
+                    provider.saveKeywordIds = provider.tempKeywordIds;
+
+                    provider.getSelectedKeywords();
+
                     Navigator.pop(context);
                   },
                 )
