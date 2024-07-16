@@ -2,13 +2,21 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class KeywordButton extends StatelessWidget {
+  final int index;
+  final int keywordId;
   final String name;
   final VoidCallback onTap;
 
-  KeywordButton({super.key, required this.name, required this.onTap});
+  KeywordButton(
+      {super.key,
+      required this.keywordId,
+      required this.index,
+      required this.name,
+      required this.onTap});
 
   @override
   Widget build(BuildContext context) {
+    print('키워드 아이디 : $keywordId');
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: 5.0.w),
       child: Align(
@@ -26,7 +34,7 @@ class KeywordButton extends StatelessWidget {
               horizontal: 16.0.w,
               vertical: 6.0.h,
             ),
-            backgroundColor: Color(0xFF3D3332),
+            backgroundColor: index == 0 ? Color(0xFF3D3332) : Colors.white,
             elevation: 0,
           ),
           child: Text(

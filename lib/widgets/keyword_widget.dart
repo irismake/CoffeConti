@@ -18,6 +18,8 @@ class KeywordWidget extends StatelessWidget {
           return ShowCategorySheet();
         },
       );
+    } else {
+      // 클릭시 바로 데이터 가져오기
     }
   }
 
@@ -31,14 +33,18 @@ class KeywordWidget extends StatelessWidget {
             height: 40.0.h,
             child: ListView.builder(
               shrinkWrap: true,
-              itemCount: provider.selectedKeywordsName.length + 1,
+              itemCount: provider.selectedKeywordDatas.length + 1,
               scrollDirection: Axis.horizontal,
               itemBuilder: (context, index) => KeywordButton(
+                index: index,
+                keywordId: index == 0
+                    ? -1
+                    : provider.selectedKeywordDatas[index - 1].id,
                 name: provider.selectedCategoryId == null
                     ? '카테고리'
                     : index == 0
                         ? '${provider.categoryNames[provider.selectedCategoryId!]}'
-                        : '${provider.selectedKeywordsName[index - 1]}',
+                        : '${provider.selectedKeywordDatas[index - 1].name}',
                 onTap: () {
                   _tapCategory(context, index);
                 },
