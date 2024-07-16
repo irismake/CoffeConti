@@ -4,23 +4,21 @@ import '../api_service.dart';
 import '../models/keyword_model.dart';
 
 class KeywordsProvider with ChangeNotifier {
-  final List<KeywordModel> _keywordModels = [];
+  final List<KeywordModel> _getKeywordModels = [];
   final List<KeywordData> _keywordDatas = [];
   final List<String> _categoryNames = [];
-  List<int> _tempKeywordIds = [];
-  List<int> _selectedKeywordIds = [];
-  final List<String> _selectedKeywordsName = [];
-
   int? _tempCategoryId;
   int? _selectedCategoryId;
+  List<int> _tempKeywordIds = [];
+  List<int> _selectedKeywordIds = [];
+  final List<KeywordData> _selectedKeywordDatas = [];
 
-  int? get tempCategoryId => _tempCategoryId;
-  int? get selectedCategoryId => _selectedCategoryId;
-  List<KeywordModel> get keywordModels => _keywordModels;
   List<KeywordData> get keywordDatas => _keywordDatas;
   List<String> get categoryNames => _categoryNames;
+  int? get tempCategoryId => _tempCategoryId;
+  int? get selectedCategoryId => _selectedCategoryId;
   List<int> get tempKeywordIds => _tempKeywordIds;
-  List<String> get selectedKeywordsName => _selectedKeywordsName;
+  List<KeywordData> get selectedKeywordDatas => _selectedKeywordDatas;
 
   set saveTempCategoryId(int? tempCategoryId) {
     _tempCategoryId = tempCategoryId;
@@ -32,10 +30,10 @@ class KeywordsProvider with ChangeNotifier {
 
   Future<void> getAllData() async {
     List<KeywordModel> keywordModels = await ApiService.getKeywords();
-    _keywordModels.clear();
+    _getKeywordModels.clear();
     _categoryNames.clear();
     for (var keywordModel in keywordModels) {
-      _keywordModels.add(keywordModel);
+      _getKeywordModels.add(keywordModel);
       _categoryNames.add(keywordModel.name);
     }
 
@@ -43,7 +41,7 @@ class KeywordsProvider with ChangeNotifier {
   }
 
   void fetchCategoryData() {
-    KeywordModel keywordModel = _keywordModels.firstWhere(
+    KeywordModel keywordModel = _getKeywordModels.firstWhere(
       (element) => element.categoryId == tempCategoryId,
       orElse: () => KeywordModel(categoryId: -1, name: '', keywords: []),
     );
@@ -75,18 +73,17 @@ class KeywordsProvider with ChangeNotifier {
   }
 
   void getSelectedKeywords() {
-    _selectedKeywordsName.clear();
+    _selectedKeywordDatas.clear();
     print('selected $_selectedKeywordIds');
     for (var selectedKeywordId in _selectedKeywordIds) {
-      String keywordName = keywordDatas
-          .firstWhere(
-            (element) => element.id == selectedKeywordId,
-          )
-          .name;
-      _selectedKeywordsName.add(keywordName);
+      final keywordData = _keywordDatas.firstWhere(
+        (element) => element.id == selectedKeywordId,
+      );
+
+      _selectedKeywordDatas.add(keywordData);
     }
     _selectedCategoryId = _tempCategoryId;
-    print(_selectedKeywordsName);
+    print(_selectedKeywordDatas);
     notifyListeners();
   }
 }
