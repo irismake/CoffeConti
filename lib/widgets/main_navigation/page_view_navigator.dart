@@ -33,8 +33,8 @@ class _CategoryViewNavigatorState extends State<CategoryViewNavigator>
   void categoryTapListener(int index) {
     final keywordProvider =
         Provider.of<KeywordsProvider>(context, listen: false);
-    keywordProvider.selectedCategory = index;
-    keywordProvider.getKeywords();
+    keywordProvider.saveTempCategoryId = index;
+    keywordProvider.fetchCategoryData();
   }
 
   @override
@@ -46,7 +46,7 @@ class _CategoryViewNavigatorState extends State<CategoryViewNavigator>
   @override
   Widget build(BuildContext context) {
     final provider = Provider.of<KeywordsProvider>(context, listen: false);
-    provider.selectedCategory = tabController.index;
+    provider.saveTempCategoryId = tabController.index;
     return FutureBuilder(
       future: provider.initializeData(),
       builder: (context, snapshot) {

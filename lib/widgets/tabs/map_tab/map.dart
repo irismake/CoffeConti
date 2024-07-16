@@ -9,6 +9,7 @@ import '../../../components/button/search_place_button.dart';
 import '../../../components/button/tag_button.dart';
 import '../../../components/constants/screenSize.dart';
 import '../../../data/cafe_data.dart';
+import '../../../data/provider/keyword_provider.dart';
 import '../../../data/provider/location_provider.dart';
 import '../../../popup/ cafe_tutorial.dart';
 import '../../../popup/set_tag.dart';
@@ -136,23 +137,6 @@ class CafeMapState extends State<CafeMap> {
                 //onCameraIdle: onCameraIdle,
                 // onSelectedIndoorChanged: onSelectedIndoorChanged,
               ),
-              // Positioned(
-              //   bottom: value
-              //       ? FocusCurrentPosition(context) //
-              //       : UnfocusCurrentPosition(context),
-              //   right: 16,
-              //   child: FloatingActionButton(
-              //     backgroundColor: Colors.white,
-              //     onPressed: () {
-              //       mapController
-              //           .setLocationTrackingMode(NLocationTrackingMode.follow);
-              //     },
-              //     child: FaIcon(
-              //       FontAwesomeIcons.locationCrosshairs,
-              //       color: Theme.of(context).primaryColor,
-              //     ),
-              //   ),
-              // ),
               Padding(
                 padding: EdgeInsets.only(
                   top: ViewPaddingTopSize(context),
@@ -169,21 +153,28 @@ class CafeMapState extends State<CafeMap> {
                         currentAddress: '장위로 10길 10-9',
                       ),
                     ),
-                    Padding(
-                      padding: EdgeInsets.symmetric(vertical: 10.0.h),
-                      child: SizedBox(
-                        height: 40.0.h,
-                        child: ListView.builder(
-                          shrinkWrap: true,
-                          itemCount: 3,
-                          scrollDirection: Axis.horizontal,
-                          itemBuilder: (context, index) => TagButton(
-                            name: '뷰+${index}',
-                            onTap: _tapCategory,
+                    Consumer<KeywordsProvider>(
+                        builder: (context, provider, child) {
+                      return Padding(
+                        padding: EdgeInsets.symmetric(vertical: 10.0.h),
+                        child: SizedBox(
+                          height: 40.0.h,
+                          child: ListView.builder(
+                            shrinkWrap: true,
+                            itemCount: provider.selectedKeywordsName.length + 1,
+                            scrollDirection: Axis.horizontal,
+                            itemBuilder: (context, index) => TagButton(
+                              name: provider.selectedCategoryId == null
+                                  ? '카테고리'
+                                  : index == 0
+                                      ? '${provider.categoryNames[provider.selectedCategoryId!]}'
+                                      : '${provider.selectedKeywordsName[index - 1]}',
+                              onTap: _tapCategory,
+                            ),
                           ),
                         ),
-                      ),
-                    ),
+                      );
+                    }),
                   ],
                 ),
               ),

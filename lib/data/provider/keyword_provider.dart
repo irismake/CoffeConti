@@ -7,21 +7,30 @@ class KeywordsProvider with ChangeNotifier {
   final List<KeywordModel> _keywordModels = [];
   final List<KeywordData> _keywordDatas = [];
   final List<String> _categoryNames = [];
+  List<int> _tempKeywordIds = [];
   List<int> _selectedKeywordIds = [];
+  final List<String> _selectedKeywordsName = [];
 
-  int? _categoryId;
+  int? _tempCategoryId;
+  int? _selectedCategoryId;
 
-  int? get categoryId => _categoryId;
+  int? get tempCategoryId => _tempCategoryId;
+  int? get selectedCategoryId => _selectedCategoryId;
   List<KeywordModel> get keywordModels => _keywordModels;
   List<KeywordData> get keywordDatas => _keywordDatas;
   List<String> get categoryNames => _categoryNames;
-  List<int> get selectedKeywordIds => _selectedKeywordIds;
+  List<int> get tempKeywordIds => _tempKeywordIds;
+  List<String> get selectedKeywordsName => _selectedKeywordsName;
 
-  set selectedCategory(int? categoryId) {
-    _categoryId = categoryId;
+  set saveTempCategoryId(int? tempCategoryId) {
+    _tempCategoryId = tempCategoryId;
   }
 
-  Future<void> fetchAllData() async {
+  set saveKeywordIds(List<int> selectedKeywordIds) {
+    _selectedKeywordIds = selectedKeywordIds;
+  }
+
+  Future<void> getAllData() async {
     List<KeywordModel> keywordModels = await ApiService.getKeywords();
     _keywordModels.clear();
     _categoryNames.clear();
@@ -33,34 +42,51 @@ class KeywordsProvider with ChangeNotifier {
     print('fetch keyword data');
   }
 
-  void getKeywords() {
+  void fetchCategoryData() {
     KeywordModel keywordModel = _keywordModels.firstWhere(
-      (element) => element.categoryId == categoryId,
+      (element) => element.categoryId == tempCategoryId,
       orElse: () => KeywordModel(categoryId: -1, name: '', keywords: []),
     );
     _keywordDatas.clear();
     for (var keyword in keywordModel.keywords) {
       _keywordDatas.add(keyword);
     }
-    notifyListeners();
   }
 
   Future<void> initializeData() async {
-    await fetchAllData();
-    getKeywords();
-  }
-
-  void selectKeywords(int keywordId) {
-    if (_selectedKeywordIds.contains(keywordId)) {
-      _selectedKeywordIds.remove(keywordId);
-    } else {
-      _selectedKeywordIds.add(keywordId);
-    }
-    print(_selectedKeywordIds);
+    await getAllData();
+    fetchCategoryData();
     notifyListeners();
   }
 
-  void resetSelectedKeywords() {
-    _selectedKeywordIds = [];
+  void saveTempKeywordId(int keywordId) {
+    if (_tempKeywordIds.contains(keywordId)) {
+      _tempKeywordIds.remove(keywordId);
+    } else {
+      _tempKeywordIds.add(keywordId);
+    }
+    notifyListeners();
+  }
+
+  void resetTempKeywordId() {
+    _tempKeywordIds = [];
+
+    ;
+  }
+
+  void getSelectedKeywords() {
+    _selectedKeywordsName.clear();
+    print('selected $_selectedKeywordIds');
+    for (var selectedKeywordId in _selectedKeywordIds) {
+      String keywordName = keywordDatas
+          .firstWhere(
+            (element) => element.id == selectedKeywordId,
+          )
+          .name;
+      _selectedKeywordsName.add(keywordName);
+    }
+    _selectedCategoryId = _tempCategoryId;
+    print(_selectedKeywordsName);
+    notifyListeners();
   }
 }
