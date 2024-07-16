@@ -1,11 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_svg/svg.dart';
 
-import '../../../components/constants/gaps.dart';
-
-class NavTab extends StatelessWidget {
-  const NavTab({
+class NavTabButton extends StatelessWidget {
+  const NavTabButton({
     super.key,
     required this.isSelected,
     required this.iconName,

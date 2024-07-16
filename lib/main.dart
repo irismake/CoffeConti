@@ -5,7 +5,7 @@ import 'components/constants/sizes.dart';
 import 'package:provider/provider.dart';
 import 'package:coffeeconti/data/provider/location_provider.dart';
 import 'data/provider/keyword_provider.dart';
-import 'widgets/main_navigation/main_navigation.dart';
+import 'screen/navigator/main_view_navigator.dart';
 
 void main() async {
   await _initialize();
@@ -60,7 +60,7 @@ class MyApp extends StatelessWidget {
                 fontWeight: FontWeight.w600,
               ),
             )),
-        home: MainNavigationScreen(),
+        home: MainViewNavigator(),
       ),
     );
   }

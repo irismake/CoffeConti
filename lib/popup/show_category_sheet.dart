@@ -6,10 +6,10 @@ import '../components/button/next_page_button.dart';
 import '../components/constants/screenSize.dart';
 
 import '../data/provider/keyword_provider.dart';
-import '../widgets/main_navigation/page_view_navigator.dart';
+import '../screen/navigator/category_view_navigator.dart';
 
-class SetCategory extends StatelessWidget {
-  SetCategory({Key? key}) : super(key: key);
+class ShowCategorySheet extends StatelessWidget {
+  ShowCategorySheet({Key? key}) : super(key: key);
 
   final checkTextColor = Color(0xff868E96);
   final darkGrayColor = Color(0xff495057);

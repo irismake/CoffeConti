@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'components/constants/sizes.dart';
+import '../constants/sizes.dart';
 
 class AssociatedSearchButton extends StatefulWidget {
   const AssociatedSearchButton({

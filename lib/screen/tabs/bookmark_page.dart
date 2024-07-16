@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 
-class AddMyCafe extends StatefulWidget {
-  const AddMyCafe({super.key});
+class BookmarkPage extends StatefulWidget {
+  const BookmarkPage({super.key});
 
   @override
-  State<AddMyCafe> createState() => _AddMyCafeState();
+  State<BookmarkPage> createState() => _BookmarkPageState();
 }
 
-class _AddMyCafeState extends State<AddMyCafe> {
+class _BookmarkPageState extends State<BookmarkPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(

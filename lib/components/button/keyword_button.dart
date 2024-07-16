@@ -1,55 +1,46 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:provider/provider.dart';
-
-import '../../data/provider/keyword_provider.dart';
 
 class KeywordButton extends StatelessWidget {
-  final String keywordName;
-  final int keywordId;
+  final String name;
+  final VoidCallback onTap;
 
-  const KeywordButton({
-    Key? key,
-    required this.keywordName,
-    required this.keywordId,
-  }) : super(key: key);
+  KeywordButton({super.key, required this.name, required this.onTap});
 
   @override
   Widget build(BuildContext context) {
-    Provider.of<KeywordsProvider>(context, listen: false).resetTempKeywordId();
-    return Consumer<KeywordsProvider>(
-      builder: (context, provider, child) {
-        return GestureDetector(
-          onTap: () {
-            provider.saveTempKeywordId(keywordId);
+    return Padding(
+      padding: EdgeInsets.symmetric(horizontal: 5.0.w),
+      child: Align(
+        alignment: Alignment.center,
+        child: ElevatedButton(
+          onPressed: () {
+            onTap();
           },
-          child: AnimatedContainer(
-            duration: const Duration(milliseconds: 300),
+          style: ElevatedButton.styleFrom(
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(10.0),
+            ),
+            minimumSize: Size.zero,
             padding: EdgeInsets.symmetric(
-              vertical: 10.0.h,
-              horizontal: 20.0.w,
+              horizontal: 16.0.w,
+              vertical: 6.0.h,
             ),
-            decoration: BoxDecoration(
-              color: provider.tempKeywordIds.contains(keywordId)
-                  ? Theme.of(context).primaryColor
-                  : Colors.white,
-              borderRadius: BorderRadius.circular(32),
-              border: Border.all(color: Colors.black.withOpacity(0.1)),
-            ),
-            child: Text(
-              keywordName,
-              style: TextStyle(
-                color: provider.tempKeywordIds.contains(keywordId)
-                    ? Colors.black
-                    : Color(0xff868E96),
-                fontWeight: provider.tempKeywordIds.contains(keywordId)
-                    ? FontWeight.w700
-                    : FontWeight.w600,
-              ),
+            backgroundColor: Color(0xFF3D3332),
+            elevation: 0,
+          ),
+          child: Text(
+            name,
+            style: TextStyle(
+              fontFamily: 'PretendardRegular',
+              fontSize: 14.sp,
+              fontWeight: FontWeight.w600,
+              color: Theme.of(context).primaryColor,
+              height: 1.43,
             ),
           ),
-        );
-      },
+        ),
+      ),
     );
   }
 }

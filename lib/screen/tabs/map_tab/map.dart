@@ -6,13 +6,12 @@ import 'package:geolocator/geolocator.dart';
 import 'package:provider/provider.dart';
 
 import '../../../components/button/search_place_button.dart';
-import '../../../components/button/tag_button.dart';
 import '../../../components/constants/screenSize.dart';
 import '../../../data/cafe_data.dart';
-import '../../../data/provider/keyword_provider.dart';
 import '../../../data/provider/location_provider.dart';
 import '../../../popup/ cafe_tutorial.dart';
-import '../../../popup/set_tag.dart';
+import '../../../popup/show_category_sheet.dart';
+import '../../../widgets/keyword_widget.dart';
 
 class CafeMap extends StatefulWidget {
   CafeMap({super.key});
@@ -52,13 +51,15 @@ class CafeMapState extends State<CafeMap> {
     tilt: 0,
   );
 
-  void _tapCategory() {
-    showModalBottomSheet(
-        context: context,
-        isScrollControlled: true,
-        builder: (context) {
-          return SetCategory();
-        });
+  void _tapCategory(int index) {
+    if (index == 0) {
+      showModalBottomSheet(
+          context: context,
+          isScrollControlled: true,
+          builder: (context) {
+            return ShowCategorySheet();
+          });
+    }
   }
 
   @override
@@ -145,36 +146,10 @@ class CafeMapState extends State<CafeMap> {
                   mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Padding(
-                      padding: EdgeInsets.symmetric(
-                        horizontal: 10.0.w,
-                      ),
-                      child: SearchPlaceButton(
-                        currentAddress: '장위로 10길 10-9',
-                      ),
+                    SearchPlaceButton(
+                      currentAddress: '장위로 10길 10-9',
                     ),
-                    Consumer<KeywordsProvider>(
-                        builder: (context, provider, child) {
-                      return Padding(
-                        padding: EdgeInsets.symmetric(vertical: 10.0.h),
-                        child: SizedBox(
-                          height: 40.0.h,
-                          child: ListView.builder(
-                            shrinkWrap: true,
-                            itemCount: provider.selectedKeywordsName.length + 1,
-                            scrollDirection: Axis.horizontal,
-                            itemBuilder: (context, index) => TagButton(
-                              name: provider.selectedCategoryId == null
-                                  ? '카테고리'
-                                  : index == 0
-                                      ? '${provider.categoryNames[provider.selectedCategoryId!]}'
-                                      : '${provider.selectedKeywordsName[index - 1]}',
-                              onTap: _tapCategory,
-                            ),
-                          ),
-                        ),
-                      );
-                    }),
+                    KeywordWidget(),
                   ],
                 ),
               ),
