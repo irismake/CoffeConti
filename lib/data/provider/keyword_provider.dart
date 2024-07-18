@@ -8,17 +8,21 @@ class KeywordsProvider with ChangeNotifier {
   final List<KeywordData> _showKeywordDatas = [];
   final List<String> _categoryNames = [];
   int? _prevCategoryId;
-  int? _curCategoryId;
+  int _curCategoryId = 0;
   int? _selectedCategoryId;
-  final List<KeywordData> _selectedKeywordDatas = [];
+  final List<int> _selectedKeywordIds = [];
+  List<KeywordData> _selectedKeywordDatas = [];
+  bool _searchButtonState = false;
 
   List<KeywordData> get showKeywordDatas => _showKeywordDatas;
   List<String> get categoryNames => _categoryNames;
   int? get curCategoryId => _curCategoryId;
   int? get selectedCategoryId => _selectedCategoryId;
+  List<int> get selectedKeywordIds => _selectedKeywordIds;
   List<KeywordData> get selectedKeywordDatas => _selectedKeywordDatas;
+  bool get searchButtonState => _searchButtonState;
 
-  set saveTempCategoryId(int? tempCategoryId) {
+  set saveTempCategoryId(int tempCategoryId) {
     _curCategoryId = tempCategoryId;
     print('현재 카테고리 $_curCategoryId');
   }
@@ -32,6 +36,7 @@ class KeywordsProvider with ChangeNotifier {
       _categoryNames.add(keywordModel.name);
     }
     print('get all keyword data');
+    fetchCategoryData();
   }
 
   Future<void> fetchCategoryData() async {
@@ -43,48 +48,42 @@ class KeywordsProvider with ChangeNotifier {
     for (var keyword in keywordModel.keywords) {
       _showKeywordDatas.add(keyword);
     }
-    print('fetchCategoryData');
+    print('fetch category data $_showKeywordDatas');
+    checkSearchButtonState();
   }
 
   void changeKeywordState(int keywordId) {
-    final keyword = _showKeywordDatas.firstWhere(
-      (element) => element.id == keywordId,
-    );
     if (_prevCategoryId != _curCategoryId) {
-      resetAllSelections();
+      _selectedKeywordIds.clear();
     }
     _prevCategoryId = _curCategoryId;
-    keyword.isSelected = !keyword.isSelected;
+    if (_selectedKeywordIds.contains(keywordId)) {
+      _selectedKeywordIds.remove(keywordId);
+    } else {
+      _selectedKeywordIds.add(keywordId);
+    }
+    checkSearchButtonState();
     notifyListeners();
   }
 
-  void resetAllSelections() {
-    for (var category in _getKeywordModels) {
-      for (var keyword in category.keywords) {
-        keyword.isSelected = false;
-      }
-    }
-  }
-
-  bool getKeywordState(int keywordId) {
-    return _showKeywordDatas
-        .firstWhere(
-          (element) => element.id == keywordId,
-        )
-        .isSelected;
+  void checkSearchButtonState() {
+    _searchButtonState = _showKeywordDatas
+        .any((element) => _selectedKeywordIds.contains(element.id));
+    notifyListeners();
   }
 
   void getSelectedKeywords() {
     _selectedKeywordDatas.clear();
-    for (var category in _getKeywordModels) {
-      for (var keyword in category.keywords) {
-        if (keyword.isSelected == true) {
-          _selectedCategoryId = category.categoryId;
-          _selectedKeywordDatas.add(keyword);
-        }
-      }
-    }
+    final keywords = _getKeywordModels
+        .firstWhere((element) => element.categoryId == _curCategoryId)
+        .keywords;
+
+    _selectedKeywordDatas = keywords
+        .where((element) => _selectedKeywordIds.contains(element.id))
+        .toList();
+    _selectedCategoryId = _curCategoryId;
     print('최종 카테고리 $_selectedCategoryId');
+    print('최종 데이터 $_selectedKeywordDatas');
     notifyListeners();
   }
 }

@@ -29,7 +29,7 @@ class SelectionKeywordButton extends StatelessWidget {
               horizontal: 20.0.w,
             ),
             decoration: BoxDecoration(
-              color: provider.getKeywordState(keywordId)
+              color: provider.selectedKeywordIds.contains(keywordId)
                   ? Theme.of(context).primaryColor
                   : Colors.white,
               borderRadius: BorderRadius.circular(32),
@@ -38,10 +38,10 @@ class SelectionKeywordButton extends StatelessWidget {
             child: Text(
               keywordName,
               style: TextStyle(
-                color: provider.getKeywordState(keywordId)
+                color: provider.selectedKeywordIds.contains(keywordId)
                     ? Colors.black
                     : Color(0xff868E96),
-                fontWeight: provider.getKeywordState(keywordId)
+                fontWeight: provider.selectedKeywordIds.contains(keywordId)
                     ? FontWeight.w700
                     : FontWeight.w600,
               ),

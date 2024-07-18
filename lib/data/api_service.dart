@@ -82,15 +82,15 @@ class ApiService {
       "name": "음식점",
       "keywords": [
         {
-          "id": 0,
+          "id": 16,
           "name": "야간영업",
         },
         {
-          "id": 1,
+          "id": 17,
           "name": "브레이크타입",
         },
         {
-          "id": 2,
+          "id": 18,
           "name": "가성비",
         },
       ],

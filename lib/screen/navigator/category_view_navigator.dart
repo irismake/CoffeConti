@@ -42,71 +42,52 @@ class _CategoryViewNavigatorState extends State<CategoryViewNavigator>
 
   @override
   Widget build(BuildContext context) {
-    widget.provider.saveTempCategoryId = tabController.index;
-    return FutureBuilder(
-      future: widget.provider.fetchCategoryData(),
-      builder: (context, snapshot) {
-        if (snapshot.connectionState == ConnectionState.waiting) {
-          return Center(
-            child: CircularProgressIndicator(),
-          );
-        } else if (snapshot.hasError) {
-          return Center(child: Text('Error: ${snapshot.error}'));
-          //}
-          // else if (!snapshot.hasData) {
-          //   // 데이터가 없을 때 빈 화면 표시
-          //   return Center(child: Text('No data available'));
-        } else {
-          return Padding(
-            padding: EdgeInsets.symmetric(vertical: 8.0.h),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                Center(
-                  child: TabBar(
-                    controller: tabController,
-                    tabAlignment: TabAlignment.start,
-                    dividerHeight: 0,
-                    padding: EdgeInsets.symmetric(
-                      horizontal: 10.w,
-                    ),
-                    unselectedLabelColor: Colors.grey,
-                    unselectedLabelStyle: TextStyle(
-                      fontSize: 16.sp,
-                    ),
-                    labelColor: Colors.black,
-                    labelStyle: TextStyle(
-                      fontSize: 18.sp,
-                      fontWeight: FontWeight.w600,
-                    ),
-                    indicatorColor: Colors.transparent,
-                    isScrollable: true,
-                    onTap: (index) {
-                      categoryTapListener(index);
-                    },
-                    tabs: List.generate(
-                      6,
-                      (index) =>
-                          Tab(text: widget.provider.categoryNames[index]),
-                    ),
-                  ),
-                ),
-                Expanded(
-                  child: TabBarView(
-                    controller: tabController,
-                    children: List.generate(
-                      6,
-                      (index) => SelectionKeywordWidget(
-                        keywordDatas: widget.provider.showKeywordDatas,
-                      ),
-                    ),
-                  ),
-                ),
-              ],
+    return Padding(
+      padding: EdgeInsets.symmetric(vertical: 8.0.h),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.start,
+        children: [
+          Center(
+            child: TabBar(
+              controller: tabController,
+              tabAlignment: TabAlignment.start,
+              dividerHeight: 0,
+              padding: EdgeInsets.symmetric(
+                horizontal: 10.w,
+              ),
+              unselectedLabelColor: Colors.grey,
+              unselectedLabelStyle: TextStyle(
+                fontSize: 16.sp,
+              ),
+              labelColor: Colors.black,
+              labelStyle: TextStyle(
+                fontSize: 18.sp,
+                fontWeight: FontWeight.w600,
+              ),
+              indicatorColor: Colors.transparent,
+              isScrollable: true,
+              onTap: (index) {
+                categoryTapListener(index);
+              },
+              tabs: List.generate(
+                6,
+                (index) => Tab(text: widget.provider.categoryNames[index]),
+              ),
             ),
-          );
-        }
-      },
+          ),
+          Expanded(
+            child: TabBarView(
+              controller: tabController,
+              children: List.generate(
+                6,
+                (index) => SelectionKeywordWidget(
+                  keywordDatas: widget.provider.showKeywordDatas,
+                ),
+              ),
+            ),
+          ),
+        ],
+      ),
     );
   }
 }
