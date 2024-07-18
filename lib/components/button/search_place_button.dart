@@ -1,4 +1,4 @@
-import 'package:coffeeconti/widgets/tabs/map_tab/search_screen.dart';
+import 'package:coffeeconti/screen/tabs/map_tab/search_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -11,41 +11,47 @@ class SearchPlaceButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      width: double.infinity,
-      child: TextButton(
-        onPressed: () {
-          Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) => SearchScreen(),
-            ),
-          );
-        },
-        style: TextButton.styleFrom(
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(8.0),
-            ),
-            padding: EdgeInsets.symmetric(vertical: 16.0.h, horizontal: 14.0.w),
-            backgroundColor: Colors.white),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Text(
-              currentAddress,
-              style: TextStyle(
-                fontFamily: 'PretendardRegular',
-                fontSize: 16.sp,
-                fontWeight: FontWeight.w600,
-                color: Color(0xFF333333),
-                height: 1.5,
+    return Padding(
+      padding: EdgeInsets.symmetric(
+        horizontal: 10.0.w,
+      ),
+      child: SizedBox(
+        width: double.infinity,
+        child: TextButton(
+          onPressed: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => SearchScreen(),
               ),
-            ),
-            Image.asset(
-              'assets/icons/icon_arrow_right.png',
-              height: 16.h,
-            ),
-          ],
+            );
+          },
+          style: TextButton.styleFrom(
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(8.0),
+              ),
+              padding:
+                  EdgeInsets.symmetric(vertical: 16.0.h, horizontal: 14.0.w),
+              backgroundColor: Colors.white),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(
+                currentAddress,
+                style: TextStyle(
+                  fontFamily: 'PretendardRegular',
+                  fontSize: 16.sp,
+                  fontWeight: FontWeight.w600,
+                  color: Color(0xFF333333),
+                  height: 1.5,
+                ),
+              ),
+              Image.asset(
+                'assets/icons/icon_arrow_right.png',
+                height: 16.h,
+              ),
+            ],
+          ),
         ),
       ),
     );

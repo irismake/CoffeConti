@@ -16,7 +16,7 @@ double ViewPaddingBottomSize(BuildContext context) {
   return MediaQuery.of(context).viewPadding.bottom;
 }
 
-double SetTagHeight(BuildContext context) {
+double ModalBottomSheetHeight(BuildContext context) {
   return screenHeight(context) * 3 / 4;
 }
 
