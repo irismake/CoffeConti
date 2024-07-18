@@ -15,6 +15,9 @@ void main() async {
         ChangeNotifierProvider<KeywordsProvider>(
           create: (context) => KeywordsProvider(),
         ),
+        ChangeNotifierProvider<LocationProvider>(
+          create: (context) => LocationProvider(),
+        ),
       ],
       builder: (context, child) {
         return ScreenUtilInit(
@@ -43,25 +46,25 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider<LocationProvider>(
-      create: (context) => LocationProvider(), // LocationProvider 인스턴스 생성
-      child: MaterialApp(
-        title: 'Coffee Conti',
-        theme: ThemeData(
-            scaffoldBackgroundColor: Colors.white,
-            primaryColor: const Color(0xffFFBE98),
-            appBarTheme: const AppBarTheme(
-              foregroundColor: Colors.black,
-              backgroundColor: Colors.white,
-              elevation: 0,
-              titleTextStyle: TextStyle(
-                color: Colors.black,
-                fontSize: Sizes.size16 + Sizes.size2,
-                fontWeight: FontWeight.w600,
-              ),
-            )),
-        home: MainViewNavigator(),
-      ),
+    Future.delayed(Duration.zero, () async {
+      await Provider.of<KeywordsProvider>(context, listen: false).getAllData();
+    });
+    return MaterialApp(
+      title: 'Coffee Conti',
+      theme: ThemeData(
+          scaffoldBackgroundColor: Colors.white,
+          primaryColor: const Color(0xffFFBE98),
+          appBarTheme: const AppBarTheme(
+            foregroundColor: Colors.black,
+            backgroundColor: Colors.white,
+            elevation: 0,
+            titleTextStyle: TextStyle(
+              color: Colors.black,
+              fontSize: Sizes.size16 + Sizes.size2,
+              fontWeight: FontWeight.w600,
+            ),
+          )),
+      home: MainViewNavigator(),
     );
   }
 }

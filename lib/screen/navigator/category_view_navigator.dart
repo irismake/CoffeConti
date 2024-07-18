@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:provider/provider.dart';
 
-import '../../data/provider/keyword_provider.dart';
 import '../../widgets/selection_keyword_widget.dart';
 
 class CategoryViewNavigator extends StatefulWidget {
+  final dynamic provider;
   const CategoryViewNavigator({
     super.key,
+    required this.provider,
   });
 
   @override
@@ -16,25 +16,22 @@ class CategoryViewNavigator extends StatefulWidget {
 
 class _CategoryViewNavigatorState extends State<CategoryViewNavigator>
     with SingleTickerProviderStateMixin {
-  late TabController tabController = TabController(
-    length: 6,
-    vsync: this,
-    initialIndex: 0,
-    animationDuration: const Duration(milliseconds: 150),
-  );
+  late TabController tabController;
 
   @override
   void initState() {
     super.initState();
-
-    //initializeData();
+    tabController = TabController(
+      length: 6,
+      vsync: this,
+      initialIndex: widget.provider.selectedCategoryId ?? 0,
+      animationDuration: const Duration(milliseconds: 150),
+    );
   }
 
   void categoryTapListener(int index) {
-    final keywordProvider =
-        Provider.of<KeywordsProvider>(context, listen: false);
-    keywordProvider.saveTempCategoryId = index;
-    keywordProvider.fetchCategoryData();
+    widget.provider.saveTempCategoryId = index;
+    widget.provider.fetchCategoryData();
   }
 
   @override
@@ -45,13 +42,14 @@ class _CategoryViewNavigatorState extends State<CategoryViewNavigator>
 
   @override
   Widget build(BuildContext context) {
-    final provider = Provider.of<KeywordsProvider>(context, listen: false);
-    provider.saveTempCategoryId = tabController.index;
+    widget.provider.saveTempCategoryId = tabController.index;
     return FutureBuilder(
-      future: provider.initializeData(),
+      future: widget.provider.fetchCategoryData(),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
-          return Center(child: CircularProgressIndicator());
+          return Center(
+            child: CircularProgressIndicator(),
+          );
         } else if (snapshot.hasError) {
           return Center(child: Text('Error: ${snapshot.error}'));
           //}
@@ -88,7 +86,8 @@ class _CategoryViewNavigatorState extends State<CategoryViewNavigator>
                     },
                     tabs: List.generate(
                       6,
-                      (index) => Tab(text: '${provider.categoryNames[index]}'),
+                      (index) =>
+                          Tab(text: widget.provider.categoryNames[index]),
                     ),
                   ),
                 ),
@@ -98,7 +97,7 @@ class _CategoryViewNavigatorState extends State<CategoryViewNavigator>
                     children: List.generate(
                       6,
                       (index) => SelectionKeywordWidget(
-                        keywordDatas: provider.keywordDatas,
+                        keywordDatas: widget.provider.showKeywordDatas,
                       ),
                     ),
                   ),

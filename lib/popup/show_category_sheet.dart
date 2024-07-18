@@ -48,8 +48,14 @@ class ShowCategorySheet extends StatelessWidget {
                     margin: EdgeInsets.symmetric(vertical: 15.0.h),
                   ),
                 ),
-                Expanded(
-                  child: CategoryViewNavigator(),
+                Consumer<KeywordsProvider>(
+                  builder: (context, provider, child) {
+                    return Expanded(
+                      child: CategoryViewNavigator(
+                        provider: provider,
+                      ),
+                    );
+                  },
                 ),
                 //TagListView(),
                 NextPageButton(
@@ -59,13 +65,7 @@ class ShowCategorySheet extends StatelessWidget {
                   onPressed: () async {
                     final provider =
                         Provider.of<KeywordsProvider>(context, listen: false);
-                    print(provider.tempCategoryId);
-                    print(provider.tempKeywordIds);
-
-                    provider.saveKeywordIds = provider.tempKeywordIds;
-
                     provider.getSelectedKeywords();
-
                     Navigator.pop(context);
                   },
                 )
