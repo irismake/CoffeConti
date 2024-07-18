@@ -69,13 +69,12 @@ class _SelectionKeywordWidgetState extends State<SelectionKeywordWidget> {
                     alignment: WrapAlignment.start,
                     runSpacing: 18,
                     spacing: 10,
-                    children: [
-                      for (var keywordData in widget.keywordDatas)
-                        SelectionKeywordButton(
-                          keywordName: keywordData.name,
-                          keywordId: keywordData.id,
-                        )
-                    ],
+                    children: widget.keywordDatas.map((keywordData) {
+                      return SelectionKeywordButton(
+                        keywordName: keywordData.name,
+                        keywordId: keywordData.id,
+                      );
+                    }).toList(),
                   )
                 ],
               ),

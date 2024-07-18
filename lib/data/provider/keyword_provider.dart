@@ -5,27 +5,22 @@ import '../models/keyword_model.dart';
 
 class KeywordsProvider with ChangeNotifier {
   final List<KeywordModel> _getKeywordModels = [];
-  final List<KeywordData> _keywordDatas = [];
+  final List<KeywordData> _showKeywordDatas = [];
   final List<String> _categoryNames = [];
-  int? _tempCategoryId;
+  int? _prevCategoryId;
+  int? _curCategoryId;
   int? _selectedCategoryId;
-  List<int> _tempKeywordIds = [];
-  List<int> _selectedKeywordIds = [];
   final List<KeywordData> _selectedKeywordDatas = [];
 
-  List<KeywordData> get keywordDatas => _keywordDatas;
+  List<KeywordData> get showKeywordDatas => _showKeywordDatas;
   List<String> get categoryNames => _categoryNames;
-  int? get tempCategoryId => _tempCategoryId;
+  int? get curCategoryId => _curCategoryId;
   int? get selectedCategoryId => _selectedCategoryId;
-  List<int> get tempKeywordIds => _tempKeywordIds;
   List<KeywordData> get selectedKeywordDatas => _selectedKeywordDatas;
 
   set saveTempCategoryId(int? tempCategoryId) {
-    _tempCategoryId = tempCategoryId;
-  }
-
-  set saveKeywordIds(List<int> selectedKeywordIds) {
-    _selectedKeywordIds = selectedKeywordIds;
+    _curCategoryId = tempCategoryId;
+    print('현재 카테고리 $_curCategoryId');
   }
 
   Future<void> getAllData() async {
@@ -36,54 +31,60 @@ class KeywordsProvider with ChangeNotifier {
       _getKeywordModels.add(keywordModel);
       _categoryNames.add(keywordModel.name);
     }
-
-    print('fetch keyword data');
+    print('get all keyword data');
   }
 
-  void fetchCategoryData() {
+  Future<void> fetchCategoryData() async {
     KeywordModel keywordModel = _getKeywordModels.firstWhere(
-      (element) => element.categoryId == tempCategoryId,
+      (element) => element.categoryId == _curCategoryId,
       orElse: () => KeywordModel(categoryId: -1, name: '', keywords: []),
     );
-    _keywordDatas.clear();
+    _showKeywordDatas.clear();
     for (var keyword in keywordModel.keywords) {
-      _keywordDatas.add(keyword);
+      _showKeywordDatas.add(keyword);
     }
+    print('fetchCategoryData');
   }
 
-  Future<void> initializeData() async {
-    await getAllData();
-    fetchCategoryData();
+  void changeKeywordState(int keywordId) {
+    final keyword = _showKeywordDatas.firstWhere(
+      (element) => element.id == keywordId,
+    );
+    if (_prevCategoryId != _curCategoryId) {
+      resetAllSelections();
+    }
+    _prevCategoryId = _curCategoryId;
+    keyword.isSelected = !keyword.isSelected;
     notifyListeners();
   }
 
-  void saveTempKeywordId(int keywordId) {
-    if (_tempKeywordIds.contains(keywordId)) {
-      _tempKeywordIds.remove(keywordId);
-    } else {
-      _tempKeywordIds.add(keywordId);
+  void resetAllSelections() {
+    for (var category in _getKeywordModels) {
+      for (var keyword in category.keywords) {
+        keyword.isSelected = false;
+      }
     }
-    notifyListeners();
   }
 
-  void resetTempKeywordId() {
-    _tempKeywordIds = [];
-
-    ;
+  bool getKeywordState(int keywordId) {
+    return _showKeywordDatas
+        .firstWhere(
+          (element) => element.id == keywordId,
+        )
+        .isSelected;
   }
 
   void getSelectedKeywords() {
     _selectedKeywordDatas.clear();
-    print('selected $_selectedKeywordIds');
-    for (var selectedKeywordId in _selectedKeywordIds) {
-      final keywordData = _keywordDatas.firstWhere(
-        (element) => element.id == selectedKeywordId,
-      );
-
-      _selectedKeywordDatas.add(keywordData);
+    for (var category in _getKeywordModels) {
+      for (var keyword in category.keywords) {
+        if (keyword.isSelected == true) {
+          _selectedCategoryId = category.categoryId;
+          _selectedKeywordDatas.add(keyword);
+        }
+      }
     }
-    _selectedCategoryId = _tempCategoryId;
-    print(_selectedKeywordDatas);
+    print('최종 카테고리 $_selectedCategoryId');
     notifyListeners();
   }
 }

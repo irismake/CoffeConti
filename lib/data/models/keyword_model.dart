@@ -20,16 +20,22 @@ class KeywordModel {
 class KeywordData {
   final int id;
   final String name;
-  final bool isSelected;
+  bool _isSelected;
 
   KeywordData({
     required this.id,
     required this.name,
-    required this.isSelected,
-  });
+    required bool isSelected,
+  }) : _isSelected = isSelected;
+
+  bool get isSelected => _isSelected;
+
+  set isSelected(bool value) {
+    _isSelected = value;
+  }
 
   KeywordData.fromJson(Map<String, dynamic> json)
       : id = json['id'],
         name = json['name'],
-        isSelected = json['is_selected'];
+        _isSelected = false;
 }

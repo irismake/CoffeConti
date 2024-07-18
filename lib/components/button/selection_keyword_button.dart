@@ -16,12 +16,11 @@ class SelectionKeywordButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Provider.of<KeywordsProvider>(context, listen: false).resetTempKeywordId();
     return Consumer<KeywordsProvider>(
       builder: (context, provider, child) {
         return GestureDetector(
           onTap: () {
-            provider.saveTempKeywordId(keywordId);
+            provider.changeKeywordState(keywordId);
           },
           child: AnimatedContainer(
             duration: const Duration(milliseconds: 300),
@@ -30,7 +29,7 @@ class SelectionKeywordButton extends StatelessWidget {
               horizontal: 20.0.w,
             ),
             decoration: BoxDecoration(
-              color: provider.tempKeywordIds.contains(keywordId)
+              color: provider.getKeywordState(keywordId)
                   ? Theme.of(context).primaryColor
                   : Colors.white,
               borderRadius: BorderRadius.circular(32),
@@ -39,10 +38,10 @@ class SelectionKeywordButton extends StatelessWidget {
             child: Text(
               keywordName,
               style: TextStyle(
-                color: provider.tempKeywordIds.contains(keywordId)
+                color: provider.getKeywordState(keywordId)
                     ? Colors.black
                     : Color(0xff868E96),
-                fontWeight: provider.tempKeywordIds.contains(keywordId)
+                fontWeight: provider.getKeywordState(keywordId)
                     ? FontWeight.w700
                     : FontWeight.w600,
               ),
