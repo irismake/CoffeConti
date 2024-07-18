@@ -3,20 +3,33 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'components/constants/sizes.dart';
 import 'package:provider/provider.dart';
-import 'package:coffeeconti/data/location_provider.dart';
-import 'widgets/main_navigation/main_navigation.dart';
+import 'package:coffeeconti/data/provider/location_provider.dart';
+import 'data/provider/keyword_provider.dart';
+import 'screen/navigator/main_view_navigator.dart';
 
 void main() async {
   await _initialize();
   runApp(
-    ScreenUtilInit(
-      builder: (BuildContext context, child) => MaterialApp(
-        home: MyApp(),
-        debugShowCheckedModeBanner: false,
-      ),
-      designSize: const Size(390, 844),
-      minTextAdapt: true,
-      splitScreenMode: true,
+    MultiProvider(
+      providers: [
+        ChangeNotifierProvider<KeywordsProvider>(
+          create: (context) => KeywordsProvider(),
+        ),
+        ChangeNotifierProvider<LocationProvider>(
+          create: (context) => LocationProvider(),
+        ),
+      ],
+      builder: (context, child) {
+        return ScreenUtilInit(
+          builder: (BuildContext context, child) => MaterialApp(
+            home: MyApp(),
+            debugShowCheckedModeBanner: false,
+          ),
+          designSize: const Size(390, 844),
+          minTextAdapt: true,
+          splitScreenMode: true,
+        );
+      },
     ),
   );
 }
@@ -33,25 +46,25 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider<LocationProvider>(
-      create: (context) => LocationProvider(), // LocationProvider 인스턴스 생성
-      child: MaterialApp(
-        title: 'Coffee Conti',
-        theme: ThemeData(
-            scaffoldBackgroundColor: Colors.white,
-            primaryColor: const Color(0xffFFBE98),
-            appBarTheme: const AppBarTheme(
-              foregroundColor: Colors.black,
-              backgroundColor: Colors.white,
-              elevation: 0,
-              titleTextStyle: TextStyle(
-                color: Colors.black,
-                fontSize: Sizes.size16 + Sizes.size2,
-                fontWeight: FontWeight.w600,
-              ),
-            )),
-        home: MainNavigationScreen(),
-      ),
+    Future.delayed(Duration.zero, () async {
+      await Provider.of<KeywordsProvider>(context, listen: false).getAllData();
+    });
+    return MaterialApp(
+      title: 'Coffee Conti',
+      theme: ThemeData(
+          scaffoldBackgroundColor: Colors.white,
+          primaryColor: const Color(0xffFFBE98),
+          appBarTheme: const AppBarTheme(
+            foregroundColor: Colors.black,
+            backgroundColor: Colors.white,
+            elevation: 0,
+            titleTextStyle: TextStyle(
+              color: Colors.black,
+              fontSize: Sizes.size16 + Sizes.size2,
+              fontWeight: FontWeight.w600,
+            ),
+          )),
+      home: MainViewNavigator(),
     );
   }
 }

@@ -1,4 +1,4 @@
-import 'package:coffeeconti/widgets/tabs/map_tab/map.dart';
+import 'package:coffeeconti/screen/tabs/map_tab/map.dart';
 import 'package:flutter_naver_map/flutter_naver_map.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:http/http.dart' as http;

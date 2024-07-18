@@ -6,12 +6,12 @@ import 'package:geolocator/geolocator.dart';
 import 'package:provider/provider.dart';
 
 import '../../../components/button/search_place_button.dart';
-import '../../../components/button/tag_button.dart';
 import '../../../components/constants/screenSize.dart';
 import '../../../data/cafe_data.dart';
-import '../../../data/location_provider.dart';
+import '../../../data/provider/location_provider.dart';
 import '../../../popup/ cafe_tutorial.dart';
-import '../../../popup/set_tag.dart';
+import '../../../popup/show_category_sheet.dart';
+import '../../../widgets/keyword_widget.dart';
 
 class CafeMap extends StatefulWidget {
   CafeMap({super.key});
@@ -51,16 +51,15 @@ class CafeMapState extends State<CafeMap> {
     tilt: 0,
   );
 
-  void _agreementPopUp() {
-    showModalBottomSheet(
-        context: context,
-        isScrollControlled: true,
-        builder: (context) {
-          return StatefulBuilder(
-              builder: (BuildContext context, StateSetter setState) {
-            return SetTag();
+  void _tapCategory(int index) {
+    if (index == 0) {
+      showModalBottomSheet(
+          context: context,
+          isScrollControlled: true,
+          builder: (context) {
+            return ShowCategorySheet();
           });
-        });
+    }
   }
 
   @override
@@ -83,43 +82,6 @@ class CafeMapState extends State<CafeMap> {
   Widget build(BuildContext context) {
     print('build');
     return Scaffold(
-      floatingActionButton: Positioned(
-        bottom: UnfocusCurrentPosition(context),
-        right: 16.w,
-        child: Container(
-          height: 50.0.h,
-          width: 50.0.w,
-          decoration: BoxDecoration(
-            shape: BoxShape.circle,
-            boxShadow: [
-              BoxShadow(
-                color: Colors.black.withOpacity(0.2),
-                spreadRadius: 1,
-                blurRadius: 3,
-                offset: Offset(0, 0), // changes position of shadow
-              ),
-            ],
-          ),
-          child: FittedBox(
-            child: FloatingActionButton(
-              backgroundColor: Colors.white,
-              elevation: 0,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(30),
-              ),
-              onPressed: () {
-                mapController
-                    .setLocationTrackingMode(NLocationTrackingMode.follow);
-              },
-              child: Image.asset(
-                'assets/icons/icon_my_location.png',
-                height: 32.0.h,
-                width: 32.0.w,
-              ),
-            ),
-          ),
-        ),
-      ),
       body: ValueListenableBuilder<bool>(
         valueListenable: _showCafeTutorialStateNotifier,
         builder: (context, value, _) {
@@ -139,54 +101,56 @@ class CafeMapState extends State<CafeMap> {
                 //onCameraIdle: onCameraIdle,
                 // onSelectedIndoorChanged: onSelectedIndoorChanged,
               ),
-              // Positioned(
-              //   bottom: value
-              //       ? FocusCurrentPosition(context) //
-              //       : UnfocusCurrentPosition(context),
-              //   right: 16,
-              //   child: FloatingActionButton(
-              //     backgroundColor: Colors.white,
-              //     onPressed: () {
-              //       mapController
-              //           .setLocationTrackingMode(NLocationTrackingMode.follow);
-              //     },
-              //     child: FaIcon(
-              //       FontAwesomeIcons.locationCrosshairs,
-              //       color: Theme.of(context).primaryColor,
-              //     ),
-              //   ),
-              // ),
               Padding(
                 padding: EdgeInsets.only(
                   top: ViewPaddingTopSize(context),
                 ),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Padding(
-                      padding: EdgeInsets.symmetric(
-                        horizontal: 10.0.w,
-                      ),
-                      child: SearchPlaceButton(
-                        currentAddress: '장위로 10길 10-9',
-                      ),
+                    SearchPlaceButton(
+                      currentAddress: '장위로 10길 10-9',
                     ),
-                    Padding(
-                      padding: EdgeInsets.symmetric(vertical: 10.0.h),
-                      child: SizedBox(
-                        height: 40.0.h,
-                        child: ListView.builder(
-                          shrinkWrap: true,
-                          itemCount: 10,
-                          scrollDirection: Axis.horizontal,
-                          itemBuilder: (context, index) => TagButton(
-                            name: '뷰+${index}',
-                            onTap: _agreementPopUp,
-                          ),
-                        ),
-                      ),
-                    ),
+                    KeywordWidget(),
                   ],
+                ),
+              ),
+              Positioned(
+                bottom: UnfocusCurrentPosition(context),
+                right: 16.w,
+                child: Container(
+                  height: 50.0.h,
+                  width: 50.0.w,
+                  decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.black.withOpacity(0.2),
+                        spreadRadius: 1,
+                        blurRadius: 3,
+                        offset: Offset(0, 0), // changes position of shadow
+                      ),
+                    ],
+                  ),
+                  child: FittedBox(
+                    child: FloatingActionButton(
+                      backgroundColor: Colors.white,
+                      elevation: 0,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(30),
+                      ),
+                      onPressed: () {
+                        mapController.setLocationTrackingMode(
+                            NLocationTrackingMode.follow);
+                      },
+                      child: Image.asset(
+                        'assets/icons/icon_my_location.png',
+                        height: 32.0.h,
+                        width: 32.0.w,
+                      ),
+                    ),
+                  ),
                 ),
               ),
             ],
