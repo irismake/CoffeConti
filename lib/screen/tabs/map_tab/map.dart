@@ -82,43 +82,6 @@ class CafeMapState extends State<CafeMap> {
   Widget build(BuildContext context) {
     print('build');
     return Scaffold(
-      floatingActionButton: Positioned(
-        bottom: UnfocusCurrentPosition(context),
-        right: 16.w,
-        child: Container(
-          height: 50.0.h,
-          width: 50.0.w,
-          decoration: BoxDecoration(
-            shape: BoxShape.circle,
-            boxShadow: [
-              BoxShadow(
-                color: Colors.black.withOpacity(0.2),
-                spreadRadius: 1,
-                blurRadius: 3,
-                offset: Offset(0, 0), // changes position of shadow
-              ),
-            ],
-          ),
-          child: FittedBox(
-            child: FloatingActionButton(
-              backgroundColor: Colors.white,
-              elevation: 0,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(30),
-              ),
-              onPressed: () {
-                mapController
-                    .setLocationTrackingMode(NLocationTrackingMode.follow);
-              },
-              child: Image.asset(
-                'assets/icons/icon_my_location.png',
-                height: 32.0.h,
-                width: 32.0.w,
-              ),
-            ),
-          ),
-        ),
-      ),
       body: ValueListenableBuilder<bool>(
         valueListenable: _showCafeTutorialStateNotifier,
         builder: (context, value, _) {
@@ -151,6 +114,43 @@ class CafeMapState extends State<CafeMap> {
                     ),
                     KeywordWidget(),
                   ],
+                ),
+              ),
+              Positioned(
+                bottom: UnfocusCurrentPosition(context),
+                right: 16.w,
+                child: Container(
+                  height: 50.0.h,
+                  width: 50.0.w,
+                  decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.black.withOpacity(0.2),
+                        spreadRadius: 1,
+                        blurRadius: 3,
+                        offset: Offset(0, 0), // changes position of shadow
+                      ),
+                    ],
+                  ),
+                  child: FittedBox(
+                    child: FloatingActionButton(
+                      backgroundColor: Colors.white,
+                      elevation: 0,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(30),
+                      ),
+                      onPressed: () {
+                        mapController.setLocationTrackingMode(
+                            NLocationTrackingMode.follow);
+                      },
+                      child: Image.asset(
+                        'assets/icons/icon_my_location.png',
+                        height: 32.0.h,
+                        width: 32.0.w,
+                      ),
+                    ),
+                  ),
                 ),
               ),
             ],

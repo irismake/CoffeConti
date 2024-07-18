@@ -42,51 +42,53 @@ class _CategoryViewNavigatorState extends State<CategoryViewNavigator>
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: EdgeInsets.symmetric(vertical: 8.0.h),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.start,
-        children: [
-          Center(
-            child: TabBar(
-              controller: tabController,
-              tabAlignment: TabAlignment.start,
-              dividerHeight: 0,
-              padding: EdgeInsets.symmetric(
-                horizontal: 10.w,
-              ),
-              unselectedLabelColor: Colors.grey,
-              unselectedLabelStyle: TextStyle(
-                fontSize: 16.sp,
-              ),
-              labelColor: Colors.black,
-              labelStyle: TextStyle(
-                fontSize: 18.sp,
-                fontWeight: FontWeight.w600,
-              ),
-              indicatorColor: Colors.transparent,
-              isScrollable: true,
-              onTap: (index) {
-                categoryTapListener(index);
-              },
-              tabs: List.generate(
-                6,
-                (index) => Tab(text: widget.provider.categoryNames[index]),
-              ),
-            ),
-          ),
-          Expanded(
-            child: TabBarView(
-              controller: tabController,
-              children: List.generate(
-                6,
-                (index) => SelectionKeywordWidget(
-                  keywordDatas: widget.provider.showKeywordDatas,
+    return Expanded(
+      child: Padding(
+        padding: EdgeInsets.symmetric(vertical: 8.0.h),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: [
+            Center(
+              child: TabBar(
+                controller: tabController,
+                tabAlignment: TabAlignment.start,
+                dividerHeight: 0,
+                padding: EdgeInsets.symmetric(
+                  horizontal: 10.w,
+                ),
+                unselectedLabelColor: Colors.grey,
+                unselectedLabelStyle: TextStyle(
+                  fontSize: 16.sp,
+                ),
+                labelColor: Colors.black,
+                labelStyle: TextStyle(
+                  fontSize: 18.sp,
+                  fontWeight: FontWeight.w600,
+                ),
+                indicatorColor: Colors.transparent,
+                isScrollable: true,
+                onTap: (index) {
+                  categoryTapListener(index);
+                },
+                tabs: List.generate(
+                  6,
+                  (index) => Tab(text: widget.provider.categoryNames[index]),
                 ),
               ),
             ),
-          ),
-        ],
+            Expanded(
+              child: TabBarView(
+                controller: tabController,
+                children: List.generate(
+                  6,
+                  (index) => SelectionKeywordWidget(
+                    keywordDatas: widget.provider.showKeywordDatas,
+                  ),
+                ),
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }

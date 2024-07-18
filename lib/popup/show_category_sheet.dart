@@ -50,10 +50,8 @@ class ShowCategorySheet extends StatelessWidget {
                       margin: EdgeInsets.symmetric(vertical: 15.0.h),
                     ),
                   ),
-                  Expanded(
-                    child: CategoryViewNavigator(
-                      provider: provider,
-                    ),
+                  CategoryViewNavigator(
+                    provider: provider,
                   ),
                   //TagListView(),
                   NextPageButton(

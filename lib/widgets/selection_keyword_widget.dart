@@ -49,35 +49,33 @@ class _SelectionKeywordWidgetState extends State<SelectionKeywordWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return Expanded(
-      child: Padding(
-        padding: EdgeInsets.symmetric(
-          vertical: 20.0.h,
-          horizontal: 20.0.w,
-        ),
-        child: Container(
-          //color: Colors.pink,
-          child: Scrollbar(
+    return Padding(
+      padding: EdgeInsets.symmetric(
+        vertical: 20.0.h,
+        horizontal: 20.0.w,
+      ),
+      child: Container(
+        //color: Colors.pink,
+        child: Scrollbar(
+          controller: _scrollController,
+          child: SingleChildScrollView(
             controller: _scrollController,
-            child: SingleChildScrollView(
-              controller: _scrollController,
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Wrap(
-                    alignment: WrapAlignment.start,
-                    runSpacing: 18,
-                    spacing: 10,
-                    children: widget.keywordDatas.map((keywordData) {
-                      return SelectionKeywordButton(
-                        keywordName: keywordData.name,
-                        keywordId: keywordData.id,
-                      );
-                    }).toList(),
-                  )
-                ],
-              ),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Wrap(
+                  alignment: WrapAlignment.start,
+                  runSpacing: 18,
+                  spacing: 10,
+                  children: widget.keywordDatas.map((keywordData) {
+                    return SelectionKeywordButton(
+                      keywordName: keywordData.name,
+                      keywordId: keywordData.id,
+                    );
+                  }).toList(),
+                )
+              ],
             ),
           ),
         ),
