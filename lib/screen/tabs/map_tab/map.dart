@@ -219,10 +219,8 @@ class CafeMapState extends State<CafeMap> {
     overlayEntry = OverlayEntry(
       builder: (context) {
         return CafeTutorial(
-            cafeName: cafeName,
-            stringRemainTime: stringRemainTime,
-            tappedMarkerPosition: tappedMarkerPosition,
-            currentPosition: _currentPosition);
+          cafeName: cafeName,
+        );
       },
     );
 
