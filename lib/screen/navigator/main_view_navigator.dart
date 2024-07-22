@@ -5,6 +5,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../tabs/user_page.dart';
 import '../tabs/map_tab/map.dart';
 import '../../components/button/nav_tab.dart';
+import '../user/user_profile.dart';
 
 class MainViewNavigator extends StatefulWidget {
   MainViewNavigator({super.key});
@@ -19,7 +20,7 @@ class _MainViewNavigatorState extends State<MainViewNavigator> {
   final List<Widget> _widgetOptions = <Widget>[
     CafeMap(),
     EditPage(),
-    UserPage(),
+    UserProfile(),
     UserPage(),
   ];
 
