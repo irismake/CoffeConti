@@ -1,7 +1,7 @@
-import 'package:dynamic_height_grid_view/dynamic_height_grid_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
+import '../../components/button/custom_search_bar.dart';
 import '../../components/constants/screenSize.dart';
 
 class BookmarkPage extends StatelessWidget {
@@ -30,40 +30,39 @@ class BookmarkPage extends StatelessWidget {
       body: Padding(
         padding: EdgeInsets.symmetric(horizontal: 18.0.w),
         child: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
           children: [
             SizedBox(
               height: ViewPaddingTopSize(context),
             ),
             Padding(
               padding: EdgeInsets.symmetric(vertical: 20.0.h),
-              child: SearchBar(
+              child: CustomSearchBar(
                 autoFocus: false,
                 enabled: false,
               ),
             ),
             Expanded(
-              child: DynamicHeightGridView(
-                itemCount: 6,
-                crossAxisCount: 2,
-                crossAxisSpacing: 20.0.w,
-                mainAxisSpacing: 0.0.h,
-                builder: (ctx, index) {
+              child: GridView.count(
+                padding: EdgeInsets.zero,
+                crossAxisCount: 2, // 한 행에 보여줄 아이템 수
+                crossAxisSpacing: 12.0.w, // 아이템 사이의 가로 간격
+                mainAxisSpacing: 20.0.h, // 아이템 사이의 세로 간격
+                children: List.generate(6, (index) {
                   return GestureDetector(
-                    onTap: () {
-                      // Navigator.push(
-                      //   context,
-                      //   MaterialPageRoute(
-                      //     builder: (context) => ListDetailPage(
-                      //       listId: myGroupLists[index].id,
-                      //       isBookmarked: myGroupLists[index].isBookmarked,
-                      //     ),
-                      //   ),
-                      // );
-                    },
-                    child: Padding(
-                      padding: EdgeInsets.only(bottom: 20.0.h),
+                      onTap: () {
+                        // Navigator.push(
+                        //   context,
+                        //   MaterialPageRoute(
+                        //     builder: (context) => ListDetailPage(
+                        //       listId: myGroupLists[index].id,
+                        //       isBookmarked: myGroupLists[index].isBookmarked,
+                        //     ),
+                        //   ),
+                        // );
+                      },
                       child: Container(
-                        height: 218.0.h,
+                        height: 200.0,
                         width: double.infinity,
                         decoration: BoxDecoration(
                           color: Colors.grey.withOpacity(0.1),
@@ -75,7 +74,7 @@ class BookmarkPage extends StatelessWidget {
                         ),
                         child: Padding(
                           padding: EdgeInsets.symmetric(
-                            vertical: 22.0,
+                            vertical: 16.0,
                           ),
                           child: Column(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -105,10 +104,8 @@ class BookmarkPage extends StatelessWidget {
                             ],
                           ),
                         ),
-                      ),
-                    ),
-                  );
-                },
+                      ));
+                }),
               ),
             ),
           ],
