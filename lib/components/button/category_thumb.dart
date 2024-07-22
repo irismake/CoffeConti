@@ -26,7 +26,7 @@ class CategoryThumb extends StatelessWidget {
       '병원',
     ];
     return Padding(
-      padding: EdgeInsets.symmetric(horizontal: 12.0),
+      padding: EdgeInsets.symmetric(horizontal: 6.0),
       child: Container(
         width: 110.0,
         decoration: BoxDecoration(

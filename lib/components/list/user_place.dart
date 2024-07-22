@@ -11,7 +11,7 @@ class UserPlace extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 10.0),
+      padding: EdgeInsets.symmetric(horizontal: 6.0, vertical: 10.0),
       child: GestureDetector(
         // behavior: HitTestBehavior.opaque,
         onTap: () {
@@ -33,29 +33,19 @@ class UserPlace extends StatelessWidget {
           ),
           child: Padding(
             padding: EdgeInsets.symmetric(
-              horizontal: 18,
-              vertical: 14,
+              horizontal: 20,
+              vertical: 18,
             ),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  '#카페',
-                  style: TextStyle(
-                    fontFamily: 'PretendardRegular',
-                    fontSize: 12,
-                    fontWeight: FontWeight.w600,
-                    color: Color(0xff868E96),
-                    height: 1.5,
-                  ),
-                ),
-                Text(
                   limitTextLength(cafeName, 15),
                   overflow: TextOverflow.ellipsis,
                   style: TextStyle(
-                    fontSize: 18,
-                    fontWeight: FontWeight.w700,
+                    fontSize: 20,
+                    fontWeight: FontWeight.w800,
                     color: Color(0xFF343A40),
                   ),
                 ),
@@ -65,13 +55,13 @@ class UserPlace extends StatelessWidget {
                     Container(
                       decoration: BoxDecoration(
                         color: Color(0xFFF1F3F5),
-                        borderRadius: BorderRadius.circular(100),
+                        borderRadius: BorderRadius.circular(4),
                       ),
                       child: Padding(
                         padding: EdgeInsets.symmetric(
                             horizontal: 12.0, vertical: 2.0),
                         child: Text(
-                          '공부',
+                          '카페',
                           style: TextStyle(
                             color: Color(0xFF868E96),
                             fontSize: 12.0,
@@ -83,18 +73,18 @@ class UserPlace extends StatelessWidget {
                       ),
                     ),
                     SizedBox(
-                      width: 4,
+                      width: 6,
                     ),
                     Container(
                       decoration: BoxDecoration(
                         color: Color(0xFFF1F3F5),
-                        borderRadius: BorderRadius.circular(100),
+                        borderRadius: BorderRadius.circular(4),
                       ),
                       child: Padding(
                         padding: EdgeInsets.symmetric(
                             horizontal: 12.0, vertical: 2.0),
                         child: Text(
-                          '디저트',
+                          '음식점',
                           style: TextStyle(
                             color: Color(0xFF868E96),
                             fontSize: 12.0,
@@ -106,6 +96,19 @@ class UserPlace extends StatelessWidget {
                       ),
                     ),
                   ],
+                ),
+                Padding(
+                  padding: EdgeInsets.only(left: 6.0),
+                  child: Text(
+                    '#뷰  #맛집  #데이트',
+                    style: TextStyle(
+                      fontFamily: 'PretendardRegular',
+                      fontSize: 12,
+                      fontWeight: FontWeight.w600,
+                      color: Color(0xFFADB5BD),
+                      height: 1.5,
+                    ),
+                  ),
                 ),
               ],
             ),
