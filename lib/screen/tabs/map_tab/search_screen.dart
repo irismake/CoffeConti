@@ -3,6 +3,8 @@ import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:coffeeconti/components/button/associated_search_button.dart';
 
+import '../../../components/button/custom_search_bar.dart';
+
 const interests = [
   'Apple',
   'Banana',
@@ -77,7 +79,7 @@ class _SearchScreenState extends State<SearchScreen> {
               decoration: BoxDecoration(color: Colors.grey[200]),
               child: Padding(
                 padding: EdgeInsets.symmetric(vertical: 15, horizontal: 20),
-                child: SearchBar(
+                child: CustomSearchBar(
                   autoFocus: false,
                   enabled: false,
                 ),
