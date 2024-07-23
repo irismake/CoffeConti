@@ -9,24 +9,15 @@ class BookmarkPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    List<String> _categoryImages = [
-      'cafe',
-      'restaurant',
-      'convenience_store',
-      'movie',
-      'parking',
-      'hospital'
-    ];
-    List<String> _categoryNames = [
-      '카페',
-      '음식점',
-      '편의점',
-      '영화관',
-      '주차장',
-      '병원',
+    List<String> _groupNames = [
+      '공부 카페 리스트',
+      '제주도 여행',
+      '성수 직장인 추천',
+      '용산 데이트 코스',
+      '24시 약국',
+      '디저트 맛집 카페',
     ];
     return Scaffold(
-      //   appBar: AppBar(),
       body: Padding(
         padding: EdgeInsets.symmetric(horizontal: 18.0.w),
         child: Column(
@@ -36,20 +27,71 @@ class BookmarkPage extends StatelessWidget {
               height: ViewPaddingTopSize(context),
             ),
             Padding(
-              padding: EdgeInsets.symmetric(vertical: 20.0.h),
-              child: CustomSearchBar(
-                autoFocus: false,
-                enabled: false,
+              padding: EdgeInsets.symmetric(
+                horizontal: 10.0.w,
+                vertical: 6.0.h,
+              ),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      Text(
+                        '그룹',
+                        style: TextStyle(
+                          fontFamily: 'PretendardRegular',
+                          fontSize: 20.sp,
+                          fontWeight: FontWeight.w700,
+                          color: Colors.black,
+                          height: 1.56,
+                        ),
+                      ),
+                      SizedBox(
+                        width: 6.0.w,
+                      ),
+                      Container(
+                        // color: Colors.pink,
+                        height: 16.0.h,
+                        child: Image.asset(
+                          'assets/icons/icon_bookmark_fill.png',
+                          fit: BoxFit.contain,
+                        ),
+                      ),
+                    ],
+                  ),
+                  Text(
+                    '추가',
+                    style: TextStyle(
+                      fontFamily: 'PretendardRegular',
+                      fontSize: 14.sp,
+                      fontWeight: FontWeight.w600,
+                      color: Color(0xff868E96),
+                    ),
+                  ),
+                ],
               ),
             ),
+
+            // Padding(
+            //   padding: EdgeInsets.symmetric(vertical: 10.0.h),
+            //   child: CustomSearchBar(
+            //     autoFocus: false,
+            //     enabled: false,
+            //   ),
+            // ),
             Expanded(
               child: GridView.count(
-                padding: EdgeInsets.zero,
+                padding: EdgeInsets.symmetric(vertical: 20),
                 crossAxisCount: 2, // 한 행에 보여줄 아이템 수
                 crossAxisSpacing: 12.0.w, // 아이템 사이의 가로 간격
-                mainAxisSpacing: 20.0.h, // 아이템 사이의 세로 간격
-                children: List.generate(6, (index) {
-                  return GestureDetector(
+                mainAxisSpacing: 16.0, // 아이템 사이의 세로 간격
+                childAspectRatio: 0.8,
+                children: List.generate(
+                  6,
+                  (index) {
+                    return GestureDetector(
                       onTap: () {
                         // Navigator.push(
                         //   context,
@@ -61,53 +103,56 @@ class BookmarkPage extends StatelessWidget {
                         //   ),
                         // );
                       },
-                      child: Container(
-                        height: 200.0,
-                        width: double.infinity,
-                        decoration: BoxDecoration(
-                          color: Colors.grey.withOpacity(0.1),
-                          borderRadius: BorderRadius.circular(12),
-                          border: Border.all(
-                            width: 0.5,
-                            color: Colors.black.withOpacity(0.08),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Container(
+                            height: 175.0,
+                            width: double.infinity,
+                            decoration: BoxDecoration(
+                              color: Colors.grey.withOpacity(0.1),
+                              borderRadius: BorderRadius.circular(8),
+                              border: Border.all(
+                                width: 0.5,
+                                color: Colors.black.withOpacity(0.08),
+                              ),
+                            ),
                           ),
-                        ),
-                        child: Padding(
-                          padding: EdgeInsets.symmetric(
-                            vertical: 16.0,
+                          SizedBox(
+                            height: 10.0,
                           ),
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.start,
                             crossAxisAlignment: CrossAxisAlignment.center,
                             children: [
-                              SizedBox(
-                                height: 85,
-                                width: 95,
-                                child: Image.asset(
-                                  'assets/images/image_thumb_${_categoryImages[index]}.png',
-                                  fit: BoxFit.contain,
-                                ),
-                              ),
-                              SizedBox(
-                                height: 12.0.h,
-                              ),
                               Text(
-                                '${_categoryNames[index]}',
+                                '${_groupNames[index]}',
                                 style: TextStyle(
                                   fontFamily: 'PretendardRegular',
                                   fontSize: 16.sp,
                                   fontWeight: FontWeight.w600,
+                                  color: Color(0xff343A40),
+                                ),
+                              ),
+                              Text(
+                                '   (9)',
+                                style: TextStyle(
+                                  fontFamily: 'PretendardRegular',
+                                  fontSize: 14.sp,
+                                  fontWeight: FontWeight.w500,
                                   color: Color(0xff868E96),
-                                  height: 1.5,
                                 ),
                               ),
                             ],
                           ),
-                        ),
-                      ));
-                }),
+                        ],
+                      ),
+                    );
+                  },
+                ),
               ),
-            ),
+            )
           ],
         ),
       ),
