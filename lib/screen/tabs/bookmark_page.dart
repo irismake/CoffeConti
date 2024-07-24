@@ -1,7 +1,7 @@
+import 'package:coffeeconti/widgets/bookmark_list_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-import '../../components/button/custom_search_bar.dart';
 import '../../components/constants/screenSize.dart';
 
 class BookmarkPage extends StatelessWidget {
@@ -51,7 +51,7 @@ class BookmarkPage extends StatelessWidget {
                       SizedBox(
                         width: 6.0.w,
                       ),
-                      Container(
+                      SizedBox(
                         // color: Colors.pink,
                         height: 16.0.h,
                         child: Image.asset(
@@ -73,14 +73,6 @@ class BookmarkPage extends StatelessWidget {
                 ],
               ),
             ),
-
-            // Padding(
-            //   padding: EdgeInsets.symmetric(vertical: 10.0.h),
-            //   child: CustomSearchBar(
-            //     autoFocus: false,
-            //     enabled: false,
-            //   ),
-            // ),
             Expanded(
               child: GridView.count(
                 padding: EdgeInsets.symmetric(vertical: 20),
@@ -93,22 +85,20 @@ class BookmarkPage extends StatelessWidget {
                   (index) {
                     return GestureDetector(
                       onTap: () {
-                        // Navigator.push(
-                        //   context,
-                        //   MaterialPageRoute(
-                        //     builder: (context) => ListDetailPage(
-                        //       listId: myGroupLists[index].id,
-                        //       isBookmarked: myGroupLists[index].isBookmarked,
-                        //     ),
-                        //   ),
-                        // );
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => BookmarkListWidget(
+                                groupName: _groupNames[index]),
+                          ),
+                        );
                       },
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.start,
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Container(
-                            height: 175.0,
+                            height: 180.0.h,
                             width: double.infinity,
                             decoration: BoxDecoration(
                               color: Colors.grey.withOpacity(0.1),
