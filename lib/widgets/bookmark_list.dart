@@ -61,8 +61,8 @@ class SearchItemWidget extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Container(
-          width: 80.0,
-          height: 80.0,
+          width: 90.0,
+          height: 90.0,
           decoration: ShapeDecoration(
             color: Color(0xffF1F3F5),
             shape: RoundedRectangleBorder(
@@ -101,61 +101,71 @@ class SearchItemWidget extends StatelessWidget {
                   overflow: TextOverflow.ellipsis,
                   maxLines: 2,
                 ),
-                SizedBox(
-                  height: 4.0,
-                ),
                 index == 0
-                    ? Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Row(
+                    ? Expanded(
+                        child: Padding(
+                          padding: EdgeInsets.symmetric(vertical: 6.0),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Keyword(keywordName: '공부'),
-                              SizedBox(width: 6.0),
-                              Keyword(keywordName: '디저트'),
+                              Row(
+                                children: [
+                                  Keyword(keywordName: '공부'),
+                                  SizedBox(width: 6.0),
+                                  Keyword(keywordName: '디저트'),
+                                ],
+                              ),
+                              SizedBox(
+                                height: 8,
+                              ),
+                              Text(
+                                '  #레몬스퀘어',
+                                style: TextStyle(
+                                  color: Color(0xFF868E96),
+                                  fontSize: 12.sp,
+                                  fontFamily: 'Pretendard',
+                                  fontWeight: FontWeight.w500,
+                                  height: 1.5,
+                                ),
+                              ),
                             ],
                           ),
-                          SizedBox(
-                            height: 6,
-                          ),
-                          Text(
-                            '#레몬스퀘어',
-                            style: TextStyle(
-                              color: Color(0xFF868E96),
-                              fontSize: 12.sp,
-                              fontFamily: 'Pretendard',
-                              fontWeight: FontWeight.w500,
-                              height: 1.5,
-                            ),
-                          ),
-                        ],
-                      )
-                    : TextButton(
-                        onPressed: () {},
-                        style: TextButton.styleFrom(
-                          backgroundColor: Color(0xFF343A40),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(6.0),
-                          ),
-                          padding: EdgeInsets.symmetric(
-                              vertical: 2.0.h, horizontal: 6.0.w),
-                          minimumSize: Size.zero,
-                          tapTargetSize: MaterialTapTargetSize.shrinkWrap,
                         ),
-                        child: Text(
-                          '리뷰 작성',
-                          style: TextStyle(
-                            color: Theme.of(context).primaryColor,
-                            fontSize: 12.0.sp,
-                            fontFamily: 'Pretendard',
-                            fontWeight: FontWeight.w600,
-                            height: 1.5,
-                          ),
+                      )
+                    : Expanded(
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            Padding(
+                              padding: EdgeInsets.symmetric(vertical: 6.0),
+                              child: TextButton(
+                                onPressed: () {},
+                                style: TextButton.styleFrom(
+                                  backgroundColor: Color(0xFF343A40),
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(6.0),
+                                  ),
+                                  padding: EdgeInsets.symmetric(
+                                      vertical: 2.0.h, horizontal: 6.0.w),
+                                  minimumSize: Size.zero,
+                                  tapTargetSize:
+                                      MaterialTapTargetSize.shrinkWrap,
+                                ),
+                                child: Text(
+                                  '리뷰 작성',
+                                  style: TextStyle(
+                                    color: Theme.of(context).primaryColor,
+                                    fontSize: 12.0.sp,
+                                    fontFamily: 'Pretendard',
+                                    fontWeight: FontWeight.w600,
+                                    height: 1.5,
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ],
                         ),
                       ),
-                SizedBox(
-                  height: 4.0,
-                ),
                 Text(
                   '서울 성북구 안암로 5길 72 (안암동3가)',
                   style: TextStyle(
