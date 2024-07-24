@@ -39,6 +39,12 @@ class _BookmarkListWidgetState extends State<BookmarkListWidget>
     return Scaffold(
       appBar: AppBar(
         toolbarHeight: 64.0.h,
+        // shape: const Border(
+        //   bottom: BorderSide(
+        //     color: Color(0xffb2b2b2),
+        //     width: 0.5,
+        //   ),
+        // ),
         leading: IconButton(
           onPressed: () {
             Navigator.pop(context); //뒤로가기
@@ -62,7 +68,6 @@ class _BookmarkListWidgetState extends State<BookmarkListWidget>
         children: [
           Padding(
             padding: EdgeInsets.symmetric(
-              vertical: 0.0.h,
               horizontal: 16.0.w,
             ),
             child: Container(
@@ -79,7 +84,7 @@ class _BookmarkListWidgetState extends State<BookmarkListWidget>
                   ),
                   labelColor: Colors.black,
                   labelStyle: TextStyle(
-                    fontSize: 14.sp,
+                    fontSize: 18.sp,
                     fontWeight: FontWeight.w600,
                   ),
                   indicatorColor: Colors.transparent,
@@ -88,17 +93,7 @@ class _BookmarkListWidgetState extends State<BookmarkListWidget>
                   tabs: List.generate(
                     _categoryName.length,
                     (index) => Tab(
-                      child: Container(
-                        padding: EdgeInsets.symmetric(
-                            vertical: 6.0.h, horizontal: 16.0.w),
-                        decoration: BoxDecoration(
-                          color: _tabController.index == index
-                              ? Theme.of(context).primaryColor
-                              : Colors.transparent, // 선택된 탭의 배경색
-                          borderRadius: BorderRadius.circular(20),
-                        ),
-                        child: Text('${_categoryName[index]}'),
-                      ),
+                      child: Text('${_categoryName[index]}'),
                     ),
                   ),
                 ),

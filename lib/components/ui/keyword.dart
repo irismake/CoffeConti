@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-class KeyWord extends StatelessWidget {
-  final String keyWordName;
-  const KeyWord({super.key, required this.keyWordName});
+class Keyword extends StatelessWidget {
+  final String keywordName;
+  const Keyword({super.key, required this.keywordName});
 
   @override
   Widget build(BuildContext context) {
@@ -15,9 +15,9 @@ class KeyWord extends StatelessWidget {
         ),
       ),
       child: Padding(
-        padding: EdgeInsets.symmetric(horizontal: 14.0.w, vertical: 3.0.h),
+        padding: EdgeInsets.symmetric(horizontal: 12.0.w, vertical: 3.0.h),
         child: Text(
-          keyWordName,
+          keywordName,
           style: TextStyle(
             color: Color(0xFF868E96),
             fontSize: 12.0.sp,

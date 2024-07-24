@@ -29,8 +29,7 @@ class BookmarkList extends StatelessWidget {
         itemCount: _placeName.length,
         itemBuilder: (context, index) {
           return Padding(
-            padding:
-                const EdgeInsets.symmetric(horizontal: 16.0, vertical: 10.0),
+            padding: const EdgeInsets.symmetric(vertical: 16.0),
             child: SearchItemWidget(
               searchText: '${_placeName[index]}',
               index: index,
@@ -38,10 +37,10 @@ class BookmarkList extends StatelessWidget {
           );
         },
         separatorBuilder: (BuildContext context, int index) {
-          return Divider(
-            color: Color(0xffDEE2E6),
-            thickness: 1,
-            height: 2.0.h,
+          return Container(
+            color: Color(0xffF1F3F5),
+            // thickness: 9,
+            height: 1.5.h,
           );
         },
       ),
@@ -57,36 +56,35 @@ class SearchItemWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      width: double.infinity,
-      height: 90.0,
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.start,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          Container(
-            width: 80.0,
-            height: 80.0,
-            decoration: ShapeDecoration(
-              color: Color(0xffF1F3F5),
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(4),
-              ),
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.start,
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Container(
+          width: 80.0,
+          height: 80.0,
+          decoration: ShapeDecoration(
+            color: Color(0xffF1F3F5),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(12),
             ),
-            child: index == 0
-                ? ClipRRect(
-                    borderRadius: BorderRadius.circular(
-                        4), // RoundedRectangleBorder와 같은 반경 사용
-
-                    child: Image.asset(
-                      'assets/images/IMG_4498.png',
-                      fit: BoxFit.cover,
-                    ),
-                  )
-                : SizedBox.shrink(),
           ),
-          Padding(
-            padding: EdgeInsets.only(top: 10.0, bottom: 10.0, left: 16.0),
+          child: index == 0
+              ? ClipRRect(
+                  borderRadius: BorderRadius.circular(12),
+                  child: Image.asset(
+                    'assets/images/IMG_4498.png',
+                    fit: BoxFit.cover,
+                  ),
+                )
+              : SizedBox.shrink(),
+        ),
+        SizedBox(
+          height: 120.0,
+          child: Padding(
+            padding: EdgeInsets.symmetric(
+              horizontal: 16.0.w,
+            ),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -104,26 +102,74 @@ class SearchItemWidget extends StatelessWidget {
                   maxLines: 2,
                 ),
                 SizedBox(
-                  height: 8.0,
+                  height: 4.0,
                 ),
                 index == 0
-                    ? Row(
+                    ? Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          KeyWord(keyWordName: '공부'),
-                          SizedBox(width: 6.0),
-                          KeyWord(keyWordName: '디저트'),
+                          Row(
+                            children: [
+                              Keyword(keywordName: '공부'),
+                              SizedBox(width: 6.0),
+                              Keyword(keywordName: '디저트'),
+                            ],
+                          ),
+                          SizedBox(
+                            height: 6,
+                          ),
+                          Text(
+                            '#레몬스퀘어',
+                            style: TextStyle(
+                              color: Color(0xFF868E96),
+                              fontSize: 12.sp,
+                              fontFamily: 'Pretendard',
+                              fontWeight: FontWeight.w500,
+                              height: 1.5,
+                            ),
+                          ),
                         ],
                       )
-                    : SizedBox.shrink(),
+                    : TextButton(
+                        onPressed: () {},
+                        style: TextButton.styleFrom(
+                          backgroundColor: Color(0xFF343A40),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(6.0),
+                          ),
+                          padding: EdgeInsets.symmetric(
+                              vertical: 2.0.h, horizontal: 6.0.w),
+                          minimumSize: Size.zero,
+                          tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                        ),
+                        child: Text(
+                          '리뷰 작성',
+                          style: TextStyle(
+                            color: Theme.of(context).primaryColor,
+                            fontSize: 12.0.sp,
+                            fontFamily: 'Pretendard',
+                            fontWeight: FontWeight.w600,
+                            height: 1.5,
+                          ),
+                        ),
+                      ),
+                SizedBox(
+                  height: 4.0,
+                ),
+                Text(
+                  '서울 성북구 안암로 5길 72 (안암동3가)',
+                  style: TextStyle(
+                    color: Color(0xff343A40),
+                    fontSize: 13.sp,
+                    fontFamily: 'Pretendard',
+                    fontWeight: FontWeight.w500,
+                  ),
+                ),
               ],
             ),
           ),
-          // Image.asset(
-          //   'assets/icons/icon_bookmark_fill.png',
-          //   height: 20.0.h,
-          // ),
-        ],
-      ),
+        ),
+      ],
     );
   }
 }

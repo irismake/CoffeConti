@@ -19,17 +19,17 @@ class BookmarkPage extends StatelessWidget {
     ];
     return Scaffold(
       body: Padding(
-        padding: EdgeInsets.symmetric(horizontal: 18.0.w),
+        padding: EdgeInsets.symmetric(horizontal: 16.0.w),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
             SizedBox(
-              height: ViewPaddingTopSize(context),
+              height: ViewPaddingTopSize(context) + 10.0.h,
             ),
             Padding(
               padding: EdgeInsets.symmetric(
                 horizontal: 10.0.w,
-                vertical: 6.0.h,
+                vertical: 10.0.h,
               ),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
