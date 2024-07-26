@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-class UserPlace extends StatelessWidget {
+import 'keyword.dart';
+
+class MyGroups extends StatelessWidget {
   final cafeName;
 
-  UserPlace({
+  MyGroups({
     super.key,
     required this.cafeName,
   });
@@ -44,63 +47,23 @@ class UserPlace extends StatelessWidget {
                   limitTextLength(cafeName, 15),
                   overflow: TextOverflow.ellipsis,
                   style: TextStyle(
-                    fontSize: 20,
-                    fontWeight: FontWeight.w800,
-                    color: Color(0xFF343A40),
+                    color: Colors.black,
+                    fontWeight: FontWeight.w600,
+                    fontSize: 16.0.sp,
+                    height: 1.56,
                   ),
                 ),
                 Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
                   children: [
-                    Container(
-                      decoration: BoxDecoration(
-                        color: Color(0xFFF1F3F5),
-                        borderRadius: BorderRadius.circular(4),
-                      ),
-                      child: Padding(
-                        padding: EdgeInsets.symmetric(
-                            horizontal: 12.0, vertical: 2.0),
-                        child: Text(
-                          '카페',
-                          style: TextStyle(
-                            color: Color(0xFF868E96),
-                            fontSize: 12.0,
-                            fontFamily: 'Pretendard',
-                            fontWeight: FontWeight.w700,
-                            height: 1.5,
-                          ),
-                        ),
-                      ),
-                    ),
-                    SizedBox(
-                      width: 6,
-                    ),
-                    Container(
-                      decoration: BoxDecoration(
-                        color: Color(0xFFF1F3F5),
-                        borderRadius: BorderRadius.circular(4),
-                      ),
-                      child: Padding(
-                        padding: EdgeInsets.symmetric(
-                            horizontal: 12.0, vertical: 2.0),
-                        child: Text(
-                          '음식점',
-                          style: TextStyle(
-                            color: Color(0xFF868E96),
-                            fontSize: 12.0,
-                            fontFamily: 'Pretendard',
-                            fontWeight: FontWeight.w700,
-                            height: 1.5,
-                          ),
-                        ),
-                      ),
-                    ),
+                    Keyword(keywordName: '공부'),
+                    SizedBox(width: 6.0),
+                    Keyword(keywordName: '디저트'),
                   ],
                 ),
                 Padding(
                   padding: EdgeInsets.only(left: 6.0),
                   child: Text(
-                    '#뷰  #맛집  #데이트',
+                    '(9/500)',
                     style: TextStyle(
                       fontFamily: 'PretendardRegular',
                       fontSize: 12,
