@@ -1,17 +1,17 @@
-import 'package:coffeeconti/popup/no_cafe_toast.dart';
+import 'package:coffeeconti/components/popup/no_cafe_toast.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_naver_map/flutter_naver_map.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:provider/provider.dart';
 
-import '../../../components/button/search_place_button.dart';
-import '../../../components/constants/screenSize.dart';
-import '../../../data/cafe_data.dart';
-import '../../../data/provider/location_provider.dart';
-import '../../../popup/ cafe_tutorial.dart';
-import '../../../popup/show_category_sheet.dart';
-import '../../../widgets/keyword_widget.dart';
+import '../../components/button/search_place_button.dart';
+import '../../components/constants/screenSize.dart';
+import '../../data/cafe_data.dart';
+import '../../data/provider/location_provider.dart';
+import '../../components/popup/cafe_tutorial.dart';
+import '../../components/popup/show_category_sheet.dart';
+import '../../components/widgets/search_keyword_widget.dart';
 
 class CafeMap extends StatefulWidget {
   CafeMap({super.key});
@@ -112,7 +112,7 @@ class CafeMapState extends State<CafeMap> {
                     SearchPlaceButton(
                       currentAddress: '장위로 10길 10-9',
                     ),
-                    KeywordWidget(),
+                    SearchKeywordWidget(),
                   ],
                 ),
               ),

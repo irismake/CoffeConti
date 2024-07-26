@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-import '../../popup/ cafe_tutorial.dart';
+import '../../components/popup/cafe_tutorial.dart';
 
 class UserProfile extends StatelessWidget {
   const UserProfile({super.key});

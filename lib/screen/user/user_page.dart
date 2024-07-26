@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-import '../../components/button/category_thumb.dart';
+import '../../components/ui/my_review_thumb.dart';
 import '../../components/ui/my_groups.dart';
 
 class UserPage extends StatelessWidget {
@@ -150,7 +150,7 @@ class UserPage extends StatelessWidget {
                   itemBuilder: (context, index) {
                     return GestureDetector(
                       onTap: () async {},
-                      child: CategoryThumb(
+                      child: MyReviewThumb(
                         index: index,
                       ),
                     );

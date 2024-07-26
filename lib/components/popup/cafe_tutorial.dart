@@ -1,11 +1,11 @@
 import 'package:coffeeconti/components/constants/gaps.dart';
 import 'package:coffeeconti/data/cafe_data.dart';
-import 'package:coffeeconti/screen/tabs/map_tab/map.dart';
+import 'package:coffeeconti/screen/map/map.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-import '../components/constants/screenSize.dart';
-import '../components/constants/sizes.dart';
+import '../constants/screenSize.dart';
+import '../constants/sizes.dart';
 
 class CafeTutorial extends StatelessWidget {
   final cafeName;
