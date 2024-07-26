@@ -1,20 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-import '../../widgets/selection_keyword_widget.dart';
+import '../../components/widgets/select_keyword_widget.dart';
 
-class CategoryViewNavigator extends StatefulWidget {
+class SelectCategoryPage extends StatefulWidget {
   final dynamic provider;
-  const CategoryViewNavigator({
+  const SelectCategoryPage({
     super.key,
     required this.provider,
   });
 
   @override
-  State<CategoryViewNavigator> createState() => _CategoryViewNavigatorState();
+  State<SelectCategoryPage> createState() => _SelectCategoryPageState();
 }
 
-class _CategoryViewNavigatorState extends State<CategoryViewNavigator>
+class _SelectCategoryPageState extends State<SelectCategoryPage>
     with SingleTickerProviderStateMixin {
   late TabController tabController;
 
@@ -81,7 +81,7 @@ class _CategoryViewNavigatorState extends State<CategoryViewNavigator>
                 controller: tabController,
                 children: List.generate(
                   6,
-                  (index) => SelectionKeywordWidget(
+                  (index) => SelectKeywordWidget(
                     keywordDatas: widget.provider.showKeywordDatas,
                   ),
                 ),

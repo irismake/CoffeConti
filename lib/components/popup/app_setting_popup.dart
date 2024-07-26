@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:permission_handler/permission_handler.dart';
 
-import '../components/constants/gaps.dart';
-import '../components/constants/sizes.dart';
+import '../constants/gaps.dart';
+import '../constants/sizes.dart';
 
 class ShowAppSettingMessage extends StatelessWidget {
   const ShowAppSettingMessage({super.key});

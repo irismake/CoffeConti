@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
-class CategoryThumb extends StatelessWidget {
+class MyReviewThumb extends StatelessWidget {
   final int index;
-  const CategoryThumb({
+  const MyReviewThumb({
     super.key,
     required this.index,
   });

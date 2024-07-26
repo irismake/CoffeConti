@@ -4,11 +4,11 @@ import 'package:provider/provider.dart';
 
 import '../../data/provider/keyword_provider.dart';
 
-class SelectionKeywordButton extends StatelessWidget {
+class SelectKeywordButton extends StatelessWidget {
   final String keywordName;
   final int keywordId;
 
-  const SelectionKeywordButton({
+  const SelectKeywordButton({
     Key? key,
     required this.keywordName,
     required this.keywordId,
