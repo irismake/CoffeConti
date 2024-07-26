@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../components/button/category_thumb.dart';
-import '../../components/list/user_place.dart';
+import '../../components/ui/my_groups.dart';
 
 class UserPage extends StatelessWidget {
   const UserPage({super.key});
@@ -209,8 +209,8 @@ class UserPage extends StatelessWidget {
                   itemBuilder: (context, index) {
                     return GestureDetector(
                       onTap: () async {},
-                      child: UserPlace(
-                        cafeName: '합정 맛집',
+                      child: MyGroups(
+                        cafeName: '공부 카페 리스트',
                       ),
                     );
                   },

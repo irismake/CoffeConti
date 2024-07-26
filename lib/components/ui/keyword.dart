@@ -15,7 +15,7 @@ class Keyword extends StatelessWidget {
         ),
       ),
       child: Padding(
-        padding: EdgeInsets.symmetric(horizontal: 12.0.w, vertical: 3.0.h),
+        padding: EdgeInsets.symmetric(horizontal: 10.0.w, vertical: 2.0.h),
         child: Text(
           keywordName,
           style: TextStyle(
