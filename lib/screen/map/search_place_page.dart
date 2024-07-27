@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/container.dart';
-import 'package:flutter/src/widgets/framework.dart';
+
 import 'package:coffeeconti/components/button/associated_search_button.dart';
 
+import '../../components/ui/custom_app_bar.dart';
 import '../../components/ui/custom_search_bar.dart';
 
 const interests = [
@@ -41,14 +41,14 @@ const interests = [
   "Family",
 ];
 
-class SearchScreen extends StatefulWidget {
-  const SearchScreen({super.key});
+class SearchPlacePage extends StatefulWidget {
+  const SearchPlacePage({super.key});
 
   @override
-  State<SearchScreen> createState() => _SearchScreenState();
+  State<SearchPlacePage> createState() => _SearchPlacePageState();
 }
 
-class _SearchScreenState extends State<SearchScreen> {
+class _SearchPlacePageState extends State<SearchPlacePage> {
   final ScrollController _scrollController = ScrollController();
 
   @override
@@ -66,9 +66,7 @@ class _SearchScreenState extends State<SearchScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('위치 검색'),
-      ),
+      appBar: CustomAppBar(appBarTitle: '위치 검색'),
       body: Column(
         children: [
           Flexible(
