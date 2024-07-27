@@ -46,19 +46,20 @@ class _SearchPlacePageState extends State<SearchPlacePage> {
         color: Color(0xffF8F9FA),
         child: Column(
           children: [
-            Container(
-              width: 500,
-              child: Padding(
-                padding: EdgeInsets.symmetric(vertical: 15, horizontal: 20),
-                child: CustomSearchBar(
-                  focusNode: _focusNode, // Pass the focus node
-                ),
+            Padding(
+              padding: EdgeInsets.symmetric(vertical: 15, horizontal: 16.0.w),
+              child: CustomSearchBar(
+                focusNode: _focusNode, // Pass the focus node
               ),
             ),
             Expanded(
               child: Padding(
-                padding:
-                    EdgeInsets.symmetric(horizontal: 20.0.w, vertical: 10.0),
+                padding: EdgeInsets.only(
+                  left: 20.0.w,
+                  right: 20.0.w,
+                  top: 10.0,
+                  bottom: 30.0,
+                ),
                 child: RecentSearchWidget(
                   onTap: _onTap,
                 ),

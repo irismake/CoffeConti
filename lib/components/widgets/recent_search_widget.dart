@@ -32,7 +32,7 @@ class RecentSearchWidget extends StatelessWidget {
             '최근 검색',
             style: TextStyle(
               fontSize: 16.0.sp,
-              color: Colors.black,
+              color: Color(0xFF343A40),
               fontWeight: FontWeight.w700,
             ),
           ),
