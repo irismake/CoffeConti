@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
-class CategoryThumb extends StatelessWidget {
+class MyReviewThumb extends StatelessWidget {
   final int index;
-  const CategoryThumb({
+  const MyReviewThumb({
     super.key,
     required this.index,
   });
@@ -26,7 +26,7 @@ class CategoryThumb extends StatelessWidget {
       '병원',
     ];
     return Padding(
-      padding: EdgeInsets.symmetric(horizontal: 12.0),
+      padding: EdgeInsets.symmetric(horizontal: 6.0),
       child: Container(
         width: 110.0,
         decoration: BoxDecoration(

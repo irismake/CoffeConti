@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-import '../../components/button/category_thumb.dart';
-import '../../components/list/user_place.dart';
+import '../../components/ui/my_review_thumb.dart';
+import '../../components/ui/my_groups.dart';
 
 class UserPage extends StatelessWidget {
   const UserPage({super.key});
@@ -139,26 +139,29 @@ class UserPage extends StatelessWidget {
                 ),
               ),
               SizedBox(
+                height: 10.0,
+              ),
+              SizedBox(
                 height: 130,
                 child: ListView.builder(
+                  padding: EdgeInsets.symmetric(horizontal: 16.0.w),
                   scrollDirection: Axis.horizontal,
-                  itemCount: 10,
+                  itemCount: 6,
                   itemBuilder: (context, index) {
                     return GestureDetector(
                       onTap: () async {},
-                      child: UserPlace(
-                        cafeName: '커피스토어',
+                      child: MyReviewThumb(
+                        index: index,
                       ),
                     );
                   },
                 ),
               ),
               SizedBox(
-                height: 10.0,
+                height: 30.0,
               ),
               Padding(
                 padding: EdgeInsets.symmetric(
-                  vertical: 12.0.h,
                   horizontal: 16.0.w,
                 ),
                 child: Row(
@@ -198,15 +201,16 @@ class UserPage extends StatelessWidget {
                 ),
               ),
               SizedBox(
-                height: 130,
+                height: 144,
                 child: ListView.builder(
                   scrollDirection: Axis.horizontal,
-                  itemCount: 6,
+                  itemCount: 10,
+                  padding: EdgeInsets.symmetric(horizontal: 16.0.w),
                   itemBuilder: (context, index) {
                     return GestureDetector(
                       onTap: () async {},
-                      child: CategoryThumb(
-                        index: index,
+                      child: MyGroups(
+                        cafeName: '공부 카페 리스트',
                       ),
                     );
                   },

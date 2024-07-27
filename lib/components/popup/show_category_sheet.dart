@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 
-import '../components/button/next_page_button.dart';
-import '../components/constants/screenSize.dart';
+import '../button/next_page_button.dart';
+import '../constants/screenSize.dart';
 
-import '../data/provider/keyword_provider.dart';
-import '../screen/navigator/category_view_navigator.dart';
+import '../../data/provider/keyword_provider.dart';
+import '../../screen/map/select_category_page.dart';
 
 class ShowCategorySheet extends StatelessWidget {
   ShowCategorySheet({Key? key}) : super(key: key);
@@ -50,7 +50,7 @@ class ShowCategorySheet extends StatelessWidget {
                       margin: EdgeInsets.symmetric(vertical: 15.0.h),
                     ),
                   ),
-                  CategoryViewNavigator(
+                  SelectCategoryPage(
                     provider: provider,
                   ),
                   //TagListView(),

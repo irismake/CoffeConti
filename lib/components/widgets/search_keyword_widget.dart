@@ -2,12 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 
-import '../components/button/keyword_button.dart';
-import '../data/provider/keyword_provider.dart';
+import '../button/search_keyword_button.dart';
+import '../../data/provider/keyword_provider.dart';
 import '../popup/show_category_sheet.dart';
 
-class KeywordWidget extends StatelessWidget {
-  const KeywordWidget({super.key});
+class SearchKeywordWidget extends StatelessWidget {
+  const SearchKeywordWidget({super.key});
 
   void _tapCategory(BuildContext context, int index) {
     if (index == 0) {
@@ -35,7 +35,7 @@ class KeywordWidget extends StatelessWidget {
               shrinkWrap: true,
               itemCount: provider.selectedKeywordDatas.length + 1,
               scrollDirection: Axis.horizontal,
-              itemBuilder: (context, index) => KeywordButton(
+              itemBuilder: (context, index) => SearchKeywordButton(
                 index: index,
                 keywordId: index == 0
                     ? -1

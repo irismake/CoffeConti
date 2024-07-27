@@ -1,21 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-import '../components/button/selection_keyword_button.dart';
-import '../data/models/keyword_model.dart';
+import '../button/select_keyword_button.dart';
+import '../../data/models/keyword_model.dart';
 
-class SelectionKeywordWidget extends StatefulWidget {
+class SelectKeywordWidget extends StatefulWidget {
   final List<KeywordData> keywordDatas;
-  const SelectionKeywordWidget({
+  const SelectKeywordWidget({
     super.key,
     required this.keywordDatas,
   });
 
   @override
-  State<SelectionKeywordWidget> createState() => _SelectionKeywordWidgetState();
+  State<SelectKeywordWidget> createState() => _SelectKeywordWidgetState();
 }
 
-class _SelectionKeywordWidgetState extends State<SelectionKeywordWidget> {
+class _SelectKeywordWidgetState extends State<SelectKeywordWidget> {
   final ScrollController _scrollController = ScrollController();
 
   bool _showTitle = false;
@@ -69,7 +69,7 @@ class _SelectionKeywordWidgetState extends State<SelectionKeywordWidget> {
                   runSpacing: 18,
                   spacing: 10,
                   children: widget.keywordDatas.map((keywordData) {
-                    return SelectionKeywordButton(
+                    return SelectKeywordButton(
                       keywordName: keywordData.name,
                       keywordId: keywordData.id,
                     );

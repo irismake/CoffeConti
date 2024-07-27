@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-class KeywordButton extends StatelessWidget {
+class SearchKeywordButton extends StatelessWidget {
   final int index;
   final int keywordId;
   final String name;
   final VoidCallback onTap;
 
-  KeywordButton(
+  SearchKeywordButton(
       {super.key,
       required this.keywordId,
       required this.index,
