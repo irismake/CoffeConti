@@ -3,7 +3,7 @@ import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:coffeeconti/components/button/associated_search_button.dart';
 
-import '../../../components/button/custom_search_bar.dart';
+import '../../components/ui/custom_search_bar.dart';
 
 const interests = [
   'Apple',

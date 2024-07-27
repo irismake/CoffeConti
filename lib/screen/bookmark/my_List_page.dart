@@ -1,17 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-import 'bookmark_list.dart';
+import '../../components/widgets/my_list_widget.dart';
 
-class BookmarkListWidget extends StatefulWidget {
+class MyListPage extends StatefulWidget {
   final String groupName;
-  const BookmarkListWidget({super.key, required this.groupName});
+  const MyListPage({super.key, required this.groupName});
 
   @override
-  _BookmarkListWidgetState createState() => _BookmarkListWidgetState();
+  _MyListPageState createState() => _MyListPageState();
 }
 
-class _BookmarkListWidgetState extends State<BookmarkListWidget>
+class _MyListPageState extends State<MyListPage>
     with SingleTickerProviderStateMixin {
   late TabController _tabController;
 
@@ -105,7 +105,7 @@ class _BookmarkListWidgetState extends State<BookmarkListWidget>
               controller: _tabController,
               children: List.generate(
                 _categoryName.length,
-                (index) => BookmarkList(categoryId: _tabController.index),
+                (index) => MyListWidget(categoryId: _tabController.index),
               ),
             ),
           ),
