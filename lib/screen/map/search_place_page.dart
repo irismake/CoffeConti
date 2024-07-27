@@ -1,45 +1,8 @@
 import 'package:flutter/material.dart';
-
-import 'package:coffeeconti/components/button/associated_search_button.dart';
-
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../components/ui/custom_app_bar.dart';
 import '../../components/ui/custom_search_bar.dart';
-
-const interests = [
-  'Apple',
-  'Banana',
-  'Cherry',
-  'Durian',
-  'Elderberry',
-  'Fig',
-  'Grape',
-  'Honeydew',
-  'Jackfruit',
-  'Kiwi',
-  'Lemon',
-  'Mango',
-  'Nectarine',
-  'Orange',
-  'Papaya',
-  'Quince',
-  'Raspberry',
-  'Strawberry',
-  'Tangerine',
-  'Ugli fruit',
-  'Watermelon',
-  "Daily Life",
-  "Comedy",
-  "Entertainment",
-  "Animals",
-  "Food",
-  "Beauty & Style",
-  "Drama",
-  "Learning",
-  "Talent",
-  "Sports",
-  "Auto",
-  "Family",
-];
+import 'package:coffeeconti/components/widgets/recent_search_widget.dart';
 
 class SearchPlacePage extends StatefulWidget {
   const SearchPlacePage({super.key});
@@ -51,56 +14,58 @@ class SearchPlacePage extends StatefulWidget {
 class _SearchPlacePageState extends State<SearchPlacePage> {
   final ScrollController _scrollController = ScrollController();
 
+  late FocusNode _focusNode;
+
   @override
   void initState() {
     super.initState();
     _scrollController.addListener(() {});
+
+    _focusNode = FocusNode();
+
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _focusNode.requestFocus();
+    });
   }
 
   @override
   void dispose() {
     _scrollController.dispose();
+    _focusNode.dispose();
+
     super.dispose();
   }
+
+  void _onTap() {}
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: CustomAppBar(appBarTitle: '위치 검색'),
-      body: Column(
-        children: [
-          Flexible(
-            flex: 1,
-            child: Container(
+      body: Container(
+        color: Color(0xffF8F9FA),
+        child: Column(
+          children: [
+            Container(
               width: 500,
-              height: 100,
-              decoration: BoxDecoration(color: Colors.grey[200]),
               child: Padding(
                 padding: EdgeInsets.symmetric(vertical: 15, horizontal: 20),
                 child: CustomSearchBar(
-                  autoFocus: false,
-                  enabled: false,
+                  focusNode: _focusNode, // Pass the focus node
                 ),
               ),
             ),
-          ),
-          Flexible(
-            flex: 3,
-            child: Scrollbar(
-              controller: _scrollController,
-              child: SingleChildScrollView(
-                controller: _scrollController,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    for (var interest in interests)
-                      AssociatedSearchButton(interest: interest)
-                  ],
+            Expanded(
+              child: Padding(
+                padding:
+                    EdgeInsets.symmetric(horizontal: 20.0.w, vertical: 10.0),
+                child: RecentSearchWidget(
+                  onTap: _onTap,
                 ),
               ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
