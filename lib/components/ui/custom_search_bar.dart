@@ -1,21 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_svg/svg.dart';
 
 class CustomSearchBar extends StatelessWidget {
-  final bool autoFocus;
-  final bool enabled;
+  final FocusNode focusNode;
 
   CustomSearchBar({
     Key? key,
-    required this.autoFocus,
-    required this.enabled,
+    required this.focusNode,
   });
 
   @override
   Widget build(BuildContext context) {
-    return TextFormField(
-      keyboardType: TextInputType.name,
+    return TextField(
+      focusNode: focusNode,
+      autofocus: true,
+      keyboardType: TextInputType.text,
       style: TextStyle(
         fontFamily: 'PretendardRegular',
         decorationThickness: 0,
@@ -25,20 +24,22 @@ class CustomSearchBar extends StatelessWidget {
         letterSpacing: 0.0,
         height: 1.5,
       ),
-      showCursor: false,
+      showCursor: true,
+      textInputAction: TextInputAction.search,
+      textAlign: TextAlign.start,
       decoration: InputDecoration(
         filled: true,
-        fillColor: Color(0xffF5F6F7),
+        fillColor: Colors.white,
         isDense: true,
         contentPadding: EdgeInsets.symmetric(vertical: 14.0.h),
         hintText: '검색어를 입력해주세요.',
         hintStyle: TextStyle(
           fontFamily: 'PretendardRegular',
-          color: Color(0xff868E96),
+          color: Color(0xffADB5BD),
           fontSize: 15.sp,
-          fontWeight: FontWeight.w600,
-          letterSpacing: 0.0.w,
-          height: 1.3,
+          fontWeight: FontWeight.w500,
+          letterSpacing: 1.0,
+          height: 1.5,
         ),
         focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.all(Radius.circular(8)),
