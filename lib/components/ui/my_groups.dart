@@ -14,7 +14,7 @@ class MyGroups extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.symmetric(horizontal: 6.0, vertical: 10.0),
+      padding: EdgeInsets.symmetric(vertical: 10.0),
       child: GestureDetector(
         // behavior: HitTestBehavior.opaque,
         onTap: () {

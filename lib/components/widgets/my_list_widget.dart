@@ -22,7 +22,7 @@ class MyListWidget extends StatelessWidget {
     ];
 
     return Padding(
-      padding: EdgeInsets.symmetric(horizontal: 16.0.w),
+      padding: EdgeInsets.symmetric(horizontal: 18.0.w),
       child: ListView.separated(
         padding: EdgeInsets.symmetric(vertical: 6.0),
         scrollDirection: Axis.vertical,

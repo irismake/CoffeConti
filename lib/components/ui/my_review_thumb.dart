@@ -25,46 +25,43 @@ class MyReviewThumb extends StatelessWidget {
       '주차장',
       '병원',
     ];
-    return Padding(
-      padding: EdgeInsets.symmetric(horizontal: 6.0),
-      child: Container(
-        width: 110.0,
-        decoration: BoxDecoration(
-          color: Colors.grey.withOpacity(0.1),
-          borderRadius: BorderRadius.circular(20),
-          border: Border.all(
-            width: 0.5,
-            color: Colors.black.withOpacity(0.1),
-          ),
+    return Container(
+      width: 110.0,
+      decoration: BoxDecoration(
+        color: Colors.grey.withOpacity(0.1),
+        borderRadius: BorderRadius.circular(20),
+        border: Border.all(
+          width: 0.5,
+          color: Colors.black.withOpacity(0.1),
         ),
-        child: Padding(
-          padding: EdgeInsets.symmetric(
-            vertical: 14.0,
-          ),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              SizedBox(
-                height: 65,
-                width: 75,
-                child: Image.asset(
-                  'assets/images/image_thumb_${_categoryImages[index]}.png',
-                  fit: BoxFit.contain,
-                ),
+      ),
+      child: Padding(
+        padding: EdgeInsets.symmetric(
+          vertical: 14.0,
+        ),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            SizedBox(
+              height: 65,
+              width: 75,
+              child: Image.asset(
+                'assets/images/image_thumb_${_categoryImages[index]}.png',
+                fit: BoxFit.contain,
               ),
-              Text(
-                '${_categoryNames[index]}',
-                style: TextStyle(
-                  fontFamily: 'PretendardRegular',
-                  fontSize: 14,
-                  fontWeight: FontWeight.w600,
-                  color: Color(0xff868E96),
-                  height: 1.5,
-                ),
+            ),
+            Text(
+              '${_categoryNames[index]}',
+              style: TextStyle(
+                fontFamily: 'PretendardRegular',
+                fontSize: 14,
+                fontWeight: FontWeight.w600,
+                color: Color(0xff868E96),
+                height: 1.5,
               ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );
