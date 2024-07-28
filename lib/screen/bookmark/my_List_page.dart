@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../components/widgets/my_list_widget.dart';
+import '../../components/ui/custom_app_bar.dart';
 
 class MyListPage extends StatefulWidget {
   final String groupName;
@@ -37,33 +38,7 @@ class _MyListPageState extends State<MyListPage>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        toolbarHeight: 64.0.h,
-        // shape: const Border(
-        //   bottom: BorderSide(
-        //     color: Color(0xffb2b2b2),
-        //     width: 0.5,
-        //   ),
-        // ),
-        leading: IconButton(
-          onPressed: () {
-            Navigator.pop(context); //뒤로가기
-          },
-          icon: Image.asset(
-            'assets/icons/icon_go_back.png',
-            height: 20.h,
-          ),
-        ),
-        title: Text(
-          widget.groupName,
-          style: TextStyle(
-            color: Colors.black,
-            fontWeight: FontWeight.w600,
-            fontSize: 18.0.sp,
-            height: 1.56,
-          ),
-        ),
-      ),
+      appBar: CustomAppBar(appBarTitle: widget.groupName),
       body: Column(
         children: [
           Padding(

@@ -1,4 +1,4 @@
-import 'package:coffeeconti/screen/map/search_screen.dart';
+import 'package:coffeeconti/screen/map/search_place_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -22,7 +22,7 @@ class SearchPlaceButton extends StatelessWidget {
             Navigator.push(
               context,
               MaterialPageRoute(
-                builder: (context) => SearchScreen(),
+                builder: (context) => SearchPlacePage(),
               ),
             );
           },
