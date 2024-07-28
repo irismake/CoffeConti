@@ -109,8 +109,11 @@ class CafeMapState extends State<CafeMap> {
                   mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    SearchPlaceButton(
-                      currentAddress: '장위로 10길 10-9',
+                    Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 18.0.w),
+                      child: SearchPlaceButton(
+                        currentAddress: '장위로 10길 10-9',
+                      ),
                     ),
                     SearchKeywordWidget(),
                   ],

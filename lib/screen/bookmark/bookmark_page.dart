@@ -19,7 +19,7 @@ class BookmarkPage extends StatelessWidget {
     ];
     return Scaffold(
       body: Padding(
-        padding: EdgeInsets.symmetric(horizontal: 16.0.w),
+        padding: EdgeInsets.symmetric(horizontal: 18.0.w),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
@@ -28,7 +28,7 @@ class BookmarkPage extends StatelessWidget {
             ),
             Padding(
               padding: EdgeInsets.symmetric(
-                horizontal: 10.0.w,
+                //horizontal: 10.0.w,
                 vertical: 10.0.h,
               ),
               child: Row(
@@ -67,7 +67,7 @@ class BookmarkPage extends StatelessWidget {
                       fontFamily: 'PretendardRegular',
                       fontSize: 14.sp,
                       fontWeight: FontWeight.w600,
-                      color: Color(0xff868E96),
+                      color: Color(0xff343A40),
                     ),
                   ),
                 ],
