@@ -52,7 +52,6 @@ class _SelectKeywordWidgetState extends State<SelectKeywordWidget> {
     return Padding(
       padding: EdgeInsets.symmetric(
         vertical: 20.0.h,
-        horizontal: 20.0.w,
       ),
       child: Container(
         //color: Colors.pink,
