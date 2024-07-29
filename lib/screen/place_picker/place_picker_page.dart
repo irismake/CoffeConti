@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-class EditPage extends StatelessWidget {
-  const EditPage({super.key});
+class PlacePickerPage extends StatelessWidget {
+  const PlacePickerPage({super.key});
 
   @override
   Widget build(BuildContext context) {
