@@ -43,7 +43,7 @@ class SearchPlaceButton extends StatelessWidget {
                 fontFamily: 'PretendardRegular',
                 fontSize: 16.sp,
                 fontWeight: FontWeight.w600,
-                color: Color(0xFF868E96),
+                color: Color(0xFF343A40),
                 height: 1.5,
               ),
             ),

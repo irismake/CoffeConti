@@ -1,8 +1,8 @@
-import 'package:coffeeconti/screen/edit/edit_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../bookmark/bookmark_page.dart';
+import '../edit/edit_page.dart';
 import '../user/user_page.dart';
 import '../map/map.dart';
 import '../../components/button/nav_tab_button.dart';
