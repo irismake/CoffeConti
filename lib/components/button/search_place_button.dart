@@ -11,47 +11,47 @@ class SearchPlaceButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: EdgeInsets.symmetric(
-        horizontal: 10.0.w,
-      ),
-      child: SizedBox(
-        width: double.infinity,
-        child: TextButton(
-          onPressed: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => SearchPlacePage(),
-              ),
-            );
-          },
-          style: TextButton.styleFrom(
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(8.0),
-              ),
-              padding:
-                  EdgeInsets.symmetric(vertical: 16.0.h, horizontal: 14.0.w),
-              backgroundColor: Colors.white),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text(
-                currentAddress,
-                style: TextStyle(
-                  fontFamily: 'PretendardRegular',
-                  fontSize: 16.sp,
-                  fontWeight: FontWeight.w600,
-                  color: Color(0xFF333333),
-                  height: 1.5,
-                ),
-              ),
-              Image.asset(
-                'assets/icons/icon_arrow_right.png',
-                height: 16.h,
-              ),
-            ],
+    return SizedBox(
+      width: double.infinity,
+      child: TextButton(
+        onPressed: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => SearchPlacePage(),
+            ),
+          );
+        },
+        style: TextButton.styleFrom(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(8.0),
           ),
+          padding: EdgeInsets.symmetric(vertical: 16.0.h, horizontal: 14.0.w),
+          backgroundColor: Colors.white,
+          side: BorderSide(
+            // 테두리 추가
+            color: Color(0xFFDEE2E6), // 테두리 색상
+            width: 1.0, // 테두리 두께
+          ),
+        ),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Text(
+              currentAddress,
+              style: TextStyle(
+                fontFamily: 'PretendardRegular',
+                fontSize: 16.sp,
+                fontWeight: FontWeight.w600,
+                color: Color(0xFF343A40),
+                height: 1.5,
+              ),
+            ),
+            Image.asset(
+              'assets/icons/icon_arrow_right.png',
+              height: 16.h,
+            ),
+          ],
         ),
       ),
     );

@@ -106,7 +106,7 @@ class UserProfile extends StatelessWidget {
               ),
           Padding(
             padding: EdgeInsets.symmetric(
-              horizontal: 16.0.w,
+              horizontal: 18.0.w,
               vertical: 20.0.h,
             ),
             child: Column(

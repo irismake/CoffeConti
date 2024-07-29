@@ -25,7 +25,7 @@ class UserPage extends StatelessWidget {
         children: [
           Padding(
             padding:
-                EdgeInsets.only(left: 16.0.w, right: 16.0.w, bottom: 20.0.h),
+                EdgeInsets.only(left: 18.0.w, right: 18.0.w, bottom: 20.0.h),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
@@ -100,7 +100,7 @@ class UserPage extends StatelessWidget {
               ),
               Padding(
                 padding: EdgeInsets.symmetric(
-                  horizontal: 16.0.w,
+                  horizontal: 18.0.w,
                 ),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -143,8 +143,8 @@ class UserPage extends StatelessWidget {
               ),
               SizedBox(
                 height: 130,
-                child: ListView.builder(
-                  padding: EdgeInsets.symmetric(horizontal: 16.0.w),
+                child: ListView.separated(
+                  padding: EdgeInsets.symmetric(horizontal: 18.0.w),
                   scrollDirection: Axis.horizontal,
                   itemCount: 6,
                   itemBuilder: (context, index) {
@@ -155,6 +155,11 @@ class UserPage extends StatelessWidget {
                       ),
                     );
                   },
+                  separatorBuilder: (BuildContext context, int index) {
+                    return Container(
+                      width: 12.0.w,
+                    );
+                  },
                 ),
               ),
               SizedBox(
@@ -162,7 +167,7 @@ class UserPage extends StatelessWidget {
               ),
               Padding(
                 padding: EdgeInsets.symmetric(
-                  horizontal: 16.0.w,
+                  horizontal: 18.0.w,
                 ),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -202,16 +207,21 @@ class UserPage extends StatelessWidget {
               ),
               SizedBox(
                 height: 144,
-                child: ListView.builder(
+                child: ListView.separated(
                   scrollDirection: Axis.horizontal,
                   itemCount: 10,
-                  padding: EdgeInsets.symmetric(horizontal: 16.0.w),
+                  padding: EdgeInsets.symmetric(horizontal: 18.0.w),
                   itemBuilder: (context, index) {
                     return GestureDetector(
                       onTap: () async {},
                       child: MyGroups(
                         cafeName: '공부 카페 리스트',
                       ),
+                    );
+                  },
+                  separatorBuilder: (BuildContext context, int index) {
+                    return Container(
+                      width: 12.0.w,
                     );
                   },
                 ),

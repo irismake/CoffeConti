@@ -31,8 +31,8 @@ class ShowCategorySheet extends StatelessWidget {
             width: double.infinity,
             child: Padding(
               padding: EdgeInsets.only(
-                left: 16.0.w,
-                right: 16.0.w,
+                left: 18.0.w,
+                right: 18.0.w,
                 bottom: 30.0.h,
               ),
               child: Column(
