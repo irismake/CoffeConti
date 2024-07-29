@@ -20,15 +20,11 @@ class AddReviewPage extends StatefulWidget {
   State<AddReviewPage> createState() => _AddReviewPageState();
 }
 
-_onRatingSelected<int>() {
-  return 0;
-}
-
 class _AddReviewPageState extends State<AddReviewPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: CustomAppBar(appBarTitle: '리뷰작성'),
+      appBar: CustomAppBar(appBarTitle: '리뷰 작성'),
       body: Padding(
         padding: EdgeInsets.symmetric(horizontal: 18.0.w),
         child: Column(
@@ -320,6 +316,20 @@ class _AddReviewPageState extends State<AddReviewPage> {
                     ],
                   ),
                 ),
+              ),
+            ),
+            Padding(
+              padding: EdgeInsets.only(
+                top: 10.0.h,
+                bottom: 30.0.h,
+              ),
+              child: NextPageButton(
+                firstFieldState: true,
+                secondFieldState: false,
+                text: '작성 완료',
+                onPressed: () async {
+                  Navigator.pop(context);
+                },
               ),
             ),
           ],
