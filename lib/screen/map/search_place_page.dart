@@ -47,7 +47,7 @@ class _SearchPlacePageState extends State<SearchPlacePage> {
         child: Column(
           children: [
             Padding(
-              padding: EdgeInsets.symmetric(vertical: 15, horizontal: 16.0.w),
+              padding: EdgeInsets.symmetric(vertical: 15, horizontal: 18.0.w),
               child: CustomSearchBar(
                 focusNode: _focusNode, // Pass the focus node
               ),

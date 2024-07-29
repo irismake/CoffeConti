@@ -1,8 +1,8 @@
-import 'package:coffeeconti/screen/edit/edit_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../bookmark/bookmark_page.dart';
+import '../place_picker/place_picker_page.dart';
 import '../user/user_page.dart';
 import '../map/map.dart';
 import '../../components/button/nav_tab_button.dart';
@@ -19,7 +19,7 @@ class _MainViewNavigatorState extends State<MainViewNavigator> {
 
   final List<Widget> _widgetOptions = <Widget>[
     CafeMap(),
-    EditPage(),
+    PlacePickerPage(),
     BookmarkPage(),
     UserPage(),
   ];
@@ -65,7 +65,7 @@ class _MainViewNavigatorState extends State<MainViewNavigator> {
               ),
               NavTabButton(
                 isSelected: selectedIndex == 1,
-                iconName: 'tab_add',
+                iconName: 'tab_place_picker',
               ),
               NavTabButton(
                 isSelected: selectedIndex == 2,

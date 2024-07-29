@@ -43,7 +43,7 @@ class _MyListPageState extends State<MyListPage>
         children: [
           Padding(
             padding: EdgeInsets.symmetric(
-              horizontal: 16.0.w,
+              horizontal: 18.0.w,
             ),
             child: Container(
               //color: Colors.amber,

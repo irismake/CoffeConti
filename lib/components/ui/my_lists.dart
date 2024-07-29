@@ -38,7 +38,7 @@ class MyLists extends StatelessWidget {
           height: 120.0,
           child: Padding(
             padding: EdgeInsets.symmetric(
-              horizontal: 16.0.w,
+              horizontal: 18.0.w,
             ),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
