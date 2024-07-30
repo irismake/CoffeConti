@@ -32,6 +32,9 @@ class SearchKeywordWidget extends StatelessWidget {
           child: SizedBox(
             height: 40.0.h,
             child: ListView.builder(
+              padding: EdgeInsets.symmetric(
+                horizontal: 8.0.w,
+              ),
               shrinkWrap: true,
               itemCount: provider.selectedKeywordDatas.length + 1,
               scrollDirection: Axis.horizontal,

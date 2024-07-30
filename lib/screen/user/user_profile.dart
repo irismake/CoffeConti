@@ -147,7 +147,8 @@ class UserProfile extends StatelessWidget {
                   ],
                 ),
                 CafeTutorial(
-                  cafeName: '커피스토어',
+                  name: '커피스토어',
+                  index: 0,
                 ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -185,7 +186,8 @@ class UserProfile extends StatelessWidget {
                   ],
                 ),
                 CafeTutorial(
-                  cafeName: '커피스토어',
+                  name: '커피스토어',
+                  index: 0,
                 ),
               ],
             ),
