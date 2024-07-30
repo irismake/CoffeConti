@@ -6,7 +6,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 
 import '../../components/button/custon_dropdown_button.dart';
-import '../../components/button/interactive_star_button.dart';
+import '../../components/button/star_rating_button.dart';
 import '../../components/button/search_place_button.dart';
 
 import '../../components/ui/custom_app_bar.dart';
@@ -306,7 +306,7 @@ class _AddReviewPageState extends State<AddReviewPage> {
                       ),
                       Padding(
                         padding: EdgeInsets.symmetric(vertical: 15.0),
-                        child: InteractiveStarButton(
+                        child: StarRatingButton(
                           onRatingSelected: (int rating) {
                             print("Selected rating: $rating");
                             // 여기서 선택된 별점을 처리
