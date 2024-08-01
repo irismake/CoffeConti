@@ -1,9 +1,13 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../components/constants/screenSize.dart';
 import '../../components/popup/cafe_tutorial.dart';
 
+import '../../components/ui/my_lists.dart';
+import '../../components/ui/popular_spot_lists.dart';
 import '../../components/widgets/search_keyword_widget.dart';
 import 'place_list_view_page.dart';
 
@@ -18,213 +22,160 @@ class PlacePickerPage extends StatelessWidget {
       '당가라 과자점',
       '코스모',
       '브라운 헤이브',
-      'coffeeconti'
+      'coffeeConti',
+      '동소문피스커피',
+      '베이커스 코드',
+      '개화가배',
+      '코무(KOMU)'
     ];
     return Scaffold(
-      appBar: AppBar(
-        elevation: 0,
-        leadingWidth: 100,
-        scrolledUnderElevation: 0,
-        backgroundColor: Colors.white,
-        automaticallyImplyLeading: false,
-        flexibleSpace: Padding(
-          padding: EdgeInsets.only(
-            top: ViewPaddingTopSize(context) + 10.0.h,
-            left: 16.0.w,
-            bottom: 10.0.h,
-          ),
-          child: Row(
-            children: [
-              Image.asset(
-                'assets/images/image_logo.png',
+      body: CustomScrollView(
+        slivers: [
+          SliverAppBar(
+            pinned: true,
+            expandedHeight: 250.0,
+            collapsedHeight: 60.0,
+            backgroundColor: Colors.white,
+            elevation: 0,
+            scrolledUnderElevation: 0,
+            flexibleSpace: LayoutBuilder(
+              builder: (BuildContext context, BoxConstraints constraints) {
+                return FlexibleSpaceBar(
+                  background: Stack(
+                    children: [
+                      Center(
+                        child: Image.asset(
+                          'assets/images/image_ranking_background.png',
+                          fit: BoxFit.fitWidth,
+                        ),
+                      ),
+                      Container(
+                        width: double.infinity,
+                        height: double.infinity,
+                        color: Colors.black.withOpacity(0.3),
+                      ),
+                      Center(
+                        child: SizedBox(
+                          height: 70,
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            // crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Image.asset(
+                                    'assets/icons/icon_prize.png',
+                                    height: 18,
+                                  ),
+                                  SizedBox(
+                                    width: 4.0.w,
+                                  ),
+                                  Text(
+                                    "트랜드 랭킹",
+                                    style: TextStyle(
+                                      fontFamily: 'PretendardRegular',
+                                      fontSize: 14.sp,
+                                      fontWeight: FontWeight.w700,
+                                      color: Color(0xFFF8F9FA),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              IntrinsicWidth(
+                                child: ElevatedButton(
+                                  onPressed: () {
+                                    // 레벨 가이드 페이지 이동
+                                  },
+                                  style: ElevatedButton.styleFrom(
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(50.0),
+                                    ),
+                                    minimumSize: Size.zero,
+                                    tapTargetSize:
+                                        MaterialTapTargetSize.shrinkWrap,
+                                    padding: EdgeInsets.symmetric(
+                                      horizontal: 12.0.w,
+                                      vertical: 6.0.h,
+                                    ),
+                                    backgroundColor: Colors.white,
+                                    elevation: 0,
+                                  ),
+                                  child: Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.center,
+                                    children: [
+                                      Text(
+                                        '성북구 장위동',
+                                        style: TextStyle(
+                                          fontFamily: 'PretendardRegular',
+                                          fontSize: 16.sp,
+                                          fontWeight: FontWeight.w700,
+                                          color: Color(0xFF343A40),
+                                          height: 1.5,
+                                        ),
+                                      ),
+                                      SizedBox(
+                                        width: 6.0.w,
+                                      ),
+                                      Image.asset(
+                                        'assets/icons/icon_arrow_triangle.png',
+                                        width: 6,
+                                      )
+                                    ],
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                );
+              },
+            ),
+            bottom: PreferredSize(
+              preferredSize: Size.zero,
+              child: Column(
+                children: [
+                  Container(
+                    color: Colors.white,
+                    child: Padding(
+                      padding: EdgeInsets.symmetric(vertical: 4.0),
+                      child: Align(
+                        alignment: Alignment.centerLeft,
+                        child: SearchKeywordWidget(),
+                      ),
+                    ),
+                  ),
+                  Container(
+                    color: Color(0xffF1F3F5),
+                    // thickness: 9,
+                    height: 1.5.h,
+                  ),
+                ],
               ),
-            ],
-          ),
-        ),
-        shape: Border(
-          bottom: BorderSide(
-            color: Color(0xffb2b2b2),
-            width: 1,
-          ),
-        ),
-      ),
-      body: Padding(
-        padding: EdgeInsets.symmetric(horizontal: 16.0.w),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            // SizedBox(
-            //   height: ViewPaddingTopSize(context) + 10.0.h,
-            // ),
-            // Padding(
-            //   padding: EdgeInsets.symmetric(
-            //     vertical: 10.0.h,
-            //   ),
-            //   child: Row(
-            //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            //     crossAxisAlignment: CrossAxisAlignment.center,
-            //     children: [
-            //       Text(
-            //         '랭킹',
-            //         style: TextStyle(
-            //           fontFamily: 'PretendardRegular',
-            //           fontSize: 20.sp,
-            //           fontWeight: FontWeight.w700,
-            //           color: Colors.black,
-            //           height: 1.56,
-            //         ),
-            //       ),
-            //       Text(
-            //         '추가',
-            //         style: TextStyle(
-            //           fontFamily: 'PretendardRegular',
-            //           fontSize: 14.sp,
-            //           fontWeight: FontWeight.w600,
-            //           color: Color(0xff343A40),
-            //         ),
-            //       ),
-            //     ],
-            //   ),
-            // ),
-            Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text(
-                      '내가 북마크한 리스트',
-                      style: TextStyle(
-                        fontWeight: FontWeight.w700,
-                        fontSize: 18.0.sp,
-                      ),
-                    ),
-                    InkWell(
-                      onTap: () {
-                        print('더보기');
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => PlaceListViewPage()),
-                        );
-                      },
-                      child: Text(
-                        '더보기',
-                        style: TextStyle(
-                          fontWeight: FontWeight.w600,
-                          fontSize: 14.0.sp,
-                          color: Color(0xff868E96),
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-                Padding(
-                  padding: EdgeInsets.only(top: 12.0, bottom: 24.0),
-                  child: Divider(
-                    color: Colors.black,
-                    thickness: 2.0.h,
-                    height: 0,
-                  ),
-                ),
-                SizedBox(
-                  height: 200,
-                  child: Expanded(
-                    child: ListView.separated(
-                      padding: EdgeInsets.symmetric(vertical: 0.0),
-                      scrollDirection: Axis.horizontal,
-                      itemCount: _placeName.length,
-                      itemBuilder: (context, index) {
-                        return GestureDetector(
-                          onTap: () async {},
-                          child: CafeTutorial(
-                            name: '${_placeName[index]}',
-                            index: index,
-                          ),
-                        );
-                      },
-                      separatorBuilder: (BuildContext context, int index) {
-                        return Container(
-                          height: 1.0,
-                          color: Color(0xFFDEE2E6),
-                        );
-                      },
-                    ),
-                  ),
-                ),
-              ],
             ),
-            Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text(
-                      '근처 핫플레이스',
-                      style: TextStyle(
-                        fontWeight: FontWeight.w700,
-                        fontSize: 18.0.sp,
-                      ),
-                    ),
-                    InkWell(
-                      onTap: () {
-                        print('더보기');
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => PlaceListViewPage()),
-                        );
-                      },
-                      child: Text(
-                        '더보기',
-                        style: TextStyle(
-                          fontWeight: FontWeight.w600,
-                          fontSize: 14.0.sp,
-                          color: Color(0xff868E96),
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-                Padding(
-                  padding: EdgeInsets.only(top: 12.0, bottom: 24.0),
-                  child: Divider(
-                    color: Colors.black,
-                    thickness: 2.0.h,
-                    height: 0,
+          ),
+          SliverPadding(
+            padding: EdgeInsets.symmetric(horizontal: 16.0.w, vertical: 20.0),
+            sliver: SliverList(
+              delegate: SliverChildBuilderDelegate(
+                (context, index) => GestureDetector(
+                  onTap: () async {},
+                  child: PopularSpotList(
+                    name: '${_placeName[index]}',
+                    index: index,
                   ),
                 ),
-                SizedBox(
-                  height: 200,
-                  child: Expanded(
-                    child: ListView.separated(
-                      padding: EdgeInsets.symmetric(vertical: 0.0),
-                      scrollDirection: Axis.horizontal,
-                      itemCount: _placeName.length,
-                      itemBuilder: (context, index) {
-                        return GestureDetector(
-                          onTap: () async {},
-                          child: CafeTutorial(
-                            name: '${_placeName[index]}',
-                            index: index,
-                          ),
-                        );
-                      },
-                      separatorBuilder: (BuildContext context, int index) {
-                        return Container(
-                          height: 1.0,
-                          color: Color(0xFFDEE2E6),
-                        );
-                      },
-                    ),
-                  ),
-                ),
-              ],
+                childCount: _placeName.length,
+              ),
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }
