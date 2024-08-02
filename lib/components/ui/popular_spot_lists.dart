@@ -166,7 +166,7 @@ class PopularSpotList extends StatelessWidget {
               ),
             ),
             Container(
-              height: 70.0,
+              height: 90.0,
               child: ListView.separated(
                 padding: EdgeInsets.symmetric(
                   horizontal: 16.0.w,
@@ -175,23 +175,19 @@ class PopularSpotList extends StatelessWidget {
                 itemCount: 5,
                 scrollDirection: Axis.horizontal,
                 itemBuilder: (context, index) => Container(
-                  width: 70.0,
-                  decoration: ShapeDecoration(
-                    color: Color(0xffF1F3F5),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(4),
+                    width: 100.0,
+                    decoration: ShapeDecoration(
+                      color: Color(0xffF1F3F5),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(4),
+                      ),
                     ),
-                  ),
-                  child: index != 3
-                      ? ClipRRect(
-                          //borderRadius: BorderRadius.circular(4),
-                          child: Image.asset(
-                            'assets/images/IMG_4498.png',
-                            fit: BoxFit.cover,
-                          ),
-                        )
-                      : SizedBox.shrink(),
-                ),
+                    child: ClipRRect(
+                      child: Image.asset(
+                        'assets/images/IMG_4498.png',
+                        fit: BoxFit.cover,
+                      ),
+                    )),
                 separatorBuilder: (BuildContext context, int index) {
                   return SizedBox(
                     width: 1.0.w,
