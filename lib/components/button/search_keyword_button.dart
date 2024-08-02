@@ -28,6 +28,7 @@ class SearchKeywordButton extends StatelessWidget {
           style: ElevatedButton.styleFrom(
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(10.0),
+              side: BorderSide(color: Color(0xFFDEE2E6)),
             ),
             minimumSize: Size.zero,
             padding: EdgeInsets.symmetric(

@@ -221,8 +221,26 @@ class CafeMapState extends State<CafeMap> {
     print('overlay marker');
     overlayEntry = OverlayEntry(
       builder: (context) {
-        return CafeTutorial(
-          cafeName: cafeName,
+        return Padding(
+          padding: EdgeInsets.symmetric(vertical: 10.0.h),
+          child: Container(
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(6.0),
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.grey.withOpacity(0.2),
+                  spreadRadius: 1,
+                  blurRadius: 1.0,
+                  offset: Offset(0, 0),
+                ),
+              ],
+            ),
+            child: CafeTutorial(
+              index: 0,
+              name: cafeName,
+            ),
+          ),
         );
       },
     );
