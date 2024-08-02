@@ -83,6 +83,7 @@ class CafeTutorial extends StatelessWidget {
                           child: SizedBox(
                             height: 16.w,
                             child: StarRating(
+                              maximumScore: 5,
                               rating: 4.3,
                             ),
                           ),
