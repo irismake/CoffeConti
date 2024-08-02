@@ -1,18 +1,18 @@
 import 'package:flutter/material.dart';
 
-class InteractiveStarButton extends StatefulWidget {
+class StarRatingButton extends StatefulWidget {
   final ValueChanged<int> onRatingSelected; // 선택된 별점 전달
 
-  const InteractiveStarButton({
+  const StarRatingButton({
     Key? key,
     required this.onRatingSelected,
   }) : super(key: key);
 
   @override
-  _InteractiveStarButtonState createState() => _InteractiveStarButtonState();
+  _StarRatingButtonState createState() => _StarRatingButtonState();
 }
 
-class _InteractiveStarButtonState extends State<InteractiveStarButton> {
+class _StarRatingButtonState extends State<StarRatingButton> {
   int _currentRating = 0;
 
   @override
@@ -27,12 +27,10 @@ class _InteractiveStarButtonState extends State<InteractiveStarButton> {
             iconSize: 30,
             padding: EdgeInsets.all(0),
             icon: Icon(
-              index < _currentRating
-                  ? Icons.star_rounded
-                  : Icons.star_border_rounded,
+              Icons.star_rounded,
               color: index < _currentRating
                   ? Theme.of(context).primaryColor
-                  : Colors.grey,
+                  : Color(0xFFE9ECEF),
             ),
             onPressed: () {
               setState(() {

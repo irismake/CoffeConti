@@ -27,28 +27,27 @@ class SearchKeywordWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Consumer<KeywordsProvider>(
       builder: (context, provider, child) {
-        return Padding(
-          padding: EdgeInsets.symmetric(vertical: 10.0.h),
-          child: SizedBox(
-            height: 40.0.h,
-            child: ListView.builder(
-              shrinkWrap: true,
-              itemCount: provider.selectedKeywordDatas.length + 1,
-              scrollDirection: Axis.horizontal,
-              itemBuilder: (context, index) => SearchKeywordButton(
-                index: index,
-                keywordId: index == 0
-                    ? -1
-                    : provider.selectedKeywordDatas[index - 1].id,
-                name: provider.selectedCategoryId == null
-                    ? '카테고리'
-                    : index == 0
-                        ? '${provider.categoryNames[provider.selectedCategoryId!]}'
-                        : '${provider.selectedKeywordDatas[index - 1].name}',
-                onTap: () {
-                  _tapCategory(context, index);
-                },
-              ),
+        return SizedBox(
+          height: 40.0.h,
+          child: ListView.builder(
+            padding: EdgeInsets.symmetric(
+              horizontal: 8.0.w,
+            ),
+            shrinkWrap: true,
+            itemCount: provider.selectedKeywordDatas.length + 1,
+            scrollDirection: Axis.horizontal,
+            itemBuilder: (context, index) => SearchKeywordButton(
+              index: index,
+              keywordId:
+                  index == 0 ? -1 : provider.selectedKeywordDatas[index - 1].id,
+              name: provider.selectedCategoryId == null
+                  ? '카테고리'
+                  : index == 0
+                      ? '${provider.categoryNames[provider.selectedCategoryId!]}'
+                      : '${provider.selectedKeywordDatas[index - 1].name}',
+              onTap: () {
+                _tapCategory(context, index);
+              },
             ),
           ),
         );
