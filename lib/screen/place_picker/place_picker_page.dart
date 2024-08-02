@@ -1,15 +1,8 @@
-import 'dart:ui';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-import '../../components/constants/screenSize.dart';
-import '../../components/popup/cafe_tutorial.dart';
-
-import '../../components/ui/my_lists.dart';
 import '../../components/ui/popular_spot_lists.dart';
 import '../../components/widgets/search_keyword_widget.dart';
-import 'place_list_view_page.dart';
 
 class PlacePickerPage extends StatelessWidget {
   const PlacePickerPage({super.key});
@@ -33,7 +26,7 @@ class PlacePickerPage extends StatelessWidget {
         slivers: [
           SliverAppBar(
             pinned: true,
-            expandedHeight: 250.0,
+            expandedHeight: 200.0,
             collapsedHeight: 60.0,
             backgroundColor: Colors.white,
             elevation: 0,
@@ -43,33 +36,34 @@ class PlacePickerPage extends StatelessWidget {
                 return FlexibleSpaceBar(
                   background: Stack(
                     children: [
-                      Center(
-                        child: Image.asset(
-                          'assets/images/image_ranking_background.png',
-                          fit: BoxFit.fitWidth,
-                        ),
-                      ),
                       Container(
                         width: double.infinity,
                         height: double.infinity,
-                        color: Colors.black.withOpacity(0.3),
+                        color: Colors.black.withOpacity(0.08),
                       ),
                       Center(
-                        child: SizedBox(
-                          height: 70,
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            // crossAxisAlignment: CrossAxisAlignment.center,
-                            children: [
-                              Row(
+                        child: Image.asset(
+                          'assets/images/image_ranking_background.png',
+                          fit: BoxFit.fitHeight,
+                        ),
+                      ),
+                      Center(
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Padding(
+                              padding: EdgeInsets.only(bottom: 10.0),
+                              child: Row(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
                                   Image.asset(
                                     'assets/icons/icon_prize.png',
                                     height: 18,
+                                    color: Color(0xFF343A40),
                                   ),
                                   SizedBox(
-                                    width: 4.0.w,
+                                    width: 6.0.w,
                                   ),
                                   Text(
                                     "트랜드 랭킹",
@@ -77,59 +71,57 @@ class PlacePickerPage extends StatelessWidget {
                                       fontFamily: 'PretendardRegular',
                                       fontSize: 14.sp,
                                       fontWeight: FontWeight.w700,
-                                      color: Color(0xFFF8F9FA),
+                                      color: Color(0xFF343A40),
+                                      height: 1.43,
                                     ),
                                   ),
                                 ],
                               ),
-                              IntrinsicWidth(
-                                child: ElevatedButton(
-                                  onPressed: () {
-                                    // 레벨 가이드 페이지 이동
-                                  },
-                                  style: ElevatedButton.styleFrom(
-                                    shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(50.0),
-                                    ),
-                                    minimumSize: Size.zero,
-                                    tapTargetSize:
-                                        MaterialTapTargetSize.shrinkWrap,
-                                    padding: EdgeInsets.symmetric(
-                                      horizontal: 12.0.w,
-                                      vertical: 6.0.h,
-                                    ),
-                                    backgroundColor: Colors.white,
-                                    elevation: 0,
+                            ),
+                            IntrinsicWidth(
+                              child: ElevatedButton(
+                                onPressed: () {},
+                                style: ElevatedButton.styleFrom(
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(100.0),
+                                    side: BorderSide(color: Color(0xFFDEE2E6)),
                                   ),
-                                  child: Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.center,
-                                    children: [
-                                      Text(
-                                        '성북구 장위동',
-                                        style: TextStyle(
-                                          fontFamily: 'PretendardRegular',
-                                          fontSize: 16.sp,
-                                          fontWeight: FontWeight.w700,
-                                          color: Color(0xFF343A40),
-                                          height: 1.5,
-                                        ),
-                                      ),
-                                      SizedBox(
-                                        width: 6.0.w,
-                                      ),
-                                      Image.asset(
-                                        'assets/icons/icon_arrow_triangle.png',
-                                        width: 6,
-                                      )
-                                    ],
+                                  minimumSize: Size.zero,
+                                  tapTargetSize:
+                                      MaterialTapTargetSize.shrinkWrap,
+                                  padding: EdgeInsets.symmetric(
+                                    horizontal: 18.0.w,
+                                    vertical: 8.0.h,
                                   ),
+                                  backgroundColor: Colors.white,
+                                ),
+                                child: Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  children: [
+                                    Text(
+                                      '성북구 동선동 1가',
+                                      style: TextStyle(
+                                        fontFamily: 'PretendardRegular',
+                                        fontSize: 18.sp,
+                                        fontWeight: FontWeight.w700,
+                                        color: Color(0xFF343A40),
+                                        height: 1.56,
+                                      ),
+                                    ),
+                                    SizedBox(
+                                      width: 8.0.w,
+                                    ),
+                                    Image.asset(
+                                      'assets/icons/icon_arrow_triangle.png',
+                                      width: 10,
+                                    )
+                                  ],
                                 ),
                               ),
-                            ],
-                          ),
+                            ),
+                          ],
                         ),
                       ),
                     ],
@@ -142,7 +134,7 @@ class PlacePickerPage extends StatelessWidget {
               child: Column(
                 children: [
                   Container(
-                    color: Colors.white,
+                    color: Colors.transparent,
                     child: Padding(
                       padding: EdgeInsets.symmetric(vertical: 4.0),
                       child: Align(
@@ -153,26 +145,28 @@ class PlacePickerPage extends StatelessWidget {
                   ),
                   Container(
                     color: Color(0xffF1F3F5),
-                    // thickness: 9,
                     height: 1.5.h,
                   ),
                 ],
               ),
             ),
           ),
-          SliverPadding(
-            padding: EdgeInsets.symmetric(horizontal: 16.0.w, vertical: 20.0),
-            sliver: SliverList(
-              delegate: SliverChildBuilderDelegate(
-                (context, index) => GestureDetector(
-                  onTap: () async {},
-                  child: PopularSpotList(
+          SliverList(
+            delegate: SliverChildBuilderDelegate(
+              (context, index) => Column(
+                children: [
+                  PopularSpotList(
                     name: '${_placeName[index]}',
                     index: index,
                   ),
-                ),
-                childCount: _placeName.length,
+                  if (index < _placeName.length - 1)
+                    Container(
+                      color: Colors.grey[300],
+                      height: 1.0,
+                    ),
+                ],
               ),
+              childCount: _placeName.length,
             ),
           ),
         ],

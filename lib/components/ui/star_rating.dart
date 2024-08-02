@@ -2,24 +2,25 @@ import 'package:flutter/material.dart';
 
 class StarRating extends StatelessWidget {
   final double rating;
+  final int maximumScore;
 
   const StarRating({
     Key? key,
     required this.rating,
+    required this.maximumScore,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return FittedBox(
-      fit: BoxFit.fitWidth,
+      fit: BoxFit.fitHeight,
       child: Row(
         mainAxisSize: MainAxisSize.min,
-        children: List.generate(5, (index) {
+        children: List.generate(maximumScore, (index) {
           return Stack(
             children: [
-              Icon(
-                Icons.star_rounded,
-                color: Color(0xFFE9ECEF),
+              Image.asset(
+                'assets/icons/icon_star.png',
               ),
               if (index < rating)
                 ClipRect(

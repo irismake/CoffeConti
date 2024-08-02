@@ -21,125 +21,182 @@ class PopularSpotList extends StatelessWidget {
         print('gg');
       },
       child: Padding(
-        padding: EdgeInsets.symmetric(
-          vertical: 10.0,
-        ),
-        child: Row(
+        padding: EdgeInsets.symmetric(vertical: 14.0),
+        child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Padding(
-                  padding: EdgeInsets.only(right: 16.0.w),
-                  child: Container(
-                    width: 70.0,
-                    height: 70.0,
-                    decoration: ShapeDecoration(
-                      color: Color(0xffF1F3F5),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(4),
-                      ),
-                    ),
-                    child: index == 0
-                        ? ClipRRect(
-                            borderRadius: BorderRadius.circular(4),
-                            child: Image.asset(
-                              'assets/images/IMG_4498.png',
-                              fit: BoxFit.cover,
-                            ),
-                          )
-                        : SizedBox.shrink(),
-                  ),
-                ),
-                Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      limitTextLength(name, 15),
-                      overflow: TextOverflow.ellipsis,
-                      style: TextStyle(
-                        fontSize: 16.sp,
-                        fontWeight: FontWeight.w500,
-                        color: Colors.black,
-                      ),
-                    ),
-                    Row(
-                      children: [
-                        // Text(
-                        //   "4.3",
-                        //   style: TextStyle(
-                        //     fontSize: 12.sp,
-                        //     fontWeight: FontWeight.w700,
-                        //     color: Theme.of(context).primaryColor,
-                        //     height: 1.3,
-                        //   ),
-                        // ),
-                        Padding(
-                          padding: EdgeInsets.symmetric(horizontal: 4.0.w),
-                          child: SizedBox(
-                            height: 14.0,
-                            width: 60.w,
-                            child: StarRating(
-                              rating: 4.3,
-                            ),
-                          ),
-                        ),
-                        Text(
-                          "(26)",
+            Padding(
+              padding: EdgeInsets.symmetric(
+                horizontal: 16.0.w,
+              ),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Padding(
+                        padding: EdgeInsets.only(top: 20.0, right: 20.0.w),
+                        child: Text(
+                          '${index + 1}',
                           style: TextStyle(
-                            fontSize: 10.sp,
-                            fontWeight: FontWeight.w500,
-                            color: Color(0xff868E96),
-                            height: 1.3,
-                          ),
-                        ),
-                      ],
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        Text(
-                          "30m",
-                          style: TextStyle(
-                            fontSize: 12.sp,
-                            fontWeight: FontWeight.w400,
+                            fontSize: 18.sp,
+                            fontWeight: FontWeight.w600,
                             color: Colors.black,
                           ),
                         ),
-                        SizedBox(
-                          width: 12.0,
-                          height: 12.0,
-                          child: SvgPicture.asset(
-                            'assets/images/vertical_vector.svg',
-                            fit: BoxFit.contain,
+                      ),
+                      Column(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            '#카페',
+                            style: TextStyle(
+                              color: Color(0xFF868E96),
+                              fontSize: 12.sp,
+                              fontFamily: 'Pretendard',
+                              fontWeight: FontWeight.w500,
+                            ),
                           ),
-                        ),
-                        Padding(
-                          padding: EdgeInsets.symmetric(vertical: 8.0),
-                          child: Row(
-                            children: [
-                              Keyword(keywordName: '공부'),
-                              SizedBox(width: 6.0),
-                              Keyword(keywordName: '디저트'),
-                            ],
+                          Text(
+                            limitTextLength(name, 15),
+                            overflow: TextOverflow.ellipsis,
+                            style: TextStyle(
+                              fontSize: 18.sp,
+                              fontWeight: FontWeight.w700,
+                              color: Color(0xFF343A40),
+                            ),
                           ),
-                        ),
-                      ],
+                          Padding(
+                            padding: EdgeInsets.symmetric(vertical: 6.0),
+                            child: Row(
+                              children: [
+                                Keyword(keywordName: '공부'),
+                                SizedBox(width: 6.0),
+                                Keyword(keywordName: '디저트'),
+                              ],
+                            ),
+                          ),
+                          Padding(
+                            padding: EdgeInsets.only(bottom: 16.0),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                Image.asset(
+                                  'assets/icons/icon_direction.png',
+                                  fit: BoxFit.contain,
+                                  width: 12.0,
+                                  height: 12.0,
+                                  color: Theme.of(context).primaryColor,
+                                ),
+                                Padding(
+                                  padding:
+                                      EdgeInsets.symmetric(horizontal: 2.0.w),
+                                  child: Text(
+                                    "30m",
+                                    style: TextStyle(
+                                      fontSize: 12.sp,
+                                      fontWeight: FontWeight.w500,
+                                      color: Colors.black,
+                                      height: 1.5,
+                                    ),
+                                  ),
+                                ),
+                                SizedBox(
+                                  width: 12.0,
+                                  height: 12.0,
+                                  child: SvgPicture.asset(
+                                    'assets/images/vertical_vector.svg',
+                                    fit: BoxFit.contain,
+                                  ),
+                                ),
+                                SizedBox(
+                                  width: 12.0,
+                                  height: 12.0,
+                                  child: StarRating(
+                                    maximumScore: 1,
+                                    rating: 4.3,
+                                  ),
+                                ),
+                                Padding(
+                                  padding:
+                                      EdgeInsets.symmetric(horizontal: 2.0.w),
+                                  child: Text(
+                                    "4.7",
+                                    style: TextStyle(
+                                      fontSize: 12.sp,
+                                      fontWeight: FontWeight.w500,
+                                      color: Colors.black,
+                                      height: 1.5,
+                                    ),
+                                  ),
+                                ),
+                                Text(
+                                  "(26)",
+                                  style: TextStyle(
+                                    fontSize: 12.sp,
+                                    fontWeight: FontWeight.w400,
+                                    color: Color(0xFF868E96),
+                                    height: 1.5,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                  Padding(
+                    padding: EdgeInsets.symmetric(vertical: 20.0),
+                    child: SizedBox(
+                      height: 18.0,
+                      child: Image.asset(
+                        'assets/icons/icon_bookmark_fill.png',
+                        fit: BoxFit.contain,
+                      ),
                     ),
-                  ],
-                ),
-              ],
+                  ),
+                ],
+              ),
             ),
-            SizedBox(
-              // color: Colors.pink,
-              height: 18.0,
-              child: Image.asset(
-                'assets/icons/icon_bookmark_fill.png',
-                fit: BoxFit.contain,
+            Container(
+              height: 70.0,
+              child: ListView.separated(
+                padding: EdgeInsets.symmetric(
+                  horizontal: 16.0.w,
+                ),
+                shrinkWrap: true,
+                itemCount: 5,
+                scrollDirection: Axis.horizontal,
+                itemBuilder: (context, index) => Container(
+                  width: 70.0,
+                  decoration: ShapeDecoration(
+                    color: Color(0xffF1F3F5),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(4),
+                    ),
+                  ),
+                  child: index != 3
+                      ? ClipRRect(
+                          //borderRadius: BorderRadius.circular(4),
+                          child: Image.asset(
+                            'assets/images/IMG_4498.png',
+                            fit: BoxFit.cover,
+                          ),
+                        )
+                      : SizedBox.shrink(),
+                ),
+                separatorBuilder: (BuildContext context, int index) {
+                  return SizedBox(
+                    width: 1.0.w,
+                  );
+                },
               ),
             ),
           ],
