@@ -10,7 +10,7 @@ import '../../components/button/star_rating_button.dart';
 import '../../components/button/search_place_button.dart';
 
 import '../../components/ui/custom_app_bar.dart';
-import '../../components/ui/my_review_thumb.dart';
+import '../../components/widgets/my_review_widget.dart';
 import '../../components/widgets/select_keyword_widget.dart';
 
 class AddReviewPage extends StatefulWidget {
@@ -56,7 +56,7 @@ class _AddReviewPageState extends State<AddReviewPage> {
                           alignment: Alignment.centerLeft,
                           child: SizedBox(
                             height: 130,
-                            child: MyReviewThumb(
+                            child: MyReviewWidget(
                               index: 1,
                             ),
                           ),
