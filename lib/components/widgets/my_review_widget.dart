@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 
-import 'package:flutter_screenutil/flutter_screenutil.dart';
-
 class MyReviewWidget extends StatelessWidget {
   final int index;
   const MyReviewWidget({
@@ -34,13 +32,13 @@ class MyReviewWidget extends StatelessWidget {
         Container(
           decoration: BoxDecoration(
             color: Color(0xFFF1F3F5),
-            borderRadius: BorderRadius.circular(20),
+            borderRadius: BorderRadius.circular(18),
           ),
           child: Padding(
             padding: const EdgeInsets.all(8.0),
             child: SizedBox(
-              height: 30.h,
-              width: 30.w,
+              height: 30,
+              width: 30,
               child: Image.asset(
                 'assets/images/image_thumb_${_categoryImages[index]}.png',
                 fit: BoxFit.contain,
@@ -54,7 +52,7 @@ class MyReviewWidget extends StatelessWidget {
             '${_categoryNames[index]}',
             style: TextStyle(
               fontFamily: 'PretendardRegular',
-              fontSize: 12.sp,
+              fontSize: 12.0,
               fontWeight: FontWeight.w400,
               color: Colors.black,
               height: 1.5,
