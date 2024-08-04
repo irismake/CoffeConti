@@ -187,7 +187,16 @@ class UserPage extends StatelessWidget {
                             width: double.infinity,
                             decoration: BoxDecoration(
                               color: Colors.white,
-                              borderRadius: BorderRadius.circular(12.0),
+                              borderRadius: BorderRadius.circular(14.0),
+                              boxShadow: [
+                                BoxShadow(
+                                  color: Colors.black.withOpacity(0.1),
+                                  spreadRadius: 0.0,
+                                  blurRadius: 10,
+                                  offset: Offset(
+                                      0, 0), // changes position of shadow
+                                ),
+                              ],
                             ),
                             child: GridView.builder(
                               padding: EdgeInsets.symmetric(

@@ -187,9 +187,7 @@ class _AddReviewPageState extends State<AddReviewPage> {
                       Consumer<KeywordsProvider>(
                         builder: (context, provider, child) {
                           provider.saveTempCategoryId = 1;
-                          return SelectKeywordWidget(
-                            keywordDatas: provider.showKeywordDatas,
-                          );
+                          return SelectKeywordWidget();
                         },
                       ),
                       SizedBox(

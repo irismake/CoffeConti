@@ -4,10 +4,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../ui/my_lists.dart';
 
 class MyListWidget extends StatelessWidget {
-  final int categoryId;
   const MyListWidget({
     super.key,
-    required this.categoryId,
   });
 
   @override
