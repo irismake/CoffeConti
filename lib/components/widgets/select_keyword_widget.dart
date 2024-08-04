@@ -1,14 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:provider/provider.dart';
 
+import '../../data/provider/keyword_provider.dart';
 import '../button/select_keyword_button.dart';
-import '../../data/models/keyword_model.dart';
 
 class SelectKeywordWidget extends StatefulWidget {
-  final List<KeywordData> keywordDatas;
   const SelectKeywordWidget({
     super.key,
-    required this.keywordDatas,
   });
 
   @override
@@ -67,7 +66,10 @@ class _SelectKeywordWidgetState extends State<SelectKeywordWidget> {
                   alignment: WrapAlignment.start,
                   runSpacing: 18,
                   spacing: 10,
-                  children: widget.keywordDatas.map((keywordData) {
+                  children:
+                      Provider.of<KeywordsProvider>(context, listen: false)
+                          .showKeywordDatas
+                          .map((keywordData) {
                     return SelectKeywordButton(
                       keywordName: keywordData.name,
                       keywordId: keywordData.id,
