@@ -76,21 +76,20 @@ class _CategoryTabBarState extends State<CategoryTabBar>
                 controller: _tabController,
                 tabAlignment: TabAlignment.start,
                 dividerHeight: 0,
-                unselectedLabelColor: Colors.black,
+                unselectedLabelColor: Color(0xFF343A40),
                 unselectedLabelStyle: TextStyle(
                   fontSize: 14.sp,
                   fontWeight: FontWeight.w500,
                   height: 1.43,
                 ),
-                labelColor: Colors.black,
+                labelColor: Color(0xFF343A40),
                 labelStyle: TextStyle(
                   fontSize: 14.sp,
                   fontWeight: FontWeight.w600,
                   height: 1.43,
                 ),
-                labelPadding: EdgeInsets.symmetric(
-                  horizontal: 4.0,
-                ),
+                labelPadding:
+                    EdgeInsets.symmetric(horizontal: 4.0, vertical: 4.0),
                 indicatorColor: Colors.transparent,
                 isScrollable: true,
                 onTap: (index) {
@@ -123,28 +122,26 @@ class _CategoryTabBarState extends State<CategoryTabBar>
                     ),
                     child: Padding(
                       padding: EdgeInsets.symmetric(
-                        horizontal: 10.0,
-                        vertical: 7.0,
+                        horizontal: 12.0,
+                        vertical: 8.0,
                       ),
-                      child: Tab(
-                        height: 20,
-                        child: Row(
-                          children: [
-                            if (index == _tabController.index)
-                              Container(
-                                height: 18,
-                                width: 18,
-                                child: Image.asset(
-                                  'assets/images/image_thumb_${_categoryImages[index]}.png',
-                                  fit: BoxFit.contain,
-                                ),
+                      child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          if (index == _tabController.index)
+                            Container(
+                              height: 18,
+                              width: 18,
+                              child: Image.asset(
+                                'assets/images/image_thumb_${_categoryImages[index]}.png',
+                                fit: BoxFit.contain,
                               ),
-                            SizedBox(
-                              width: 2,
                             ),
-                            Text('${_categoryNames[index]}'),
-                          ],
-                        ),
+                          SizedBox(
+                            width: 4,
+                          ),
+                          Text('${_categoryNames[index]}'),
+                        ],
                       ),
                     ),
                   ),

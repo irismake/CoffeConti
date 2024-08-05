@@ -25,21 +25,21 @@ class SelectKeywordButton extends StatelessWidget {
           child: AnimatedContainer(
             duration: const Duration(milliseconds: 300),
             padding: EdgeInsets.symmetric(
-              vertical: 10.0.h,
-              horizontal: 20.0.w,
+              vertical: 10.0,
+              horizontal: 20.0,
             ),
             decoration: BoxDecoration(
               color: provider.selectedKeywordIds.contains(keywordId)
-                  ? Theme.of(context).primaryColor
+                  ? Color(0xFF3D3332)
                   : Colors.white,
-              borderRadius: BorderRadius.circular(32),
+              borderRadius: BorderRadius.circular(10),
               border: Border.all(color: Colors.black.withOpacity(0.1)),
             ),
             child: Text(
               keywordName,
               style: TextStyle(
                 color: provider.selectedKeywordIds.contains(keywordId)
-                    ? Colors.black
+                    ? Theme.of(context).primaryColor
                     : Color(0xff868E96),
                 fontWeight: provider.selectedKeywordIds.contains(keywordId)
                     ? FontWeight.w700
