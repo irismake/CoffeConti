@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-import '../ui/my_lists.dart';
+import '../ui/my_bookmark_list.dart';
 
-class MyListWidget extends StatelessWidget {
-  const MyListWidget({
+class MyBookmarkListWidget extends StatelessWidget {
+  const MyBookmarkListWidget({
     super.key,
   });
 
@@ -28,7 +28,7 @@ class MyListWidget extends StatelessWidget {
         itemBuilder: (context, index) {
           return Padding(
             padding: const EdgeInsets.symmetric(vertical: 16.0),
-            child: MyLists(
+            child: MyBookmarkList(
               searchText: '${_placeName[index]}',
               index: index,
             ),
@@ -38,7 +38,7 @@ class MyListWidget extends StatelessWidget {
           return Container(
             color: Color(0xffF1F3F5),
             // thickness: 9,
-            height: 1.5.h,
+            //height: 1.5.h,
           );
         },
       ),
