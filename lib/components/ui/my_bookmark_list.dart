@@ -3,11 +3,11 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import 'keyword.dart';
 
-class MyLists extends StatelessWidget {
+class MyBookmarkList extends StatelessWidget {
   final String searchText;
   final int index;
 
-  const MyLists({required this.searchText, required this.index});
+  const MyBookmarkList({required this.searchText, required this.index});
 
   @override
   Widget build(BuildContext context) {
@@ -16,8 +16,8 @@ class MyLists extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Container(
-          width: 90.0,
-          height: 90.0,
+          width: 70.0,
+          height: 70.0,
           decoration: ShapeDecoration(
             color: Color(0xffF1F3F5),
             shape: RoundedRectangleBorder(
