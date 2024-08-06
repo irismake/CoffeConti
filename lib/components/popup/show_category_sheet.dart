@@ -6,7 +6,8 @@ import '../button/next_page_button.dart';
 import '../constants/screenSize.dart';
 
 import '../../data/provider/keyword_provider.dart';
-import '../../screen/map/select_category_page.dart';
+import '../ui/category_tab_bar.dart';
+import '../widgets/select_keyword_widget.dart';
 
 class ShowCategorySheet extends StatelessWidget {
   ShowCategorySheet({Key? key}) : super(key: key);
@@ -50,10 +51,14 @@ class ShowCategorySheet extends StatelessWidget {
                       margin: EdgeInsets.symmetric(vertical: 15.0.h),
                     ),
                   ),
-                  SelectCategoryPage(
-                    provider: provider,
+                  Expanded(
+                    child: Padding(
+                      padding: EdgeInsets.symmetric(vertical: 8.0.h),
+                      child: CategoryTabBar(
+                        tabBarViewWidget: SelectKeywordWidget(),
+                      ),
+                    ),
                   ),
-                  //TagListView(),
                   NextPageButton(
                     firstFieldState: true,
                     secondFieldState: provider.searchButtonState,

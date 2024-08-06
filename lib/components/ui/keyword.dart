@@ -9,20 +9,20 @@ class Keyword extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       decoration: ShapeDecoration(
-        color: Color(0xFFF1F3F5),
+        color: Color(0xFF3D3332),
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(100),
+          borderRadius: BorderRadius.circular(6.0),
         ),
       ),
       child: Padding(
-        padding: EdgeInsets.symmetric(horizontal: 10.0.w, vertical: 2.0.h),
+        padding: EdgeInsets.symmetric(horizontal: 8.0.w, vertical: 2.0.h),
         child: Text(
           keywordName,
           style: TextStyle(
-            color: Color(0xFF868E96),
-            fontSize: 12.0.sp,
+            color: Theme.of(context).primaryColor,
+            fontSize: 11.0.sp,
             fontFamily: 'Pretendard',
-            fontWeight: FontWeight.w700,
+            fontWeight: FontWeight.w600,
             height: 1.5,
           ),
         ),

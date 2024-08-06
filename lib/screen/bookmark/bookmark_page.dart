@@ -1,4 +1,4 @@
-import 'package:coffeeconti/screen/bookmark/my_List_page.dart';
+import 'package:coffeeconti/screen/bookmark/my_bookmark_list_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -88,8 +88,8 @@ class BookmarkPage extends StatelessWidget {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) =>
-                                MyListPage(groupName: _groupNames[index]),
+                            builder: (context) => MyBookmarkListPage(
+                                groupName: _groupNames[index]),
                           ),
                         );
                       },

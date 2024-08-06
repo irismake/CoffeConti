@@ -115,7 +115,10 @@ class CafeMapState extends State<CafeMap> {
                         currentAddress: '장위로 10길 10-9',
                       ),
                     ),
-                    SearchKeywordWidget(),
+                    Padding(
+                      padding: EdgeInsets.symmetric(vertical: 6.0),
+                      child: SearchKeywordWidget(),
+                    ),
                   ],
                 ),
               ),
