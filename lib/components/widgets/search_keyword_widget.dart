@@ -1,54 +1,37 @@
+import 'package:coffeeconti/components/button/category_button.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 
 import '../button/search_keyword_button.dart';
 import '../../data/provider/keyword_provider.dart';
-import '../popup/show_category_sheet.dart';
 
 class SearchKeywordWidget extends StatelessWidget {
   const SearchKeywordWidget({super.key});
-
-  void _tapCategory(BuildContext context, int index) {
-    if (index == 0) {
-      showModalBottomSheet(
-        context: context,
-        isScrollControlled: true,
-        builder: (context) {
-          return ShowCategorySheet();
-        },
-      );
-    } else {
-      // 클릭시 바로 데이터 가져오기
-    }
-  }
 
   @override
   Widget build(BuildContext context) {
     return Consumer<KeywordsProvider>(
       builder: (context, provider, child) {
         return SizedBox(
-          height: 40.0.h,
-          child: ListView.builder(
-            padding: EdgeInsets.symmetric(
-              horizontal: 8.0.w,
-            ),
-            shrinkWrap: true,
-            itemCount: provider.selectedKeywordDatas.length + 1,
-            scrollDirection: Axis.horizontal,
-            itemBuilder: (context, index) => SearchKeywordButton(
-              index: index,
-              keywordId:
-                  index == 0 ? -1 : provider.selectedKeywordDatas[index - 1].id,
-              name: provider.selectedCategoryId == null
-                  ? '카테고리'
-                  : index == 0
-                      ? '${provider.categoryNames[provider.selectedCategoryId!]}'
-                      : '${provider.selectedKeywordDatas[index - 1].name}',
-              onTap: () {
-                _tapCategory(context, index);
-              },
-            ),
+          height: 34.0,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              CategoryButton(
+                index: provider.selectedCategoryId,
+              ),
+              Expanded(
+                child: ListView.builder(
+                  shrinkWrap: true,
+                  itemCount: provider.selectedKeywordDatas.length,
+                  scrollDirection: Axis.horizontal,
+                  itemBuilder: (context, index) => SearchKeywordButton(
+                    keywordId: provider.selectedKeywordDatas[index].id,
+                    name: provider.selectedKeywordDatas[index].name,
+                  ),
+                ),
+              ),
+            ],
           ),
         );
       },

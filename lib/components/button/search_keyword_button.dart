@@ -2,52 +2,69 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class SearchKeywordButton extends StatelessWidget {
-  final int index;
   final int keywordId;
   final String name;
-  final VoidCallback onTap;
 
-  SearchKeywordButton(
-      {super.key,
-      required this.keywordId,
-      required this.index,
-      required this.name,
-      required this.onTap});
+  SearchKeywordButton({
+    super.key,
+    required this.keywordId,
+    required this.name,
+  });
 
   @override
   Widget build(BuildContext context) {
-    print('키워드 아이디 : $keywordId');
     return Padding(
-      padding: EdgeInsets.symmetric(horizontal: 5.0.w),
-      child: Align(
-        alignment: Alignment.center,
-        child: ElevatedButton(
-          onPressed: () {
-            onTap();
-          },
-          style: ElevatedButton.styleFrom(
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(10.0),
-              side: BorderSide(color: Color(0xFFDEE2E6)),
-            ),
-            minimumSize: Size.zero,
-            padding: EdgeInsets.symmetric(
-              horizontal: 16.0.w,
-              vertical: 6.0.h,
-            ),
-            backgroundColor: index == 0 ? Color(0xFF3D3332) : Colors.white,
-            elevation: 0,
-          ),
-          child: Text(
-            name,
-            style: TextStyle(
-              fontFamily: 'PretendardRegular',
-              fontSize: 14.sp,
-              fontWeight: FontWeight.w600,
-              color: Theme.of(context).primaryColor,
-              height: 1.43,
+      padding: EdgeInsets.only(
+        right: 8.0.w,
+      ),
+      child: ElevatedButton(
+        onPressed: () {},
+        style: ElevatedButton.styleFrom(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(10.0),
+            side: BorderSide(
+              width: 1.0,
+              color: Color(0xFFDEE2E6),
             ),
           ),
+          minimumSize: Size.zero,
+          padding: EdgeInsets.symmetric(
+            horizontal: 14.0.w,
+          ),
+          backgroundColor: Color(0xFF3D3332),
+          elevation: 0,
+        ),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Text(
+              name,
+              style: TextStyle(
+                fontFamily: 'PretendardRegular',
+                fontSize: 14.sp,
+                fontWeight: FontWeight.w600,
+                color: Theme.of(context).primaryColor,
+                height: 1.43,
+              ),
+            ),
+            SizedBox(
+              width: 6.0.w,
+            ),
+            GestureDetector(
+              onTap: () {},
+              child: Container(
+                height: 10,
+                width: 10,
+                padding: EdgeInsets.zero,
+                child: Image.asset(
+                  'assets/icons/button_delete.png',
+                  fit: BoxFit.contain,
+                  color: Colors.white,
+                ),
+              ),
+            ),
+          ],
         ),
       ),
     );
