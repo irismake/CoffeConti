@@ -1,5 +1,4 @@
 import 'package:coffeeconti/screen/map/map.dart';
-import 'package:flutter_naver_map/flutter_naver_map.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:http/http.dart' as http;
 import 'package:intl/intl.dart';
@@ -61,35 +60,35 @@ class CafeDataApi {
     return cafePlaceIds;
   }
 
-  static void getCafeData(String placeId, Set<NMarker> markerSets) async {
-    final url = Uri.parse(
-        'https://maps.googleapis.com/maps/api/place/details/json?place_id=$placeId&key=$googlePlaceApi');
-    final response = await http.get(url);
+  // static void getCafeData(String placeId, Set<NMarker> markerSets) async {
+  //   final url = Uri.parse(
+  //       'https://maps.googleapis.com/maps/api/place/details/json?place_id=$placeId&key=$googlePlaceApi');
+  //   final response = await http.get(url);
 
-    if (response.statusCode == 200) {
-      String jsonData = response.body;
-      Map<String, dynamic> cafeData = json.decode(jsonData);
-      Map<String, dynamic> results = cafeData['result'];
-      CafeDataModel cafeDataModel = CafeDataModel.fromJson(results);
-      final schedules = cafeDataModel.openingHours?.weekdayOperatingTime;
-      final remainTime = calculateRemainTime(schedules);
+  //   if (response.statusCode == 200) {
+  //     String jsonData = response.body;
+  //     Map<String, dynamic> cafeData = json.decode(jsonData);
+  //     Map<String, dynamic> results = cafeData['result'];
+  //     CafeDataModel cafeDataModel = CafeDataModel.fromJson(results);
+  //     final schedules = cafeDataModel.openingHours?.weekdayOperatingTime;
+  //     final remainTime = calculateRemainTime(schedules);
 
-      String cafeId = toPassCafeId(cafeDataModel.name, remainTime);
-      int iconColor = setMarkerColor(remainTime);
+  //     String cafeId = toPassCafeId(cafeDataModel.name, remainTime);
+  //     int iconColor = setMarkerColor(remainTime);
 
-      final marker = NMarker(
-        id: cafeId,
-        position: NLatLng(cafeDataModel.geometry.location['lat'],
-            cafeDataModel.geometry.location['lng']),
-        icon: NOverlayImage.fromAssetImage(
-            "assets/icons/coffeeIcon$iconColor.png"),
-        alpha: 1,
-        size: NSize(50.0, 50.0),
-      );
+  //     final marker = NMarker(
+  //       id: cafeId,
+  //       position: NLatLng(cafeDataModel.geometry.location['lat'],
+  //           cafeDataModel.geometry.location['lng']),
+  //       icon: NOverlayImage.fromAssetImage(
+  //           "assets/icons/coffeeIcon$iconColor.png"),
+  //       alpha: 1,
+  //       size: NSize(50.0, 50.0),
+  //     );
 
-      markerSets.add(marker);
-    }
-  }
+  //     markerSets.add(marker);
+  //   }
+  // }
 
   static Duration calculateRemainTime(dynamic schedules) {
     DateTime now = DateTime.now();

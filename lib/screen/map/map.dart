@@ -1,6 +1,6 @@
 import 'package:coffeeconti/components/popup/no_cafe_toast.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_naver_map/flutter_naver_map.dart';
+
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:provider/provider.dart';
@@ -21,35 +21,35 @@ class CafeMap extends StatefulWidget {
 
 class CafeMapState extends State<CafeMap> {
   late LocationProvider _locationProvider;
-  late NaverMapController mapController;
+  // late NaverMapController mapController;
   OverlayEntry? overlayEntry;
   double bottomPadding = 10.0;
   final ValueNotifier<bool> _showCafeTutorialStateNotifier =
       ValueNotifier<bool>(false);
 
-  Set<NMarker> markerSets = {};
+  // Set<NMarker> markerSets = {};
   List<dynamic> remainHour = [];
   Position? _currentPosition;
 
-  Future<Set<NMarker>> findMarkers() async {
-    print('find marker function');
-    List<dynamic> cafePlaceIds =
-        await CafeDataApi.getCafePlaceId(_currentPosition!);
-    for (var cafePlaceId in cafePlaceIds) {
-      CafeDataApi.getCafeData(cafePlaceId, markerSets);
-    }
-    while (markerSets.length != cafePlaceIds.length) {
-      await Future.delayed(Duration(milliseconds: 1));
-    }
-    return markerSets;
-  }
+  // Future<Set<NMarker>> findMarkers() async {
+  //   print('find marker function');
+  //   List<dynamic> cafePlaceIds =
+  //       await CafeDataApi.getCafePlaceId(_currentPosition!);
+  //   for (var cafePlaceId in cafePlaceIds) {
+  //     CafeDataApi.getCafeData(cafePlaceId, markerSets);
+  //   }
+  //   while (markerSets.length != cafePlaceIds.length) {
+  //     await Future.delayed(Duration(milliseconds: 1));
+  //   }
+  //   return markerSets;
+  // }
 
-  late final cameraPosition = NCameraPosition(
-    target: NLatLng(
-        _currentPosition?.latitude ?? 0.0, _currentPosition?.longitude ?? 0.0),
-    zoom: 15,
-    tilt: 0,
-  );
+  // late final cameraPosition = NCameraPosition(
+  //   target: NLatLng(
+  //       _currentPosition?.latitude ?? 0.0, _currentPosition?.longitude ?? 0.0),
+  //   zoom: 15,
+  //   tilt: 0,
+  // );
 
   void _tapCategory(int index) {
     if (index == 0) {
@@ -74,7 +74,7 @@ class CafeMapState extends State<CafeMap> {
     print('dispose');
     overlayEntry?.remove();
 
-    mapController.dispose();
+    //mapController.dispose();
     super.dispose();
   }
 
@@ -87,20 +87,20 @@ class CafeMapState extends State<CafeMap> {
         builder: (context, value, _) {
           return Stack(
             children: [
-              NaverMap(
-                options: NaverMapViewOptions(
-                  scrollGesturesEnable: true,
-                  initialCameraPosition: cameraPosition,
-                ),
+              // NaverMap(
+              //   options: NaverMapViewOptions(
+              //     scrollGesturesEnable: true,
+              //     initialCameraPosition: cameraPosition,
+              //   ),
 
-                onMapReady: onMapReady,
-                onMapTapped: onMapTapped,
+              //   onMapReady: onMapReady,
+              //   onMapTapped: onMapTapped,
 
-                // onSymbolTapped: onSymbolTapped,
-                //onCameraChange: onCameraChange,
-                //onCameraIdle: onCameraIdle,
-                // onSelectedIndoorChanged: onSelectedIndoorChanged,
-              ),
+              //   // onSymbolTapped: onSymbolTapped,
+              //   //onCameraChange: onCameraChange,
+              //   //onCameraIdle: onCameraIdle,
+              //   // onSelectedIndoorChanged: onSelectedIndoorChanged,
+              // ),
               Padding(
                 padding: EdgeInsets.only(
                   top: ViewPaddingTopSize(context),
@@ -147,8 +147,8 @@ class CafeMapState extends State<CafeMap> {
                         borderRadius: BorderRadius.circular(30),
                       ),
                       onPressed: () {
-                        mapController.setLocationTrackingMode(
-                            NLocationTrackingMode.follow);
+                        // mapController.setLocationTrackingMode(
+                        //     NLocationTrackingMode.follow);
                       },
                       child: Image.asset(
                         'assets/icons/icon_my_location.png',
@@ -166,90 +166,90 @@ class CafeMapState extends State<CafeMap> {
     );
   }
 
-  void onMapReady(NaverMapController controller) async {
-    _currentPosition = await _locationProvider.getCurrentPosition(context);
-    mapController = controller;
-    print('onMapReady');
-    if (_currentPosition != null) {
-      // await findMarkers().then((markerSets) {
-      //   if (markerSets.isEmpty) {
-      //     _showNoCafeToast(context);
-      //   }
-      // });
-    }
+  // void onMapReady(NaverMapController controller) async {
+  //   _currentPosition = await _locationProvider.getCurrentPosition(context);
+  //   mapController = controller;
+  //   print('onMapReady');
+  //   if (_currentPosition != null) {
+  //     // await findMarkers().then((markerSets) {
+  //     //   if (markerSets.isEmpty) {
+  //     //     _showNoCafeToast(context);
+  //     //   }
+  //     // });
+  //   }
 
-    mapController.addOverlayAll(markerSets);
-    setState(() {
-      print('지위기');
-    });
+  //   mapController.addOverlayAll(markerSets);
+  //   setState(() {
+  //     print('지위기');
+  //   });
 
-    markerSets.forEach(_setMarkerTapListener);
-    mapController.setLocationTrackingMode(NLocationTrackingMode.follow);
-  }
+  //   markerSets.forEach(_setMarkerTapListener);
+  //   mapController.setLocationTrackingMode(NLocationTrackingMode.follow);
+  // }
 
-  void _setMarkerTapListener(NMarker marker) {
-    marker.setOnTapListener((NMarker tappedMarker) {
-      if (_showCafeTutorialStateNotifier.value) {
-        overlayEntry?.remove();
-        overlayEntry = null;
-      }
-      _showCafeTutorial(context, tappedMarker);
+  // void _setMarkerTapListener(NMarker marker) {
+  //   marker.setOnTapListener((NMarker tappedMarker) {
+  //     if (_showCafeTutorialStateNotifier.value) {
+  //       overlayEntry?.remove();
+  //       overlayEntry = null;
+  //     }
+  //     _showCafeTutorial(context, tappedMarker);
 
-      final cameraUpdate = NCameraUpdate.scrollAndZoomTo(
-        target: tappedMarker.position,
-      );
+  //     final cameraUpdate = NCameraUpdate.scrollAndZoomTo(
+  //       target: tappedMarker.position,
+  //     );
 
-      mapController.updateCamera(cameraUpdate);
-    });
-  }
+  //     mapController.updateCamera(cameraUpdate);
+  //   });
+  // }
 
-  void onMapTapped(NPoint point, NLatLng latLng) {
-    print('ontap');
-    overlayEntry?.remove();
-    overlayEntry = null;
-    _showCafeTutorialStateNotifier.value = false;
-  }
+  // void onMapTapped(NPoint point, NLatLng latLng) {
+  //   print('ontap');
+  //   overlayEntry?.remove();
+  //   overlayEntry = null;
+  //   _showCafeTutorialStateNotifier.value = false;
+  // }
 
-  void _showCafeTutorial(BuildContext context, NMarker tappedMarker) {
-    _showCafeTutorialStateNotifier.value = true;
-    final overlay = Overlay.of(context);
-    String cafeId = tappedMarker.info.id;
-    String cafeName = cafeId.split('-')[0];
-    final tappedMarkerPosition = tappedMarker.position;
-    List<String> timeComponents = cafeId.split('-')[1].trim().split(':');
-    String stringRemainTime = (timeComponents[0] == "0")
-        ? '${timeComponents[1]}분'
-        : '${timeComponents[0]}시간 ${timeComponents[1]}분';
+  // void _showCafeTutorial(BuildContext context, NMarker tappedMarker) {
+  //   _showCafeTutorialStateNotifier.value = true;
+  //   final overlay = Overlay.of(context);
+  //   String cafeId = tappedMarker.info.id;
+  //   String cafeName = cafeId.split('-')[0];
+  //   final tappedMarkerPosition = tappedMarker.position;
+  //   List<String> timeComponents = cafeId.split('-')[1].trim().split(':');
+  //   String stringRemainTime = (timeComponents[0] == "0")
+  //       ? '${timeComponents[1]}분'
+  //       : '${timeComponents[0]}시간 ${timeComponents[1]}분';
 
-    print('overlay marker');
-    overlayEntry = OverlayEntry(
-      builder: (context) {
-        return Padding(
-          padding: EdgeInsets.symmetric(vertical: 10.0.h),
-          child: Container(
-            decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.circular(6.0),
-              boxShadow: [
-                BoxShadow(
-                  color: Colors.grey.withOpacity(0.2),
-                  spreadRadius: 1,
-                  blurRadius: 1.0,
-                  offset: Offset(0, 0),
-                ),
-              ],
-            ),
-            child: CafeTutorial(
-              index: 0,
-              name: cafeName,
-            ),
-          ),
-        );
-      },
-    );
+  //   print('overlay marker');
+  //   overlayEntry = OverlayEntry(
+  //     builder: (context) {
+  //       return Padding(
+  //         padding: EdgeInsets.symmetric(vertical: 10.0.h),
+  //         child: Container(
+  //           decoration: BoxDecoration(
+  //             color: Colors.white,
+  //             borderRadius: BorderRadius.circular(6.0),
+  //             boxShadow: [
+  //               BoxShadow(
+  //                 color: Colors.grey.withOpacity(0.2),
+  //                 spreadRadius: 1,
+  //                 blurRadius: 1.0,
+  //                 offset: Offset(0, 0),
+  //               ),
+  //             ],
+  //           ),
+  //           child: CafeTutorial(
+  //             index: 0,
+  //             name: cafeName,
+  //           ),
+  //         ),
+  //       );
+  //     },
+  //   );
 
-    overlay.insert(overlayEntry!);
-  }
+  //   overlay.insert(overlayEntry!);
+  // }
 
   void _showNoCafeToast(BuildContext context) {
     final overlay = Overlay.of(context);
@@ -263,13 +263,13 @@ class CafeMapState extends State<CafeMap> {
     overlay.insert(overlayEntry!);
   }
 
-  Future<NPathOverlay> showRoute(List<dynamic> routeCoords) async {
-    print("showRoute");
-    List<NLatLng> convertedPath =
-        routeCoords.map((coord) => NLatLng(coord[1], coord[0])).toList();
+  // Future<NPathOverlay> showRoute(List<dynamic> routeCoords) async {
+  //   print("showRoute");
+  //   List<NLatLng> convertedPath =
+  //       routeCoords.map((coord) => NLatLng(coord[1], coord[0])).toList();
 
-    final pathOverlay = NPathOverlay(id: "test", coords: convertedPath);
-    mapController.addOverlay(pathOverlay);
-    return pathOverlay;
-  }
+  //   final pathOverlay = NPathOverlay(id: "test", coords: convertedPath);
+  //   mapController.addOverlay(pathOverlay);
+  //   return pathOverlay;
+  // }
 }
