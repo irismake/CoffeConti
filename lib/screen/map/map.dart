@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:kakao_map_plugin/kakao_map_plugin.dart';
 import 'package:provider/provider.dart';
 
 import '../../components/button/search_place_button.dart';
@@ -87,6 +88,7 @@ class CafeMapState extends State<CafeMap> {
         builder: (context, value, _) {
           return Stack(
             children: [
+              KakaoMap(),
               // NaverMap(
               //   options: NaverMapViewOptions(
               //     scrollGesturesEnable: true,
