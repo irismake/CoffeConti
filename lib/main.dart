@@ -1,13 +1,21 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'components/constants/sizes.dart';
+import 'package:kakao_map_plugin/kakao_map_plugin.dart';
+
 import 'package:provider/provider.dart';
+
+import 'components/constants/sizes.dart';
 import 'package:coffeeconti/data/provider/location_provider.dart';
 import 'data/provider/keyword_provider.dart';
 import 'screen/navigator/main_view_navigator.dart';
 
 void main() async {
   //await _initialize();
+  await dotenv.load(fileName: 'assets/config/.env');
+  AuthRepository.initialize(
+    appKey: dotenv.env['APP_KEY'] ?? '',
+  );
   runApp(
     MultiProvider(
       providers: [
