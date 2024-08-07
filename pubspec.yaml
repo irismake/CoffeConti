@@ -47,6 +47,7 @@ dependencies:
   flutter_svg: ^1.0.1
   flutter_screenutil: ^5.0.0+2
   dropdown_button2: ^2.3.9
+  location: ^7.0.0
 
 
 dev_dependencies:

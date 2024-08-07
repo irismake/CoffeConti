@@ -21,8 +21,11 @@ class CafeMap extends StatefulWidget {
 }
 
 class CafeMapState extends State<CafeMap> {
-  late LocationProvider _locationProvider;
-  // late NaverMapController mapController;
+  String message = '';
+
+  late KakaoMapController mapController;
+  LatLng? center;
+  Set<Marker> markers = {};
   OverlayEntry? overlayEntry;
   double bottomPadding = 10.0;
   final ValueNotifier<bool> _showCafeTutorialStateNotifier =
@@ -30,7 +33,6 @@ class CafeMapState extends State<CafeMap> {
 
   // Set<NMarker> markerSets = {};
   List<dynamic> remainHour = [];
-  Position? _currentPosition;
 
   // Future<Set<NMarker>> findMarkers() async {
   //   print('find marker function');
@@ -45,11 +47,11 @@ class CafeMapState extends State<CafeMap> {
   //   return markerSets;
   // }
 
-  // late final cameraPosition = NCameraPosition(
-  //   target: NLatLng(
-  //       _currentPosition?.latitude ?? 0.0, _currentPosition?.longitude ?? 0.0),
+  // late final cameraPosition = OnCameraIdle(
+  //   LatLng:
+  //       _currentPosition?.latitude ?? 0.0, _currentPosition?.longitude ?? 0.0,
   //   zoom: 15,
-  //   tilt: 0,
+
   // );
 
   void _tapCategory(int index) {
@@ -67,7 +69,6 @@ class CafeMapState extends State<CafeMap> {
   void initState() {
     print('initstate');
     super.initState();
-    _locationProvider = Provider.of<LocationProvider>(context, listen: false);
   }
 
   @override
@@ -75,96 +76,129 @@ class CafeMapState extends State<CafeMap> {
     print('dispose');
     overlayEntry?.remove();
 
-    //mapController.dispose();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    print('build');
-    return Scaffold(
-      body: ValueListenableBuilder<bool>(
-        valueListenable: _showCafeTutorialStateNotifier,
-        builder: (context, value, _) {
-          return Stack(
-            children: [
-              KakaoMap(),
-              // NaverMap(
-              //   options: NaverMapViewOptions(
-              //     scrollGesturesEnable: true,
-              //     initialCameraPosition: cameraPosition,
-              //   ),
-
-              //   onMapReady: onMapReady,
-              //   onMapTapped: onMapTapped,
-
-              //   // onSymbolTapped: onSymbolTapped,
-              //   //onCameraChange: onCameraChange,
-              //   //onCameraIdle: onCameraIdle,
-              //   // onSelectedIndoorChanged: onSelectedIndoorChanged,
-              // ),
-              Padding(
-                padding: EdgeInsets.only(
-                  top: ViewPaddingTopSize(context),
-                ),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.start,
+    // Future.delayed(Duration.zero, () async {
+    //   center = await Provider.of<LocationProvider>(context, listen: false)
+    //       .getCurrentPosition(context);
+    // });
+    return FutureBuilder(
+      future: Future.delayed(Duration.zero, () async {
+        center = await Provider.of<LocationProvider>(context, listen: false)
+            .getInitialPosition(context);
+      }),
+      builder: (context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return Center(
+            child: CircularProgressIndicator(),
+          );
+        } else {
+          return Scaffold(
+            body: ValueListenableBuilder<bool>(
+              valueListenable: _showCafeTutorialStateNotifier,
+              builder: (context, value, _) {
+                return Stack(
                   children: [
+                    KakaoMap(
+                      markers: markers.toList(),
+                      center: center,
+                      currentLevel: 6,
+                      onMapCreated: ((controller) {
+                        mapController = controller;
+                      }),
+                      onCameraIdle: (latLng, zoomLevel) {},
+                      onCenterChangeCallback: ((latlng, zoomLevel) {
+                        message = '지도 레벨은 $zoomLevel 이고\n';
+                        message +=
+                            '중심 좌표는 위도 ${latlng.latitude},\n경도 ${latlng.longitude} 입니다';
+
+                        setState(() {});
+                      }),
+                    ),
+                    // NaverMap(
+                    //   options: NaverMapViewOptions(
+                    //     scrollGesturesEnable: true,
+                    //     initialCameraPosition: cameraPosition,
+                    //   ),
+
+                    //   onMapReady: onMapReady,
+                    //   onMapTapped: onMapTapped,
+
+                    //   // onSymbolTapped: onSymbolTapped,
+                    //   //onCameraChange: onCameraChange,
+                    //   //onCameraIdle: onCameraIdle,
+                    //   // onSelectedIndoorChanged: onSelectedIndoorChanged,
+                    // ),
                     Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 18.0.w),
-                      child: SearchPlaceButton(
-                        currentAddress: '장위로 10길 10-9',
+                      padding: EdgeInsets.only(
+                        top: ViewPaddingTopSize(context),
+                      ),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Padding(
+                            padding: EdgeInsets.symmetric(horizontal: 18.0.w),
+                            child: SearchPlaceButton(
+                              currentAddress: '장위로 10길 10-9',
+                            ),
+                          ),
+                          Padding(
+                            padding: EdgeInsets.symmetric(vertical: 6.0),
+                            child: SearchKeywordWidget(),
+                          ),
+                        ],
                       ),
                     ),
-                    Padding(
-                      padding: EdgeInsets.symmetric(vertical: 6.0),
-                      child: SearchKeywordWidget(),
+                    Positioned(
+                      bottom: UnfocusCurrentPosition(context),
+                      right: 16.w,
+                      child: Container(
+                        height: 50.0.h,
+                        width: 50.0.w,
+                        decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.black.withOpacity(0.2),
+                              spreadRadius: 1,
+                              blurRadius: 3,
+                              offset:
+                                  Offset(0, 0), // changes position of shadow
+                            ),
+                          ],
+                        ),
+                        child: FittedBox(
+                          child: FloatingActionButton(
+                            backgroundColor: Colors.white,
+                            elevation: 0,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(30),
+                            ),
+                            onPressed: () {
+                              // mapController.setLocationTrackingMode(
+                              //     NLocationTrackingMode.follow);
+                              mapController.panTo(center!);
+                            },
+                            child: Image.asset(
+                              'assets/icons/icon_my_location.png',
+                              height: 32.0.h,
+                              width: 32.0.w,
+                            ),
+                          ),
+                        ),
+                      ),
                     ),
                   ],
-                ),
-              ),
-              Positioned(
-                bottom: UnfocusCurrentPosition(context),
-                right: 16.w,
-                child: Container(
-                  height: 50.0.h,
-                  width: 50.0.w,
-                  decoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.black.withOpacity(0.2),
-                        spreadRadius: 1,
-                        blurRadius: 3,
-                        offset: Offset(0, 0), // changes position of shadow
-                      ),
-                    ],
-                  ),
-                  child: FittedBox(
-                    child: FloatingActionButton(
-                      backgroundColor: Colors.white,
-                      elevation: 0,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(30),
-                      ),
-                      onPressed: () {
-                        // mapController.setLocationTrackingMode(
-                        //     NLocationTrackingMode.follow);
-                      },
-                      child: Image.asset(
-                        'assets/icons/icon_my_location.png',
-                        height: 32.0.h,
-                        width: 32.0.w,
-                      ),
-                    ),
-                  ),
-                ),
-              ),
-            ],
+                );
+              },
+            ),
           );
-        },
-      ),
+        }
+      },
     );
   }
 
