@@ -10,9 +10,10 @@ class LocationProvider extends ChangeNotifier {
   LatLng? _position;
   LatLng? get position => _position;
 
-  Future<LatLng?> getInitialPosition(BuildContext context) async {
+  Future<void> getInitialPosition(BuildContext context) async {
     if (_position != null) {
-      return _position; // 이미 위치를 가져왔다면 캐시된 값을 반환
+      notifyListeners();
+      return; // 이미 위치를 가져왔다면 캐시된 값을 반환
     }
 
     PermissionStatus status = await Permission.location.request();
@@ -31,26 +32,25 @@ class LocationProvider extends ChangeNotifier {
     } else {
       _showPermissionPopup(context);
     }
-    return _position;
   }
-}
 
-void _showPermissionPopup(BuildContext context) {
-  showDialog(
-    barrierDismissible: false,
-    context: context,
-    builder: (BuildContext context) {
-      return ShowAppSettingMessage();
-    },
-  );
-}
+  void _showPermissionPopup(BuildContext context) {
+    showDialog(
+      barrierDismissible: false,
+      context: context,
+      builder: (BuildContext context) {
+        return ShowAppSettingMessage();
+      },
+    );
+  }
 
-void _errorPopup(BuildContext context) {
-  showDialog(
-    barrierDismissible: true,
-    context: context,
-    builder: (BuildContext context) {
-      return ShowErrorMessage(context);
-    },
-  );
+  void _errorPopup(BuildContext context) {
+    showDialog(
+      barrierDismissible: true,
+      context: context,
+      builder: (BuildContext context) {
+        return ShowErrorMessage(context);
+      },
+    );
+  }
 }

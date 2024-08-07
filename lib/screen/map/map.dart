@@ -1,16 +1,12 @@
 import 'package:coffeeconti/components/popup/no_cafe_toast.dart';
 import 'package:flutter/material.dart';
-
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:geolocator/geolocator.dart';
 import 'package:kakao_map_plugin/kakao_map_plugin.dart';
 import 'package:provider/provider.dart';
 
 import '../../components/button/search_place_button.dart';
 import '../../components/constants/screenSize.dart';
-import '../../data/cafe_data.dart';
 import '../../data/provider/location_provider.dart';
-import '../../components/popup/cafe_tutorial.dart';
 import '../../components/popup/show_category_sheet.dart';
 import '../../components/widgets/search_keyword_widget.dart';
 
@@ -24,7 +20,7 @@ class CafeMapState extends State<CafeMap> {
   String message = '';
 
   late KakaoMapController mapController;
-  LatLng? center;
+  LatLng? _currentPosition;
   Set<Marker> markers = {};
   OverlayEntry? overlayEntry;
   double bottomPadding = 10.0;
@@ -37,7 +33,7 @@ class CafeMapState extends State<CafeMap> {
   // Future<Set<NMarker>> findMarkers() async {
   //   print('find marker function');
   //   List<dynamic> cafePlaceIds =
-  //       await CafeDataApi.getCafePlaceId(_currentPosition!);
+  //       await CafeDataApi.getCafePlaceId(__currentPosition!);
   //   for (var cafePlaceId in cafePlaceIds) {
   //     CafeDataApi.getCafeData(cafePlaceId, markerSets);
   //   }
@@ -49,7 +45,7 @@ class CafeMapState extends State<CafeMap> {
 
   // late final cameraPosition = OnCameraIdle(
   //   LatLng:
-  //       _currentPosition?.latitude ?? 0.0, _currentPosition?.longitude ?? 0.0,
+  //       __currentPosition?.latitude ?? 0.0, __currentPosition?.longitude ?? 0.0,
   //   zoom: 15,
 
   // );
@@ -69,6 +65,10 @@ class CafeMapState extends State<CafeMap> {
   void initState() {
     print('initstate');
     super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      Provider.of<LocationProvider>(context, listen: false)
+          .getInitialPosition(context);
+    });
   }
 
   @override
@@ -81,21 +81,17 @@ class CafeMapState extends State<CafeMap> {
 
   @override
   Widget build(BuildContext context) {
-    // Future.delayed(Duration.zero, () async {
-    //   center = await Provider.of<LocationProvider>(context, listen: false)
-    //       .getCurrentPosition(context);
-    // });
-    return FutureBuilder(
-      future: Future.delayed(Duration.zero, () async {
-        center = await Provider.of<LocationProvider>(context, listen: false)
-            .getInitialPosition(context);
-      }),
-      builder: (context, snapshot) {
-        if (snapshot.connectionState == ConnectionState.waiting) {
-          return Center(
-            child: CircularProgressIndicator(),
+    return Consumer<LocationProvider>(
+      builder: (context, provider, child) {
+        if (provider.position == null) {
+          return Scaffold(
+            body: Center(
+              child: CircularProgressIndicator(),
+            ),
           );
         } else {
+          _currentPosition = provider.position!;
+          print(_currentPosition);
           return Scaffold(
             body: ValueListenableBuilder<bool>(
               valueListenable: _showCafeTutorialStateNotifier,
@@ -104,8 +100,8 @@ class CafeMapState extends State<CafeMap> {
                   children: [
                     KakaoMap(
                       markers: markers.toList(),
-                      center: center,
-                      currentLevel: 6,
+                      center: _currentPosition,
+                      currentLevel: 2,
                       onMapCreated: ((controller) {
                         mapController = controller;
                       }),
@@ -181,7 +177,7 @@ class CafeMapState extends State<CafeMap> {
                             onPressed: () {
                               // mapController.setLocationTrackingMode(
                               //     NLocationTrackingMode.follow);
-                              mapController.panTo(center!);
+                              mapController.panTo(_currentPosition!);
                             },
                             child: Image.asset(
                               'assets/icons/icon_my_location.png',
@@ -203,10 +199,10 @@ class CafeMapState extends State<CafeMap> {
   }
 
   // void onMapReady(NaverMapController controller) async {
-  //   _currentPosition = await _locationProvider.getCurrentPosition(context);
+  //   __currentPosition = await _locationProvider.get_CurrentPosition(context);
   //   mapController = controller;
   //   print('onMapReady');
-  //   if (_currentPosition != null) {
+  //   if (__currentPosition != null) {
   //     // await findMarkers().then((markerSets) {
   //     //   if (markerSets.isEmpty) {
   //     //     _showNoCafeToast(context);
