@@ -6,6 +6,8 @@ PODS:
     - Flutter
   - kakao_map_plugin (0.0.1):
     - Flutter
+  - location (0.0.1):
+    - Flutter
   - permission_handler_apple (9.1.0):
     - Flutter
   - webview_flutter_wkwebview (0.0.1):
@@ -16,6 +18,7 @@ DEPENDENCIES:
   - flutter_keyboard_visibility (from `.symlinks/plugins/flutter_keyboard_visibility/ios`)
   - geolocator_apple (from `.symlinks/plugins/geolocator_apple/ios`)
   - kakao_map_plugin (from `.symlinks/plugins/kakao_map_plugin/ios`)
+  - location (from `.symlinks/plugins/location/ios`)
   - permission_handler_apple (from `.symlinks/plugins/permission_handler_apple/ios`)
   - webview_flutter_wkwebview (from `.symlinks/plugins/webview_flutter_wkwebview/ios`)
 
@@ -28,6 +31,8 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/geolocator_apple/ios"
   kakao_map_plugin:
     :path: ".symlinks/plugins/kakao_map_plugin/ios"
+  location:
+    :path: ".symlinks/plugins/location/ios"
   permission_handler_apple:
     :path: ".symlinks/plugins/permission_handler_apple/ios"
   webview_flutter_wkwebview:
@@ -36,8 +41,9 @@ EXTERNAL SOURCES:
 SPEC CHECKSUMS:
   Flutter: e0871f40cf51350855a761d2e70bf5af5b9b5de7
   flutter_keyboard_visibility: 0339d06371254c3eb25eeb90ba8d17dca8f9c069
-  geolocator_apple: cc556e6844d508c95df1e87e3ea6fa4e58c50401
+  geolocator_apple: 6cbaf322953988e009e5ecb481f07efece75c450
   kakao_map_plugin: 232bc2486ea3ffb5d44c49eac1bcc6dde1a7f0ee
+  location: d5cf8598915965547c3f36761ae9cc4f4e87d22e
   permission_handler_apple: 8f116445eff3c0e7c65ad60f5fef5490aa94b4e4
   webview_flutter_wkwebview: 2a23822e9039b7b1bc52e5add778e5d89ad488d1
 
