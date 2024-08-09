@@ -1,5 +1,7 @@
+import 'dart:convert';
 import 'package:coffeeconti/components/popup/no_cafe_toast.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:kakao_map_plugin/kakao_map_plugin.dart';
 import 'package:provider/provider.dart';
@@ -61,6 +63,12 @@ class CafeMapState extends State<CafeMap> {
     }
   }
 
+  Future<String> assetToBase64(String path) async {
+    final ByteData bytes = await rootBundle.load(path);
+    final buffer = bytes.buffer;
+    return 'data:image/png;base64,' + base64.encode(Uint8List.view(buffer));
+  }
+
   @override
   void initState() {
     print('initstate');
@@ -100,34 +108,28 @@ class CafeMapState extends State<CafeMap> {
                   children: [
                     KakaoMap(
                       markers: markers.toList(),
-                      center: _currentPosition,
-                      currentLevel: 2,
-                      onMapCreated: ((controller) {
+                      currentLevel: 3,
+                      onMapCreated: ((controller) async {
+                        await Future.delayed(const Duration(milliseconds: 150),
+                            () {
+                          controller.setCenter(_currentPosition!);
+                        });
                         mapController = controller;
-                      }),
-                      onCameraIdle: (latLng, zoomLevel) {},
-                      onCenterChangeCallback: ((latlng, zoomLevel) {
-                        message = '지도 레벨은 $zoomLevel 이고\n';
-                        message +=
-                            '중심 좌표는 위도 ${latlng.latitude},\n경도 ${latlng.longitude} 입니다';
+                        markers.add(Marker(
+                          infoWindowFirstShow: true,
+                          markerId: markers.length.toString(),
+                          latLng: await mapController.getCenter(),
+                          width: 40,
+                          height: 40,
+                          offsetX: 10,
+                          offsetY: 50,
+                          markerImageSrc: await assetToBase64(
+                              'assets/icons/icon_current_location.png'),
+                        ));
 
                         setState(() {});
                       }),
                     ),
-                    // NaverMap(
-                    //   options: NaverMapViewOptions(
-                    //     scrollGesturesEnable: true,
-                    //     initialCameraPosition: cameraPosition,
-                    //   ),
-
-                    //   onMapReady: onMapReady,
-                    //   onMapTapped: onMapTapped,
-
-                    //   // onSymbolTapped: onSymbolTapped,
-                    //   //onCameraChange: onCameraChange,
-                    //   //onCameraIdle: onCameraIdle,
-                    //   // onSelectedIndoorChanged: onSelectedIndoorChanged,
-                    // ),
                     Padding(
                       padding: EdgeInsets.only(
                         top: ViewPaddingTopSize(context),
