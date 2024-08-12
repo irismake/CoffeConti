@@ -5,11 +5,20 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:http/http.dart' as http;
 
 class ApiService {
-  static const String baseUrl = 'https://dapi.kakao.com/v2/local/search/';
-
+  static const String kakaoRestApiBaseUrl =
+      'https://dapi.kakao.com/v2/local/search/';
+  // final List<String> categoryGroupCode = [
+  //   'CE7',
+  //   'FD6',
+  //   'CS2',
+  //   'CT1',
+  //   'PK6',
+  //   'HP8'
+  // ];
   static const List<Map<String, dynamic>> keywordJsonData = [
     {
       "category_id": 0,
+      "category_group_code": "CE7",
       "name": "카페",
       "keywords": [
         {
@@ -81,6 +90,7 @@ class ApiService {
     },
     {
       "category_id": 1,
+      "category_group_code": "FD6",
       "name": "음식점",
       "keywords": [
         {
@@ -99,21 +109,25 @@ class ApiService {
     },
     {
       "category_id": 2,
+      "category_group_code": "CS2",
       "name": "편의점",
       "keywords": [],
     },
     {
       "category_id": 3,
-      "name": "주유소",
+      "category_group_code": "CT1",
+      "name": "영화관",
       "keywords": [],
     },
     {
       "category_id": 4,
+      "category_group_code": "PK6",
       "name": "주차장",
       "keywords": [],
     },
     {
       "category_id": 5,
+      "category_group_code": "HP8",
       "name": "병원",
       "keywords": [],
     },
@@ -122,7 +136,7 @@ class ApiService {
   static Future<List<KeywordModel>> getKeywords() async {
     try {
       // final getKeywordsResponse = await http.get(
-      //   Uri.parse('$baseUrl/'),
+      //   Uri.parse('$kakaoRestApiBaseUrl/'),
       // );
       // if (getKeywordsResponse.statusCode == 200) {
       //   final getKeywordsResponseData = json.decode(getKeywordsResponse.body);
@@ -150,7 +164,7 @@ class ApiService {
       double searchLng, int searchRadius, String searchCategoryCode) async {
     int pageNum = 1;
     final Uri uri = Uri.parse(
-        '$baseUrl/category.json?page=$pageNum&y=$searchLat&x=$searchLng&radius=$searchRadius&category_group_code=$searchCategoryCode');
+        '$kakaoRestApiBaseUrl/category.json?page=$pageNum&y=$searchLat&x=$searchLng&radius=$searchRadius&category_group_code=$searchCategoryCode');
 
     try {
       final response = await http.get(uri, headers: {
