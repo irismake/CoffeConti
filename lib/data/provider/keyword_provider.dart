@@ -42,7 +42,8 @@ class KeywordsProvider with ChangeNotifier {
   Future<void> fetchCategoryData() async {
     KeywordModel keywordModel = _getKeywordModels.firstWhere(
       (element) => element.categoryId == _curCategoryId,
-      orElse: () => KeywordModel(categoryId: -1, name: '', keywords: []),
+      orElse: () => KeywordModel(
+          categoryId: -1, categoryGroupCode: '', name: '', keywords: []),
     );
     _showKeywordDatas.clear();
     for (var keyword in keywordModel.keywords) {
