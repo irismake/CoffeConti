@@ -91,14 +91,14 @@ class CafeMapState extends State<CafeMap> {
   Widget build(BuildContext context) {
     return Consumer<LocationProvider>(
       builder: (context, provider, child) {
-        if (provider.position == null) {
+        if (provider.initialPosition == null) {
           return Scaffold(
             body: Center(
               child: CircularProgressIndicator(),
             ),
           );
         } else {
-          _currentPosition = provider.position!;
+          _currentPosition = provider.initialPosition!;
           print(_currentPosition);
           return Scaffold(
             body: ValueListenableBuilder<bool>(
