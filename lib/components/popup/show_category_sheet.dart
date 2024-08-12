@@ -1,3 +1,5 @@
+import 'package:coffeeconti/data/api_service.dart';
+import 'package:coffeeconti/data/provider/location_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
@@ -17,7 +19,8 @@ class ShowCategorySheet extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<KeywordsProvider>(builder: (context, provider, child) {
+    return Consumer2<KeywordsProvider, LocationProvider>(
+        builder: (context, keywordsProvider, locationProvider, child) {
       return StatefulBuilder(
         builder: (BuildContext context, StateSetter setState) {
           return Container(
@@ -61,10 +64,15 @@ class ShowCategorySheet extends StatelessWidget {
                   ),
                   NextPageButton(
                     firstFieldState: true,
-                    secondFieldState: provider.searchButtonState,
+                    secondFieldState: keywordsProvider.searchButtonState,
                     text: '찾기',
                     onPressed: () async {
-                      provider.getSelectedKeywords();
+                      keywordsProvider.getSelectedKeywords();
+                      ApiService.getCategoryPlaceList(
+                          locationProvider.initialPosition!.latitude,
+                          locationProvider.initialPosition!.longitude,
+                          2000,
+                          'CE7');
                       Navigator.pop(context);
                     },
                   ),

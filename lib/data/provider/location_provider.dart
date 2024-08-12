@@ -7,11 +7,14 @@ import '../../components/popup/app_setting_popup.dart';
 import '../../components/popup/error_message_popup.dart';
 
 class LocationProvider extends ChangeNotifier {
-  LatLng? _position;
-  LatLng? get position => _position;
+  LatLng? _initialPosition;
+  LatLng? get initialPosition => _initialPosition;
+
+  LatLng? _searchPosition;
+  LatLng? get searchPosition => _searchPosition;
 
   Future<void> getInitialPosition(BuildContext context) async {
-    if (_position != null) {
+    if (_initialPosition != null) {
       notifyListeners();
       return; // 이미 위치를 가져왔다면 캐시된 값을 반환
     }
@@ -22,7 +25,8 @@ class LocationProvider extends ChangeNotifier {
         Position currentPosition = await Geolocator.getCurrentPosition(
           desiredAccuracy: LocationAccuracy.best,
         );
-        _position = LatLng(currentPosition.latitude, currentPosition.longitude);
+        _initialPosition =
+            LatLng(currentPosition.latitude, currentPosition.longitude);
       } catch (e) {
         print('Dont get currentPosition');
         _errorPopup(context);
@@ -32,6 +36,10 @@ class LocationProvider extends ChangeNotifier {
     } else {
       _showPermissionPopup(context);
     }
+  }
+
+  set getSearchPosition(LatLng searchPosition) {
+    _searchPosition = searchPosition;
   }
 
   void _showPermissionPopup(BuildContext context) {
