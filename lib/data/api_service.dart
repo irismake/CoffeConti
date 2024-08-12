@@ -1,9 +1,11 @@
 import 'dart:convert';
 import 'package:coffeeconti/data/models/keyword_model.dart';
+import 'package:coffeeconti/data/models/place_detail_model.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:http/http.dart' as http;
 
 class ApiService {
-  static const String baseUrl = '';
+  static const String baseUrl = 'https://dapi.kakao.com/v2/local/search/';
 
   static const List<Map<String, dynamic>> keywordJsonData = [
     {
@@ -141,6 +143,38 @@ class ApiService {
       return keywordModels;
     } catch (e) {
       throw Exception('Request error <getKeywords> : $e');
+    }
+  }
+
+  static Future<List<PlaceDetailData>> getCategoryPlaceList(double searchLat,
+      double searchLng, int searchRadius, String searchCategoryCode) async {
+    int pageNum = 1;
+    final Uri uri = Uri.parse(
+        '$baseUrl/category.json?page=$pageNum&y=$searchLat&x=$searchLng&radius=$searchRadius&category_group_code=$searchCategoryCode');
+
+    try {
+      final response = await http.get(uri, headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json',
+        'Authorization': 'KakaoAK ${dotenv.env['API_KEY']}',
+      });
+
+      if (response.statusCode == 200) {
+        final getResponseData = json.decode(response.body);
+
+        PlaceDetailModel placeDetailModel =
+            PlaceDetailModel.fromJson(getResponseData);
+
+        final List<PlaceDetailData> placeDetailLists =
+            placeDetailModel.documents;
+
+        return placeDetailLists;
+      } else {
+        throw Exception(
+            'Response code error <getCategoryPlaceList> : ${response.statusCode}');
+      }
+    } catch (e) {
+      throw Exception('Request error <getCategoryPlaceList> : $e');
     }
   }
 }
