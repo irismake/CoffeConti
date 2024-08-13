@@ -2,8 +2,10 @@ import 'package:coffeeconti/data/api_service.dart';
 import 'package:coffeeconti/data/provider/location_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:kakao_map_plugin/kakao_map_plugin.dart';
 import 'package:provider/provider.dart';
 
+import '../../data/provider/place_list_provider.dart';
 import '../button/next_page_button.dart';
 import '../constants/screenSize.dart';
 
@@ -19,8 +21,9 @@ class ShowCategorySheet extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Consumer2<KeywordsProvider, LocationProvider>(
-        builder: (context, keywordsProvider, locationProvider, child) {
+    return Consumer3<KeywordsProvider, PlaceListProvider, LocationProvider>(
+        builder: (context, keywordsProvider, placeListProvider,
+            locationProvider, child) {
       return StatefulBuilder(
         builder: (BuildContext context, StateSetter setState) {
           return Container(
@@ -68,11 +71,12 @@ class ShowCategorySheet extends StatelessWidget {
                     text: '찾기',
                     onPressed: () async {
                       keywordsProvider.getSelectedKeywords();
-                      ApiService.getCategoryPlaceList(
-                          locationProvider.initialPosition!.latitude,
-                          locationProvider.initialPosition!.longitude,
-                          2000,
-                          'CE7');
+                      // LatLng mapCenterLatLng = LatLng(
+                      //     locationProvider.initialPosition!.latitude,
+                      //     locationProvider.initialPosition!.longitude);
+
+                      // PlaceListProvider.initializePlaceDetailData();
+                      placeListProvider.fetchPlaceDetailData();
                       Navigator.pop(context);
                     },
                   ),

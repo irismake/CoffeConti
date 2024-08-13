@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:coffeeconti/components/popup/no_cafe_toast.dart';
+import 'package:coffeeconti/data/models/place_detail_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -9,16 +10,16 @@ import 'package:provider/provider.dart';
 import '../../components/button/search_place_button.dart';
 import '../../components/constants/screenSize.dart';
 import '../../data/provider/location_provider.dart';
-import '../../components/popup/show_category_sheet.dart';
 import '../../components/widgets/search_keyword_widget.dart';
+import '../../data/provider/place_list_provider.dart';
 
-class CafeMap extends StatefulWidget {
-  CafeMap({super.key});
+class MainMap extends StatefulWidget {
+  MainMap({super.key});
   @override
-  State<CafeMap> createState() => CafeMapState();
+  State<MainMap> createState() => MainMapState();
 }
 
-class CafeMapState extends State<CafeMap> {
+class MainMapState extends State<MainMap> {
   String message = '';
 
   late KakaoMapController mapController;
@@ -29,38 +30,39 @@ class CafeMapState extends State<CafeMap> {
   final ValueNotifier<bool> _showCafeTutorialStateNotifier =
       ValueNotifier<bool>(false);
 
-  // Set<NMarker> markerSets = {};
   List<dynamic> remainHour = [];
 
-  // Future<Set<NMarker>> findMarkers() async {
-  //   print('find marker function');
-  //   List<dynamic> cafePlaceIds =
-  //       await CafeDataApi.getCafePlaceId(__currentPosition!);
-  //   for (var cafePlaceId in cafePlaceIds) {
-  //     CafeDataApi.getCafeData(cafePlaceId, markerSets);
-  //   }
-  //   while (markerSets.length != cafePlaceIds.length) {
-  //     await Future.delayed(Duration(milliseconds: 1));
-  //   }
-  //   return markerSets;
-  // }
+  Future<void> addMarkersToSet() async {
+    List<PlaceDetailData> placeDetailDatas =
+        Provider.of<PlaceListProvider>(context, listen: false).placeDetailData;
+    List<LatLng> bounds = [];
+    List<Marker> markerss = [];
 
-  // late final cameraPosition = OnCameraIdle(
-  //   LatLng:
-  //       __currentPosition?.latitude ?? 0.0, __currentPosition?.longitude ?? 0.0,
-  //   zoom: 15,
+    for (var item in placeDetailDatas.toList()) {
+      LatLng latLng = LatLng(item.latitude, item.longitude);
 
-  // );
+      bounds.add(latLng);
 
-  void _tapCategory(int index) {
-    if (index == 0) {
-      showModalBottomSheet(
-          context: context,
-          isScrollControlled: true,
-          builder: (context) {
-            return ShowCategorySheet();
-          });
+      Marker marker = Marker(
+        markerId: item.id,
+        latLng: latLng,
+        width: 50,
+        height: 45,
+        offsetX: 10,
+        offsetY: 43,
+        markerImageSrc: await assetToBase64('assets/icons/coffeeIcon4.png'),
+        zIndex: 3,
+      );
+
+      markerss.add(marker);
+
+      print(latLng);
     }
+    setState(() {
+      markers.addAll(markerss);
+    });
+
+    mapController.fitBounds(bounds);
   }
 
   Future<String> assetToBase64(String path) async {
@@ -82,7 +84,6 @@ class CafeMapState extends State<CafeMap> {
   @override
   void dispose() {
     print('dispose');
-    overlayEntry?.remove();
 
     super.dispose();
   }
@@ -99,7 +100,7 @@ class CafeMapState extends State<CafeMap> {
           );
         } else {
           _currentPosition = provider.initialPosition!;
-          print(_currentPosition);
+
           return Scaffold(
             body: ValueListenableBuilder<bool>(
               valueListenable: _showCafeTutorialStateNotifier,
@@ -107,7 +108,7 @@ class CafeMapState extends State<CafeMap> {
                 return Stack(
                   children: [
                     KakaoMap(
-                      markers: markers.toList(),
+                      center: _currentPosition,
                       currentLevel: 3,
                       onMapCreated: ((controller) async {
                         await Future.delayed(const Duration(milliseconds: 150),
@@ -115,20 +116,31 @@ class CafeMapState extends State<CafeMap> {
                           controller.setCenter(_currentPosition!);
                         });
                         mapController = controller;
-                        markers.add(Marker(
-                          infoWindowFirstShow: true,
-                          markerId: markers.length.toString(),
-                          latLng: await mapController.getCenter(),
-                          width: 40,
-                          height: 40,
-                          offsetX: 10,
-                          offsetY: 50,
-                          markerImageSrc: await assetToBase64(
-                              'assets/icons/icon_current_location.png'),
-                        ));
+
+                        LatLng centerPosition = await controller.getCenter();
+
+                        Provider.of<PlaceListProvider>(context, listen: false)
+                            .setCenterPosition = centerPosition;
+                        Provider.of<PlaceListProvider>(context, listen: false)
+                            .fetchPlaceDetailData();
+
+                        markers.add(
+                          Marker(
+                            infoWindowFirstShow: false,
+                            markerId: 'centerMarker',
+                            latLng: await mapController.getCenter(),
+                            width: 40,
+                            height: 40,
+                            offsetX: 10,
+                            offsetY: 50,
+                            markerImageSrc: await assetToBase64(
+                                'assets/icons/icon_current_location.png'),
+                          ),
+                        );
 
                         setState(() {});
                       }),
+                      markers: markers.toList(),
                     ),
                     Padding(
                       padding: EdgeInsets.only(
@@ -177,9 +189,9 @@ class CafeMapState extends State<CafeMap> {
                               borderRadius: BorderRadius.circular(30),
                             ),
                             onPressed: () {
-                              // mapController.setLocationTrackingMode(
-                              //     NLocationTrackingMode.follow);
-                              mapController.panTo(_currentPosition!);
+                              addMarkersToSet();
+
+                              //mapController.panTo(_currentPosition!);
                             },
                             child: Image.asset(
                               'assets/icons/icon_my_location.png',
@@ -200,91 +212,6 @@ class CafeMapState extends State<CafeMap> {
     );
   }
 
-  // void onMapReady(NaverMapController controller) async {
-  //   __currentPosition = await _locationProvider.get_CurrentPosition(context);
-  //   mapController = controller;
-  //   print('onMapReady');
-  //   if (__currentPosition != null) {
-  //     // await findMarkers().then((markerSets) {
-  //     //   if (markerSets.isEmpty) {
-  //     //     _showNoCafeToast(context);
-  //     //   }
-  //     // });
-  //   }
-
-  //   mapController.addOverlayAll(markerSets);
-  //   setState(() {
-  //     print('지위기');
-  //   });
-
-  //   markerSets.forEach(_setMarkerTapListener);
-  //   mapController.setLocationTrackingMode(NLocationTrackingMode.follow);
-  // }
-
-  // void _setMarkerTapListener(NMarker marker) {
-  //   marker.setOnTapListener((NMarker tappedMarker) {
-  //     if (_showCafeTutorialStateNotifier.value) {
-  //       overlayEntry?.remove();
-  //       overlayEntry = null;
-  //     }
-  //     _showCafeTutorial(context, tappedMarker);
-
-  //     final cameraUpdate = NCameraUpdate.scrollAndZoomTo(
-  //       target: tappedMarker.position,
-  //     );
-
-  //     mapController.updateCamera(cameraUpdate);
-  //   });
-  // }
-
-  // void onMapTapped(NPoint point, NLatLng latLng) {
-  //   print('ontap');
-  //   overlayEntry?.remove();
-  //   overlayEntry = null;
-  //   _showCafeTutorialStateNotifier.value = false;
-  // }
-
-  // void _showCafeTutorial(BuildContext context, NMarker tappedMarker) {
-  //   _showCafeTutorialStateNotifier.value = true;
-  //   final overlay = Overlay.of(context);
-  //   String cafeId = tappedMarker.info.id;
-  //   String cafeName = cafeId.split('-')[0];
-  //   final tappedMarkerPosition = tappedMarker.position;
-  //   List<String> timeComponents = cafeId.split('-')[1].trim().split(':');
-  //   String stringRemainTime = (timeComponents[0] == "0")
-  //       ? '${timeComponents[1]}분'
-  //       : '${timeComponents[0]}시간 ${timeComponents[1]}분';
-
-  //   print('overlay marker');
-  //   overlayEntry = OverlayEntry(
-  //     builder: (context) {
-  //       return Padding(
-  //         padding: EdgeInsets.symmetric(vertical: 10.0.h),
-  //         child: Container(
-  //           decoration: BoxDecoration(
-  //             color: Colors.white,
-  //             borderRadius: BorderRadius.circular(6.0),
-  //             boxShadow: [
-  //               BoxShadow(
-  //                 color: Colors.grey.withOpacity(0.2),
-  //                 spreadRadius: 1,
-  //                 blurRadius: 1.0,
-  //                 offset: Offset(0, 0),
-  //               ),
-  //             ],
-  //           ),
-  //           child: CafeTutorial(
-  //             index: 0,
-  //             name: cafeName,
-  //           ),
-  //         ),
-  //       );
-  //     },
-  //   );
-
-  //   overlay.insert(overlayEntry!);
-  // }
-
   void _showNoCafeToast(BuildContext context) {
     final overlay = Overlay.of(context);
 
@@ -296,14 +223,4 @@ class CafeMapState extends State<CafeMap> {
 
     overlay.insert(overlayEntry!);
   }
-
-  // Future<NPathOverlay> showRoute(List<dynamic> routeCoords) async {
-  //   print("showRoute");
-  //   List<NLatLng> convertedPath =
-  //       routeCoords.map((coord) => NLatLng(coord[1], coord[0])).toList();
-
-  //   final pathOverlay = NPathOverlay(id: "test", coords: convertedPath);
-  //   mapController.addOverlay(pathOverlay);
-  //   return pathOverlay;
-  // }
 }
