@@ -7,10 +7,14 @@ import '../api_service.dart';
 class PlaceListProvider with ChangeNotifier {
   final List<PlaceDetailData> _placeDetailData = [];
   LatLng _mapCenterPosition = LatLng(0.0, 0.0);
+  List<LatLng> _bounds = [];
+  Set<Marker> _markerSet = {};
 
   bool _isInitialized = false;
 
   List<PlaceDetailData> get placeDetailData => _placeDetailData;
+  List<LatLng> get bounds => _bounds;
+  Set<Marker> get markerSet => _markerSet;
 
   Future<void> initializePlaceDetailData() async {
     if (!_isInitialized) {
@@ -24,6 +28,10 @@ class PlaceListProvider with ChangeNotifier {
     _mapCenterPosition = mapCenterPosition;
   }
 
+  set addMarker(Marker marker) {
+    markerSet.add(marker);
+  }
+
   Future<void> fetchPlaceDetailData() async {
     final results = await ApiService.getCategoryPlaceList(
         _mapCenterPosition.latitude, _mapCenterPosition.longitude, 2000, 'CE7');
@@ -32,47 +40,28 @@ class PlaceListProvider with ChangeNotifier {
     for (var result in results) {
       _placeDetailData.add(result);
     }
-    notifyListeners();
+    addMarkersToSet();
   }
 
-  // Future<void> initializeMyGroupListsData() async {
-  //   await fetchMyGroupBookmarkLists();
-  // }
+  Future<void> addMarkersToSet() async {
+    _bounds.clear();
+    for (var item in placeDetailData.toList()) {
+      LatLng latLng = LatLng(item.latitude, item.longitude);
 
-  // set selectedIndex(int? index) {
-  //   _selectedIndex = index;
-  //   _selectedGroupId = _myGroups[index!].id;
-  //   notifyListeners();
-  // }
+      _bounds.add(latLng);
 
-  // set bookmarkGroupId(int? index) {
-  //   _bookmarkGroupId = index;
-  //   notifyListeners();
-  // }
-
-  // int? getSelectedGroupId() {
-  //   print('_selectedGroupId : $_selectedGroupId');
-  //   return _selectedGroupId;
-  // }
-
-  // Future<void> fetchMyGroups() async {
-  //   final results = await ApiService.getMyGroups(false);
-  //   List<MyGroupData> myGroups = results.groups;
-  //   _myGroups.clear();
-  //   for (var result in myGroups) {
-  //     _myGroups.add(result);
-  //   }
-  //   notifyListeners();
-  // }
-
-  // Future<void> fetchMyGroupBookmarkLists() async {
-  //   final results = await ApiService.getMyGroupLists(_bookmarkGroupId ?? 0);
-  //   _myGroupLists.clear();
-  //   for (var result in results) {
-  //     if (result.isBookmarked) {
-  //       _myGroupLists.add(result);
-  //     }
-  //   }
-  //   notifyListeners();
-  // }
+      Marker marker = Marker(
+        markerId: item.id,
+        latLng: latLng,
+        width: 20,
+        height: 20,
+        offsetX: 0,
+        offsetY: 0,
+        markerImageSrc:
+            'https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/markerStar.png',
+      );
+      _markerSet.add(marker);
+    }
+    notifyListeners();
+  }
 }

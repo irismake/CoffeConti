@@ -76,7 +76,7 @@ class ShowCategorySheet extends StatelessWidget {
                       //     locationProvider.initialPosition!.longitude);
 
                       // PlaceListProvider.initializePlaceDetailData();
-                      placeListProvider.fetchPlaceDetailData();
+                      placeListProvider.initializePlaceDetailData();
                       Navigator.pop(context);
                     },
                   ),
