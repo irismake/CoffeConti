@@ -8,6 +8,7 @@ import 'package:provider/provider.dart';
 
 import '../../components/button/search_place_button.dart';
 import '../../components/constants/screenSize.dart';
+import '../../components/popup/place_tutorial.dart';
 import '../../data/provider/location_provider.dart';
 import '../../components/widgets/search_keyword_widget.dart';
 import '../../data/provider/place_list_provider.dart';
@@ -21,39 +22,9 @@ class MainMap extends StatefulWidget {
 class MainMapState extends State<MainMap> {
   late KakaoMapController mapController;
   LatLng? _currentPosition;
-  //Set<Marker> markers = {};
-
+  final PageController _pageController = PageController(viewportFraction: 0.8);
+  late LatLng moveToPlacePosition;
   double bottomPadding = 10.0;
-
-  Future<void> addMarkersToSet() async {
-    // List<PlaceDetailData> placeDetailDatas =
-    //     Provider.of<PlaceListProvider>(context, listen: false).placeDetailData;
-    // List<LatLng> bounds = [];
-    // List<Marker> markerss = [];
-
-    // for (var item in placeDetailDatas.toList()) {
-    //   LatLng latLng = LatLng(item.latitude, item.longitude);
-
-    //   bounds.add(latLng);
-
-    //   Marker marker = Marker(
-    //     markerId: item.id,
-    //     latLng: latLng,
-    //     width: 50,
-    //     height: 45,
-    //     offsetX: 10,
-    //     offsetY: 43,
-    //     markerImageSrc: await assetToBase64('assets/icons/coffeeIcon4.png'),
-    //     zIndex: 3,
-    //   );
-
-    //   markerss.add(marker);
-
-    //   print(latLng);
-    // }
-
-    setState(() {});
-  }
 
   Future<String> assetToBase64(String path) async {
     final ByteData bytes = await rootBundle.load(path);
@@ -74,8 +45,23 @@ class MainMapState extends State<MainMap> {
   @override
   void dispose() {
     print('dispose');
-
+    _pageController.dispose();
     super.dispose();
+  }
+
+  void _moveToPosition(int index) {
+    moveToPlacePosition = Provider.of<PlaceListProvider>(context, listen: false)
+        .markerList[index]
+        .latLng;
+
+    if (index != -1) {
+      _pageController.animateToPage(
+        index,
+        duration: Duration(milliseconds: 500),
+        curve: Curves.easeInOut,
+      );
+    }
+    mapController.panTo(moveToPlacePosition);
   }
 
   @override
@@ -102,7 +88,7 @@ class MainMapState extends State<MainMap> {
               children: [
                 KakaoMap(
                   center: _currentPosition,
-                  currentLevel: 5,
+                  currentLevel: 3,
                   onMapCreated: ((controller) async {
                     await Future.delayed(const Duration(milliseconds: 150), () {
                       controller.setCenter(_currentPosition!);
@@ -127,6 +113,11 @@ class MainMapState extends State<MainMap> {
 
                     setState(() {});
                   }),
+                  onMarkerTap: ((markerId, latLng, zoomLevel) {
+                    int index = placeListProvider.placeDetailData
+                        .indexWhere((place) => place.id == markerId);
+                    _moveToPosition(index);
+                  }),
                   markers: markers.toList(),
                 ),
                 Padding(
@@ -150,6 +141,33 @@ class MainMapState extends State<MainMap> {
                     ],
                   ),
                 ),
+                placeListProvider.placeDetailData.isNotEmpty
+                    ? Positioned(
+                        bottom: UnfocusCurrentPosition(context),
+                        child: SizedBox(
+                          height: 130.0, // 페이지뷰의 높이를 지정
+                          child: Center(
+                            child: Container(
+                              width: MediaQuery.of(context).size.width,
+                              child: PageView.builder(
+                                controller: _pageController,
+                                onPageChanged: (index) {
+                                  _moveToPosition(index);
+                                },
+                                itemCount:
+                                    placeListProvider.placeDetailData.length,
+                                itemBuilder: (context, index) {
+                                  return PlaceTutorial(
+                                    name: placeListProvider
+                                        .placeDetailData[index].placeName,
+                                  );
+                                },
+                              ),
+                            ),
+                          ),
+                        ),
+                      )
+                    : SizedBox.shrink(),
                 Positioned(
                   bottom: UnfocusCurrentPosition(context),
                   right: 16.w,
