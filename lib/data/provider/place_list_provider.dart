@@ -9,12 +9,14 @@ class PlaceListProvider with ChangeNotifier {
   LatLng _mapCenterPosition = LatLng(0.0, 0.0);
   List<LatLng> _bounds = [];
   Set<Marker> _markerSet = {};
+  List<Marker> _markerList = [];
 
   bool _isInitialized = false;
 
   List<PlaceDetailData> get placeDetailData => _placeDetailData;
   List<LatLng> get bounds => _bounds;
   Set<Marker> get markerSet => _markerSet;
+  List<Marker> get markerList => _markerList;
 
   Future<void> initializePlaceDetailData() async {
     if (!_isInitialized) {
@@ -45,6 +47,7 @@ class PlaceListProvider with ChangeNotifier {
 
   Future<void> addMarkersToSet() async {
     _bounds.clear();
+    _markerList.clear();
     for (var item in placeDetailData.toList()) {
       LatLng latLng = LatLng(item.latitude, item.longitude);
 
@@ -62,6 +65,7 @@ class PlaceListProvider with ChangeNotifier {
       );
       _markerSet.add(marker);
     }
+    _markerList.addAll(_markerSet);
     notifyListeners();
   }
 }
