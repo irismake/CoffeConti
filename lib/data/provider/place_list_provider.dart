@@ -56,10 +56,10 @@ class PlaceListProvider with ChangeNotifier {
       Marker marker = Marker(
         markerId: item.id,
         latLng: latLng,
-        width: 20,
-        height: 20,
-        offsetX: 0,
-        offsetY: 0,
+        width: 30,
+        height: 30,
+        offsetX: 13,
+        offsetY: 30,
         markerImageSrc:
             'https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/markerStar.png',
       );

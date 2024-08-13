@@ -25,6 +25,7 @@ class MainMapState extends State<MainMap> {
   final PageController _pageController = PageController(viewportFraction: 0.8);
   late LatLng moveToPlacePosition;
   double bottomPadding = 10.0;
+  bool _isAnimating = false;
 
   Future<String> assetToBase64(String path) async {
     final ByteData bytes = await rootBundle.load(path);
@@ -50,16 +51,25 @@ class MainMapState extends State<MainMap> {
   }
 
   void _moveToPosition(int index) {
-    moveToPlacePosition = Provider.of<PlaceListProvider>(context, listen: false)
-        .markerList[index]
-        .latLng;
+    moveToPlacePosition = LatLng(
+        Provider.of<PlaceListProvider>(context, listen: false)
+            .placeDetailData[index]
+            .latitude,
+        Provider.of<PlaceListProvider>(context, listen: false)
+            .placeDetailData[index]
+            .longitude);
 
     if (index != -1) {
-      _pageController.animateToPage(
+      _isAnimating = true;
+      _pageController
+          .animateToPage(
         index,
         duration: Duration(milliseconds: 500),
         curve: Curves.easeInOut,
-      );
+      )
+          .then((_) {
+        _isAnimating = false;
+      });
     }
     mapController.panTo(moveToPlacePosition);
   }
@@ -152,7 +162,9 @@ class MainMapState extends State<MainMap> {
                               child: PageView.builder(
                                 controller: _pageController,
                                 onPageChanged: (index) {
-                                  _moveToPosition(index);
+                                  if (!_isAnimating) {
+                                    _moveToPosition(index);
+                                  }
                                 },
                                 itemCount:
                                     placeListProvider.placeDetailData.length,
