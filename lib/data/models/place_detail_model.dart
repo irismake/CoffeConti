@@ -25,8 +25,8 @@ class PlaceDetailData {
   final String placeName;
   final String placeUrl;
   final String roadAddressName;
-  final String longitude;
-  final String latitude;
+  final double longitude;
+  final double latitude;
 
   PlaceDetailData({
     required this.addressName,
@@ -54,6 +54,6 @@ class PlaceDetailData {
         placeName = json['place_name'],
         placeUrl = json['place_url'],
         roadAddressName = json['road_address_name'],
-        longitude = json['x'],
-        latitude = json['y'];
+        longitude = double.parse(json['x']),
+        latitude = double.parse(json['y']);
 }

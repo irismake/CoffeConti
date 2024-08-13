@@ -1,3 +1,4 @@
+import 'package:coffeeconti/data/provider/place_list_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -24,6 +25,9 @@ void main() async {
         ),
         ChangeNotifierProvider<LocationProvider>(
           create: (context) => LocationProvider(),
+        ),
+        ChangeNotifierProvider<PlaceListProvider>(
+          create: (context) => PlaceListProvider(),
         ),
       ],
       builder: (context, child) {

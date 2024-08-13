@@ -1,4 +1,4 @@
-import 'package:coffeeconti/screen/map/map.dart';
+import 'package:coffeeconti/screen/map/main_map.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:http/http.dart' as http;
 import 'package:intl/intl.dart';

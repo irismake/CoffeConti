@@ -4,7 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../bookmark/bookmark_page.dart';
 import '../place_picker/place_picker_page.dart';
 import '../user/user_page.dart';
-import '../map/map.dart';
+import '../map/main_map.dart';
 import '../../components/button/nav_tab_button.dart';
 
 class MainViewNavigator extends StatefulWidget {
@@ -18,7 +18,7 @@ class _MainViewNavigatorState extends State<MainViewNavigator> {
   int selectedIndex = 0;
 
   final List<Widget> _widgetOptions = <Widget>[
-    CafeMap(),
+    MainMap(),
     PlacePickerPage(),
     BookmarkPage(),
     UserPage(),
