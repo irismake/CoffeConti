@@ -1,6 +1,5 @@
 import 'dart:convert';
 import 'package:coffeeconti/components/popup/no_cafe_toast.dart';
-import 'package:coffeeconti/data/models/place_detail_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -20,49 +19,40 @@ class MainMap extends StatefulWidget {
 }
 
 class MainMapState extends State<MainMap> {
-  String message = '';
-
   late KakaoMapController mapController;
   LatLng? _currentPosition;
-  Set<Marker> markers = {};
-  OverlayEntry? overlayEntry;
-  double bottomPadding = 10.0;
-  final ValueNotifier<bool> _showCafeTutorialStateNotifier =
-      ValueNotifier<bool>(false);
+  //Set<Marker> markers = {};
 
-  List<dynamic> remainHour = [];
+  double bottomPadding = 10.0;
 
   Future<void> addMarkersToSet() async {
-    List<PlaceDetailData> placeDetailDatas =
-        Provider.of<PlaceListProvider>(context, listen: false).placeDetailData;
-    List<LatLng> bounds = [];
-    List<Marker> markerss = [];
+    // List<PlaceDetailData> placeDetailDatas =
+    //     Provider.of<PlaceListProvider>(context, listen: false).placeDetailData;
+    // List<LatLng> bounds = [];
+    // List<Marker> markerss = [];
 
-    for (var item in placeDetailDatas.toList()) {
-      LatLng latLng = LatLng(item.latitude, item.longitude);
+    // for (var item in placeDetailDatas.toList()) {
+    //   LatLng latLng = LatLng(item.latitude, item.longitude);
 
-      bounds.add(latLng);
+    //   bounds.add(latLng);
 
-      Marker marker = Marker(
-        markerId: item.id,
-        latLng: latLng,
-        width: 50,
-        height: 45,
-        offsetX: 10,
-        offsetY: 43,
-        markerImageSrc: await assetToBase64('assets/icons/coffeeIcon4.png'),
-        zIndex: 3,
-      );
+    //   Marker marker = Marker(
+    //     markerId: item.id,
+    //     latLng: latLng,
+    //     width: 50,
+    //     height: 45,
+    //     offsetX: 10,
+    //     offsetY: 43,
+    //     markerImageSrc: await assetToBase64('assets/icons/coffeeIcon4.png'),
+    //     zIndex: 3,
+    //   );
 
-      markerss.add(marker);
+    //   markerss.add(marker);
 
-      print(latLng);
-    }
-    setState(() {
-      markers.addAll(markerss);
-    });
+    //   print(latLng);
+    // }
 
-    mapController.fitBounds(bounds);
+    setState(() {});
   }
 
   Future<String> assetToBase64(String path) async {
@@ -90,121 +80,113 @@ class MainMapState extends State<MainMap> {
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<LocationProvider>(
-      builder: (context, provider, child) {
-        if (provider.initialPosition == null) {
+    return Consumer2<LocationProvider, PlaceListProvider>(
+      builder: (context, locationProvider, placeListProvider, child) {
+        if (locationProvider.initialPosition == null) {
           return Scaffold(
             body: Center(
               child: CircularProgressIndicator(),
             ),
           );
         } else {
-          _currentPosition = provider.initialPosition!;
-
+          _currentPosition = locationProvider.initialPosition!;
+          Set<Marker> markers = placeListProvider.markerSet;
+          WidgetsBinding.instance.addPostFrameCallback((_) {
+            if (placeListProvider.bounds.isNotEmpty) {
+              print('ggg');
+              mapController.fitBounds(placeListProvider.bounds);
+            }
+          });
           return Scaffold(
-            body: ValueListenableBuilder<bool>(
-              valueListenable: _showCafeTutorialStateNotifier,
-              builder: (context, value, _) {
-                return Stack(
-                  children: [
-                    KakaoMap(
-                      center: _currentPosition,
-                      currentLevel: 3,
-                      onMapCreated: ((controller) async {
-                        await Future.delayed(const Duration(milliseconds: 150),
-                            () {
-                          controller.setCenter(_currentPosition!);
-                        });
-                        mapController = controller;
+            body: Stack(
+              children: [
+                KakaoMap(
+                  center: _currentPosition,
+                  currentLevel: 5,
+                  onMapCreated: ((controller) async {
+                    await Future.delayed(const Duration(milliseconds: 150), () {
+                      controller.setCenter(_currentPosition!);
+                    });
+                    mapController = controller;
 
-                        LatLng centerPosition = await controller.getCenter();
+                    LatLng centerPosition = await controller.getCenter();
 
-                        Provider.of<PlaceListProvider>(context, listen: false)
-                            .setCenterPosition = centerPosition;
-                        Provider.of<PlaceListProvider>(context, listen: false)
-                            .fetchPlaceDetailData();
+                    placeListProvider.setCenterPosition = centerPosition;
 
-                        markers.add(
-                          Marker(
-                            infoWindowFirstShow: false,
-                            markerId: 'centerMarker',
-                            latLng: await mapController.getCenter(),
-                            width: 40,
-                            height: 40,
-                            offsetX: 10,
-                            offsetY: 50,
-                            markerImageSrc: await assetToBase64(
-                                'assets/icons/icon_current_location.png'),
-                          ),
-                        );
+                    placeListProvider.addMarker = Marker(
+                      infoWindowFirstShow: false,
+                      markerId: 'centerMarker',
+                      latLng: await mapController.getCenter(),
+                      width: 40,
+                      height: 40,
+                      offsetX: 10,
+                      offsetY: 50,
+                      markerImageSrc: await assetToBase64(
+                          'assets/icons/icon_current_location.png'),
+                    );
 
-                        setState(() {});
-                      }),
-                      markers: markers.toList(),
-                    ),
-                    Padding(
-                      padding: EdgeInsets.only(
-                        top: ViewPaddingTopSize(context),
-                      ),
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Padding(
-                            padding: EdgeInsets.symmetric(horizontal: 18.0.w),
-                            child: SearchPlaceButton(
-                              currentAddress: '장위로 10길 10-9',
-                            ),
-                          ),
-                          Padding(
-                            padding: EdgeInsets.symmetric(vertical: 6.0),
-                            child: SearchKeywordWidget(),
-                          ),
-                        ],
-                      ),
-                    ),
-                    Positioned(
-                      bottom: UnfocusCurrentPosition(context),
-                      right: 16.w,
-                      child: Container(
-                        height: 50.0.h,
-                        width: 50.0.w,
-                        decoration: BoxDecoration(
-                          shape: BoxShape.circle,
-                          boxShadow: [
-                            BoxShadow(
-                              color: Colors.black.withOpacity(0.2),
-                              spreadRadius: 1,
-                              blurRadius: 3,
-                              offset:
-                                  Offset(0, 0), // changes position of shadow
-                            ),
-                          ],
+                    setState(() {});
+                  }),
+                  markers: markers.toList(),
+                ),
+                Padding(
+                  padding: EdgeInsets.only(
+                    top: ViewPaddingTopSize(context),
+                  ),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Padding(
+                        padding: EdgeInsets.symmetric(horizontal: 18.0.w),
+                        child: SearchPlaceButton(
+                          currentAddress: '장위로 10길 10-9',
                         ),
-                        child: FittedBox(
-                          child: FloatingActionButton(
-                            backgroundColor: Colors.white,
-                            elevation: 0,
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(30),
-                            ),
-                            onPressed: () {
-                              addMarkersToSet();
-
-                              //mapController.panTo(_currentPosition!);
-                            },
-                            child: Image.asset(
-                              'assets/icons/icon_my_location.png',
-                              height: 32.0.h,
-                              width: 32.0.w,
-                            ),
-                          ),
+                      ),
+                      Padding(
+                        padding: EdgeInsets.symmetric(vertical: 6.0),
+                        child: SearchKeywordWidget(),
+                      ),
+                    ],
+                  ),
+                ),
+                Positioned(
+                  bottom: UnfocusCurrentPosition(context),
+                  right: 16.w,
+                  child: Container(
+                    height: 50.0.h,
+                    width: 50.0.w,
+                    decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.black.withOpacity(0.2),
+                          spreadRadius: 1,
+                          blurRadius: 3,
+                          offset: Offset(0, 0),
+                        ),
+                      ],
+                    ),
+                    child: FittedBox(
+                      child: FloatingActionButton(
+                        backgroundColor: Colors.white,
+                        elevation: 0,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(30),
+                        ),
+                        onPressed: () {
+                          mapController.panTo(_currentPosition!);
+                        },
+                        child: Image.asset(
+                          'assets/icons/icon_my_location.png',
+                          height: 32.0.h,
+                          width: 32.0.w,
                         ),
                       ),
                     ),
-                  ],
-                );
-              },
+                  ),
+                ),
+              ],
             ),
           );
         }
@@ -212,15 +194,7 @@ class MainMapState extends State<MainMap> {
     );
   }
 
-  void _showNoCafeToast(BuildContext context) {
-    final overlay = Overlay.of(context);
-
-    overlayEntry = OverlayEntry(
-      builder: (BuildContext context) {
-        return NoCafeToast();
-      },
-    );
-
-    overlay.insert(overlayEntry!);
+  NoCafeToast _showNoCafeToast(BuildContext context) {
+    return NoCafeToast();
   }
 }
