@@ -1,14 +1,11 @@
-import 'package:coffeeconti/data/api_service.dart';
 import 'package:coffeeconti/data/provider/location_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:kakao_map_plugin/kakao_map_plugin.dart';
 import 'package:provider/provider.dart';
 
 import '../../data/provider/place_list_provider.dart';
 import '../button/next_page_button.dart';
 import '../constants/screenSize.dart';
-
 import '../../data/provider/keyword_provider.dart';
 import '../ui/category_tab_bar.dart';
 import '../widgets/select_keyword_widget.dart';
@@ -69,14 +66,9 @@ class ShowCategorySheet extends StatelessWidget {
                     firstFieldState: true,
                     secondFieldState: keywordsProvider.searchButtonState,
                     text: '찾기',
-                    onPressed: () async {
+                    onPressed: () {
                       keywordsProvider.getSelectedKeywords();
-                      // LatLng mapCenterLatLng = LatLng(
-                      //     locationProvider.initialPosition!.latitude,
-                      //     locationProvider.initialPosition!.longitude);
-
-                      // PlaceListProvider.initializePlaceDetailData();
-                      placeListProvider.initializePlaceDetailData();
+                      placeListProvider.fetchPlaceDetailData(context);
                       Navigator.pop(context);
                     },
                   ),

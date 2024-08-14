@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'package:coffeeconti/components/popup/no_cafe_toast.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -35,29 +34,24 @@ class MainMapState extends State<MainMap> {
 
   @override
   void initState() {
-    print('initstate');
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      Provider.of<LocationProvider>(context, listen: false)
-          .getInitialPosition(context);
+      context.read<LocationProvider>().getInitialPosition(context);
     });
   }
 
   @override
   void dispose() {
-    print('dispose');
     _pageController.dispose();
     super.dispose();
   }
 
   void _moveToPosition(int index) {
+    final placeListProvider = context.read<PlaceListProvider>();
     moveToPlacePosition = LatLng(
-        Provider.of<PlaceListProvider>(context, listen: false)
-            .placeDetailData[index]
-            .latitude,
-        Provider.of<PlaceListProvider>(context, listen: false)
-            .placeDetailData[index]
-            .longitude);
+      placeListProvider.placeDetailData[index].latitude,
+      placeListProvider.placeDetailData[index].longitude,
+    );
 
     if (index != -1) {
       _isAnimating = true;
@@ -76,59 +70,64 @@ class MainMapState extends State<MainMap> {
 
   @override
   Widget build(BuildContext context) {
-    return Consumer2<LocationProvider, PlaceListProvider>(
-      builder: (context, locationProvider, placeListProvider, child) {
-        if (locationProvider.initialPosition == null) {
-          return Scaffold(
-            body: Center(
+    return Scaffold(
+      body: Consumer<LocationProvider>(
+        builder: (context, locationProvider, _) {
+          if (locationProvider.initialPosition == null) {
+            return Center(
               child: CircularProgressIndicator(),
-            ),
-          );
-        } else {
-          _currentPosition = locationProvider.initialPosition!;
-          Set<Marker> markers = placeListProvider.markerSet;
-          WidgetsBinding.instance.addPostFrameCallback((_) {
-            if (placeListProvider.bounds.isNotEmpty) {
-              print('ggg');
-              mapController.fitBounds(placeListProvider.bounds);
-            }
-          });
-          return Scaffold(
-            body: Stack(
+            );
+          } else {
+            _currentPosition = locationProvider.initialPosition;
+            print('initail position: $_currentPosition');
+            return Stack(
               children: [
-                KakaoMap(
-                  center: _currentPosition,
-                  currentLevel: 3,
-                  onMapCreated: ((controller) async {
-                    await Future.delayed(const Duration(milliseconds: 150), () {
-                      controller.setCenter(_currentPosition!);
+                Consumer<PlaceListProvider>(
+                  builder: (context, placeListProvider, child) {
+                    Set<Marker> markers = placeListProvider.markerSet;
+                    WidgetsBinding.instance.addPostFrameCallback((_) {
+                      if (placeListProvider.bounds.isNotEmpty) {
+                        mapController.fitBounds(placeListProvider.bounds);
+                      }
                     });
-                    mapController = controller;
+                    return KakaoMap(
+                      center: _currentPosition,
+                      currentLevel: 3,
+                      onMapCreated: ((controller) async {
+                        await Future.delayed(
+                          const Duration(milliseconds: 150),
+                          () {
+                            controller.setCenter(_currentPosition!);
+                          },
+                        );
+                        mapController = controller;
 
-                    LatLng centerPosition = await controller.getCenter();
+                        LatLng centerPosition = await controller.getCenter();
 
-                    placeListProvider.setCenterPosition = centerPosition;
+                        placeListProvider.setCenterPosition = centerPosition;
 
-                    placeListProvider.addMarker = Marker(
-                      infoWindowFirstShow: false,
-                      markerId: 'centerMarker',
-                      latLng: await mapController.getCenter(),
-                      width: 40,
-                      height: 40,
-                      offsetX: 10,
-                      offsetY: 50,
-                      markerImageSrc: await assetToBase64(
-                          'assets/icons/icon_current_location.png'),
+                        placeListProvider.addMarker = Marker(
+                          infoWindowFirstShow: false,
+                          markerId: 'centerMarker',
+                          latLng: await mapController.getCenter(),
+                          width: 40,
+                          height: 40,
+                          offsetX: 10,
+                          offsetY: 50,
+                          markerImageSrc: await assetToBase64(
+                              'assets/icons/icon_current_location.png'),
+                        );
+
+                        setState(() {});
+                      }),
+                      onMarkerTap: ((markerId, latLng, zoomLevel) {
+                        int index = placeListProvider.placeDetailData
+                            .indexWhere((place) => place.id == markerId);
+                        _moveToPosition(index);
+                      }),
+                      markers: markers.toList(),
                     );
-
-                    setState(() {});
-                  }),
-                  onMarkerTap: ((markerId, latLng, zoomLevel) {
-                    int index = placeListProvider.placeDetailData
-                        .indexWhere((place) => place.id == markerId);
-                    _moveToPosition(index);
-                  }),
-                  markers: markers.toList(),
+                  },
                 ),
                 Padding(
                   padding: EdgeInsets.only(
@@ -151,35 +150,51 @@ class MainMapState extends State<MainMap> {
                     ],
                   ),
                 ),
-                placeListProvider.placeDetailData.isNotEmpty
-                    ? Positioned(
-                        bottom: UnfocusCurrentPosition(context),
-                        child: SizedBox(
-                          height: 130.0, // 페이지뷰의 높이를 지정
-                          child: Center(
-                            child: Container(
-                              width: MediaQuery.of(context).size.width,
-                              child: PageView.builder(
-                                controller: _pageController,
-                                onPageChanged: (index) {
-                                  if (!_isAnimating) {
-                                    _moveToPosition(index);
-                                  }
-                                },
-                                itemCount:
-                                    placeListProvider.placeDetailData.length,
-                                itemBuilder: (context, index) {
-                                  return PlaceTutorial(
-                                    name: placeListProvider
-                                        .placeDetailData[index].placeName,
-                                  );
-                                },
+                Consumer<PlaceListProvider>(
+                  builder: (context, placeListProvider, _) {
+                    switch (placeListProvider.status) {
+                      case PlaceListStatus.loading:
+                        return Center(child: CircularProgressIndicator());
+                      case PlaceListStatus.loaded:
+                        return Positioned(
+                          bottom: UnfocusCurrentPosition(context),
+                          child: SizedBox(
+                            height: 130.0,
+                            child: Center(
+                              child: Container(
+                                width: MediaQuery.of(context).size.width,
+                                child: PageView.builder(
+                                  controller: _pageController,
+                                  onPageChanged: (index) {
+                                    if (!_isAnimating) {
+                                      _moveToPosition(index);
+                                    }
+                                  },
+                                  itemCount:
+                                      placeListProvider.placeDetailData.length,
+                                  itemBuilder: (context, index) {
+                                    return PlaceTutorial(
+                                      name: placeListProvider
+                                          .placeDetailData[index].placeName,
+                                    );
+                                  },
+                                ),
                               ),
                             ),
                           ),
-                        ),
-                      )
-                    : SizedBox.shrink(),
+                        );
+
+                      case PlaceListStatus.empty:
+                        return Center(
+                            child: Text("No cafes available nearby."));
+                      case PlaceListStatus.error:
+                        return Center(child: Text("An error occurred."));
+                      case PlaceListStatus.initial:
+                      default:
+                        return SizedBox.shrink();
+                    }
+                  },
+                ),
                 Positioned(
                   bottom: UnfocusCurrentPosition(context),
                   right: 16.w,
@@ -217,14 +232,10 @@ class MainMapState extends State<MainMap> {
                   ),
                 ),
               ],
-            ),
-          );
-        }
-      },
+            );
+          }
+        },
+      ),
     );
-  }
-
-  NoCafeToast _showNoCafeToast(BuildContext context) {
-    return NoCafeToast();
   }
 }
