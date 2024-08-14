@@ -1,56 +1,66 @@
-import 'package:coffeeconti/data/models/place_detail_model.dart';
 import 'package:flutter/material.dart';
 import 'package:kakao_map_plugin/kakao_map_plugin.dart';
 
 import '../api_service.dart';
+import '../models/place_detail_model.dart';
+
+enum PlaceListStatus { initial, loading, loaded, empty, error }
 
 class PlaceListProvider with ChangeNotifier {
+  PlaceListStatus _status = PlaceListStatus.initial;
   final List<PlaceDetailData> _placeDetailData = [];
   LatLng _mapCenterPosition = LatLng(0.0, 0.0);
   List<LatLng> _bounds = [];
-  Set<Marker> _markerSet = {};
-  List<Marker> _markerList = [];
+  final Set<Marker> _markerSet = {};
+  final List<Marker> _markerList = [];
 
-  bool _isInitialized = false;
-
-  List<PlaceDetailData> get placeDetailData => _placeDetailData;
-  List<LatLng> get bounds => _bounds;
-  Set<Marker> get markerSet => _markerSet;
-  List<Marker> get markerList => _markerList;
-
-  Future<void> initializePlaceDetailData() async {
-    if (!_isInitialized) {
-      await fetchPlaceDetailData();
-      _isInitialized = true;
-      print('검색 장소 리스트 초기화');
-    }
-  }
+  PlaceListStatus get status => _status;
+  List<PlaceDetailData> get placeDetailData =>
+      List.unmodifiable(_placeDetailData);
+  List<LatLng> get bounds => List.unmodifiable(_bounds);
+  Set<Marker> get markerSet => Set.unmodifiable(_markerSet);
+  List<Marker> get markerList => List.unmodifiable(_markerList);
 
   set setCenterPosition(LatLng mapCenterPosition) {
     _mapCenterPosition = mapCenterPosition;
   }
 
   set addMarker(Marker marker) {
-    markerSet.add(marker);
+    _markerSet.add(marker);
   }
 
-  Future<void> fetchPlaceDetailData() async {
-    final results = await ApiService.getCategoryPlaceList(
-        _mapCenterPosition.latitude, _mapCenterPosition.longitude, 2000, 'CE7');
+  Future<void> fetchPlaceDetailData(BuildContext context) async {
+    _status = PlaceListStatus.loading;
+    notifyListeners();
 
-    _placeDetailData.clear();
-    for (var result in results) {
-      _placeDetailData.add(result);
+    try {
+      final results = await ApiService.getCategoryPlaceList(
+          _mapCenterPosition.latitude,
+          _mapCenterPosition.longitude,
+          2000,
+          'CE7');
+
+      if (results.isEmpty) {
+        _status = PlaceListStatus.empty;
+      } else {
+        _placeDetailData
+          ..clear()
+          ..addAll(results);
+        await _updateMarkers();
+        _status = PlaceListStatus.loaded;
+      }
+    } catch (e) {
+      _status = PlaceListStatus.error;
     }
-    addMarkersToSet();
+
+    notifyListeners();
   }
 
-  Future<void> addMarkersToSet() async {
+  Future<void> _updateMarkers() async {
     _bounds.clear();
     _markerList.clear();
-    for (var item in placeDetailData.toList()) {
+    for (var item in _placeDetailData) {
       LatLng latLng = LatLng(item.latitude, item.longitude);
-
       _bounds.add(latLng);
 
       Marker marker = Marker(
@@ -66,6 +76,5 @@ class PlaceListProvider with ChangeNotifier {
       _markerSet.add(marker);
     }
     _markerList.addAll(_markerSet);
-    notifyListeners();
   }
 }

@@ -49,7 +49,7 @@ class KeywordsProvider with ChangeNotifier {
     for (var keyword in keywordModel.keywords) {
       _showKeywordDatas.add(keyword);
     }
-    print('fetch category data $_showKeywordDatas');
+    print('fetch category data');
     checkSearchButtonState();
   }
 

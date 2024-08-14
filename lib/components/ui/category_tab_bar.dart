@@ -43,7 +43,6 @@ class _CategoryTabBarState extends State<CategoryTabBar>
   @override
   void dispose() {
     _tabController.dispose();
-    print('disposeee');
     super.dispose();
   }
 

@@ -15,8 +15,7 @@ class LocationProvider extends ChangeNotifier {
 
   Future<void> getInitialPosition(BuildContext context) async {
     if (_initialPosition != null) {
-      notifyListeners();
-      return; // 이미 위치를 가져왔다면 캐시된 값을 반환
+      return;
     }
 
     PermissionStatus status = await Permission.location.request();
@@ -32,7 +31,7 @@ class LocationProvider extends ChangeNotifier {
         _errorPopup(context);
       }
       notifyListeners();
-      print('change the position');
+      print('getInitialPosition');
     } else {
       _showPermissionPopup(context);
     }
