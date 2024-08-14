@@ -1,5 +1,5 @@
 class PlaceDetailModel {
-  final Map<String, dynamic> meta;
+  final PlaceDetailMeta meta;
   final List<PlaceDetailData> documents;
 
   PlaceDetailModel({
@@ -8,10 +8,33 @@ class PlaceDetailModel {
   });
 
   PlaceDetailModel.fromJson(Map<String, dynamic> json)
-      : meta = json['meta'],
+      : meta = PlaceDetailMeta.fromJson(json['meta']),
         documents = (json['documents'] as List<dynamic>)
             .map((item) => PlaceDetailData.fromJson(item))
             .toList();
+}
+
+class PlaceDetailMeta {
+  final bool isEnd;
+  final int pageableCount;
+  final int totalCount;
+  final String? sameName;
+
+  PlaceDetailMeta({
+    required this.isEnd,
+    required this.pageableCount,
+    required this.totalCount,
+    this.sameName,
+  });
+
+  factory PlaceDetailMeta.fromJson(Map<String, dynamic> json) {
+    return PlaceDetailMeta(
+      isEnd: json['is_end'],
+      pageableCount: json['pageable_count'],
+      totalCount: json['total_count'],
+      sameName: json['same_name'],
+    );
+  }
 }
 
 class PlaceDetailData {

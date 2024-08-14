@@ -162,31 +162,37 @@ class ApiService {
 
   static Future<List<PlaceDetailData>> getCategoryPlaceList(double searchLat,
       double searchLng, int searchRadius, String searchCategoryCode) async {
-    int pageNum = 1;
-    final Uri uri = Uri.parse(
-        '$kakaoRestApiBaseUrl/category.json?page=$pageNum&y=$searchLat&x=$searchLng&radius=$searchRadius&category_group_code=$searchCategoryCode');
+    int page = 1;
+    bool isEnd = false;
+    List<PlaceDetailData> placeDetailLists = [];
 
     try {
-      final response = await http.get(uri, headers: {
-        'Content-Type': 'application/json',
-        'Accept': 'application/json',
-        'Authorization': 'KakaoAK ${dotenv.env['API_KEY']}',
-      });
+      while (!isEnd) {
+        final Uri uri = Uri.parse(
+            '$kakaoRestApiBaseUrl/category.json?page=$page&y=$searchLat&x=$searchLng&radius=$searchRadius&category_group_code=$searchCategoryCode');
 
-      if (response.statusCode == 200) {
-        final getResponseData = json.decode(response.body);
+        final response = await http.get(uri, headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json',
+          'Authorization': 'KakaoAK ${dotenv.env['API_KEY']}',
+        });
 
-        PlaceDetailModel placeDetailModel =
-            PlaceDetailModel.fromJson(getResponseData);
+        if (response.statusCode == 200) {
+          final getResponseData = json.decode(response.body);
 
-        final List<PlaceDetailData> placeDetailLists =
-            placeDetailModel.documents;
+          PlaceDetailModel placeDetailModel =
+              PlaceDetailModel.fromJson(getResponseData);
 
-        return placeDetailLists;
-      } else {
-        throw Exception(
-            'Response code error <getCategoryPlaceList> : ${response.statusCode}');
+          final List<PlaceDetailData> data = placeDetailModel.documents;
+          placeDetailLists.addAll(data);
+          isEnd = placeDetailModel.meta.isEnd;
+          page++;
+        } else {
+          throw Exception(
+              'Response code error <getCategoryPlaceList> : ${response.statusCode}');
+        }
       }
+      return placeDetailLists;
     } catch (e) {
       throw Exception('Request error <getCategoryPlaceList> : $e');
     }
