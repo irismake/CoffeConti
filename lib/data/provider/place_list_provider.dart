@@ -10,7 +10,7 @@ class PlaceListProvider with ChangeNotifier {
   PlaceListStatus _status = PlaceListStatus.initial;
   final List<PlaceDetailData> _placeDetailData = [];
   LatLng _mapCenterPosition = LatLng(0.0, 0.0);
-  List<LatLng> _bounds = [];
+  final List<LatLng> _bounds = [];
   final Set<Marker> _markerSet = {};
   final List<Marker> _markerList = [];
 
@@ -37,7 +37,7 @@ class PlaceListProvider with ChangeNotifier {
       final results = await ApiService.getCategoryPlaceList(
           _mapCenterPosition.latitude,
           _mapCenterPosition.longitude,
-          2000,
+          1000,
           'CE7');
 
       if (results.isEmpty) {
