@@ -1,13 +1,24 @@
 import 'dart:convert';
 import 'package:coffeeconti/data/models/keyword_model.dart';
+import 'package:coffeeconti/data/models/place_detail_model.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:http/http.dart' as http;
 
 class ApiService {
-  static const String baseUrl = '';
-
+  static const String kakaoRestApiBaseUrl =
+      'https://dapi.kakao.com/v2/local/search/';
+  // final List<String> categoryGroupCode = [
+  //   'CE7',
+  //   'FD6',
+  //   'CS2',
+  //   'CT1',
+  //   'PK6',
+  //   'HP8'
+  // ];
   static const List<Map<String, dynamic>> keywordJsonData = [
     {
       "category_id": 0,
+      "category_group_code": "CE7",
       "name": "카페",
       "keywords": [
         {
@@ -79,6 +90,7 @@ class ApiService {
     },
     {
       "category_id": 1,
+      "category_group_code": "FD6",
       "name": "음식점",
       "keywords": [
         {
@@ -97,21 +109,25 @@ class ApiService {
     },
     {
       "category_id": 2,
+      "category_group_code": "CS2",
       "name": "편의점",
       "keywords": [],
     },
     {
       "category_id": 3,
-      "name": "주유소",
+      "category_group_code": "CT1",
+      "name": "영화관",
       "keywords": [],
     },
     {
       "category_id": 4,
+      "category_group_code": "PK6",
       "name": "주차장",
       "keywords": [],
     },
     {
       "category_id": 5,
+      "category_group_code": "HP8",
       "name": "병원",
       "keywords": [],
     },
@@ -120,7 +136,7 @@ class ApiService {
   static Future<List<KeywordModel>> getKeywords() async {
     try {
       // final getKeywordsResponse = await http.get(
-      //   Uri.parse('$baseUrl/'),
+      //   Uri.parse('$kakaoRestApiBaseUrl/'),
       // );
       // if (getKeywordsResponse.statusCode == 200) {
       //   final getKeywordsResponseData = json.decode(getKeywordsResponse.body);
@@ -141,6 +157,44 @@ class ApiService {
       return keywordModels;
     } catch (e) {
       throw Exception('Request error <getKeywords> : $e');
+    }
+  }
+
+  static Future<List<PlaceDetailData>> getCategoryPlaceList(double searchLat,
+      double searchLng, int searchRadius, String searchCategoryCode) async {
+    int page = 1;
+    bool isEnd = false;
+    List<PlaceDetailData> placeDetailLists = [];
+
+    try {
+      while (!isEnd) {
+        final Uri uri = Uri.parse(
+            '$kakaoRestApiBaseUrl/category.json?page=$page&y=$searchLat&x=$searchLng&radius=$searchRadius&category_group_code=$searchCategoryCode');
+
+        final response = await http.get(uri, headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json',
+          'Authorization': 'KakaoAK ${dotenv.env['API_KEY']}',
+        });
+
+        if (response.statusCode == 200) {
+          final getResponseData = json.decode(response.body);
+
+          PlaceDetailModel placeDetailModel =
+              PlaceDetailModel.fromJson(getResponseData);
+
+          final List<PlaceDetailData> data = placeDetailModel.documents;
+          placeDetailLists.addAll(data);
+          isEnd = placeDetailModel.meta.isEnd;
+          page++;
+        } else {
+          throw Exception(
+              'Response code error <getCategoryPlaceList> : ${response.statusCode}');
+        }
+      }
+      return placeDetailLists;
+    } catch (e) {
+      throw Exception('Request error <getCategoryPlaceList> : $e');
     }
   }
 }

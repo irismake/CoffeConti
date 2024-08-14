@@ -1,10 +1,11 @@
+import 'package:coffeeconti/data/provider/location_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 
+import '../../data/provider/place_list_provider.dart';
 import '../button/next_page_button.dart';
 import '../constants/screenSize.dart';
-
 import '../../data/provider/keyword_provider.dart';
 import '../ui/category_tab_bar.dart';
 import '../widgets/select_keyword_widget.dart';
@@ -17,7 +18,9 @@ class ShowCategorySheet extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<KeywordsProvider>(builder: (context, provider, child) {
+    return Consumer3<KeywordsProvider, PlaceListProvider, LocationProvider>(
+        builder: (context, keywordsProvider, placeListProvider,
+            locationProvider, child) {
       return StatefulBuilder(
         builder: (BuildContext context, StateSetter setState) {
           return Container(
@@ -61,10 +64,11 @@ class ShowCategorySheet extends StatelessWidget {
                   ),
                   NextPageButton(
                     firstFieldState: true,
-                    secondFieldState: provider.searchButtonState,
+                    secondFieldState: keywordsProvider.searchButtonState,
                     text: '찾기',
-                    onPressed: () async {
-                      provider.getSelectedKeywords();
+                    onPressed: () {
+                      keywordsProvider.getSelectedKeywords();
+                      placeListProvider.fetchPlaceDetailData(context);
                       Navigator.pop(context);
                     },
                   ),
