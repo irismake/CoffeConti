@@ -1,16 +1,19 @@
 class KeywordModel {
   final int categoryId;
+  final String categoryGroupCode;
   final String name;
   final List<KeywordData> keywords;
 
   KeywordModel({
     required this.categoryId,
+    required this.categoryGroupCode,
     required this.name,
     required this.keywords,
   });
 
   KeywordModel.fromJson(Map<String, dynamic> json)
       : categoryId = json['category_id'],
+        categoryGroupCode = json['category_group_code'],
         name = json['name'],
         keywords = (json['keywords'] as List<dynamic>)
             .map((keyword) => KeywordData.fromJson(keyword))
