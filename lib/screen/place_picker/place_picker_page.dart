@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-import '../../components/ui/popular_spot_lists.dart';
-import '../../components/widgets/search_keyword_widget.dart';
+import '../../components/constants/screenSize.dart';
+import '../../components/ui/list_place_tutorial.dart';
 
 class PlacePickerPage extends StatelessWidget {
   const PlacePickerPage({super.key});
@@ -22,154 +22,157 @@ class PlacePickerPage extends StatelessWidget {
       '코무(KOMU)'
     ];
     return Scaffold(
-      body: CustomScrollView(
-        slivers: [
-          SliverAppBar(
-            pinned: true,
-            expandedHeight: 200.0,
-            collapsedHeight: 60.0,
-            backgroundColor: Colors.white,
-            elevation: 0,
-            scrolledUnderElevation: 0,
-            flexibleSpace: LayoutBuilder(
-              builder: (BuildContext context, BoxConstraints constraints) {
-                return FlexibleSpaceBar(
-                  background: Stack(
-                    children: [
-                      Container(
-                        width: double.infinity,
-                        height: double.infinity,
-                        color: Colors.black.withOpacity(0.08),
+      body: Container(
+        color: Color(0xFFf5f5f5),
+        child: Padding(
+          padding: EdgeInsets.symmetric(horizontal: 18.0.w),
+          child: CustomScrollView(
+            slivers: [
+              SliverAppBar(
+                pinned: true,
+                toolbarHeight: 50.0.h,
+                expandedHeight: 130.0 + ViewPaddingTopSize(context),
+                backgroundColor: Color(0xFFf5f5f5),
+                elevation: 0,
+                scrolledUnderElevation: 0,
+                flexibleSpace: LayoutBuilder(
+                  builder: (BuildContext context, BoxConstraints constraints) {
+                    return FlexibleSpaceBar(
+                      expandedTitleScale: 1,
+                      centerTitle: true,
+                      title: Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          Image.asset(
+                            'assets/icons/icon_marker.png',
+                            height: 16.h,
+                          ),
+                          Padding(
+                            padding: EdgeInsets.symmetric(horizontal: 2.0.w),
+                            child: Text(
+                              '성북구 장위동',
+                              style: TextStyle(
+                                fontFamily: 'PretendardRegular',
+                                fontSize: 16.sp,
+                                fontWeight: FontWeight.w600,
+                                color: Color(0xFF343A40),
+                                height: 1.5,
+                              ),
+                            ),
+                          ),
+                          Image.asset(
+                            'assets/icons/icon_arrow_right.png',
+                            height: 16.h,
+                          ),
+                        ],
                       ),
-                      Center(
-                        child: Image.asset(
-                          'assets/images/image_ranking_background.png',
-                          fit: BoxFit.fitHeight,
+                      background: Align(
+                        alignment: Alignment.topLeft,
+                        child: Padding(
+                          padding: EdgeInsets.only(
+                              top: ViewPaddingTopSize(context) + 24.0.h),
+                          child: Text(
+                            '인기 스팟 랭킹\nBEST 10',
+                            style: TextStyle(
+                                color: Colors.black,
+                                fontWeight: FontWeight.w700,
+                                fontSize: 28.0.sp,
+                                height: 1.43,
+                                letterSpacing: -0.16),
+                          ),
                         ),
                       ),
-                      Center(
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            Padding(
-                              padding: EdgeInsets.only(bottom: 10.0),
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Image.asset(
-                                    'assets/icons/icon_prize.png',
-                                    height: 18,
-                                    color: Color(0xFF343A40),
-                                  ),
-                                  SizedBox(
-                                    width: 6.0.w,
-                                  ),
-                                  Text(
-                                    "트랜드 랭킹",
-                                    style: TextStyle(
-                                      fontFamily: 'PretendardRegular',
-                                      fontSize: 14.sp,
-                                      fontWeight: FontWeight.w700,
-                                      color: Color(0xFF343A40),
-                                      height: 1.43,
-                                    ),
-                                  ),
-                                ],
-                              ),
+                    );
+                  },
+                ),
+              ),
+              SliverToBoxAdapter(
+                child: Column(
+                  children: [
+                    SizedBox(
+                      height: 34.0.h,
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          '지금 핫한 장소 리스트',
+                          style: TextStyle(
+                            color: Colors.black,
+                            fontWeight: FontWeight.w700,
+                            fontSize: 18.0.sp,
+                          ),
+                        ),
+                        ElevatedButton(
+                          onPressed: () {},
+                          style: ElevatedButton.styleFrom(
+                            elevation: 0,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(100.0),
                             ),
-                            IntrinsicWidth(
-                              child: ElevatedButton(
-                                onPressed: () {},
-                                style: ElevatedButton.styleFrom(
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(100.0),
-                                    side: BorderSide(color: Color(0xFFDEE2E6)),
-                                  ),
-                                  minimumSize: Size.zero,
-                                  tapTargetSize:
-                                      MaterialTapTargetSize.shrinkWrap,
-                                  padding: EdgeInsets.symmetric(
-                                    horizontal: 18.0.w,
-                                    vertical: 8.0.h,
-                                  ),
-                                  backgroundColor: Colors.white,
-                                ),
-                                child: Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  children: [
-                                    Text(
-                                      '성북구 동선동 1가',
-                                      style: TextStyle(
-                                        fontFamily: 'PretendardRegular',
-                                        fontSize: 18.sp,
-                                        fontWeight: FontWeight.w700,
-                                        color: Color(0xFF343A40),
-                                        height: 1.56,
-                                      ),
-                                    ),
-                                    SizedBox(
-                                      width: 8.0.w,
-                                    ),
-                                    Image.asset(
-                                      'assets/icons/icon_arrow_triangle.png',
-                                      width: 10,
-                                    )
-                                  ],
+                            minimumSize: Size.zero,
+                            tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                            padding: EdgeInsets.symmetric(
+                              horizontal: 12.0.w,
+                              vertical: 8.0.h,
+                            ),
+                            backgroundColor: Color(0xFF343A40),
+                          ),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              Image.asset(
+                                'assets/icons/icon_map.png',
+                                color: Colors.white,
+                                height: 16.0.h,
+                              ),
+                              SizedBox(width: 2.0.w),
+                              Text(
+                                '지도뷰',
+                                style: TextStyle(
+                                  fontFamily: 'PretendardRegular',
+                                  fontSize: 12.sp,
+                                  fontWeight: FontWeight.w600,
+                                  color: Colors.white,
+                                  height: 1.5,
                                 ),
                               ),
-                            ),
-                          ],
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
+                    Padding(
+                      padding: EdgeInsets.only(top: 12.0.h, bottom: 24.0),
+                      child: Divider(
+                        color: Colors.black,
+                        thickness: 2.0.h,
+                        height: 0,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              SliverList(
+                delegate: SliverChildBuilderDelegate(
+                  (context, index) => Column(
+                    children: [
+                      Padding(
+                        padding: EdgeInsets.only(bottom: 10.0.h),
+                        child: ListPlaceTutorial(
+                          name: '${_placeName[index]}',
+                          index: index,
                         ),
                       ),
                     ],
                   ),
-                );
-              },
-            ),
-            bottom: PreferredSize(
-              preferredSize: Size.zero,
-              child: Column(
-                children: [
-                  Container(
-                    color: Colors.transparent,
-                    child: Padding(
-                      padding: EdgeInsets.symmetric(vertical: 4.0),
-                      child: Align(
-                        alignment: Alignment.centerLeft,
-                        child: SearchKeywordWidget(),
-                      ),
-                    ),
-                  ),
-                  Container(
-                    color: Color(0xffF1F3F5),
-                    height: 1.5.h,
-                  ),
-                ],
+                  childCount: _placeName.length,
+                ),
               ),
-            ),
+            ],
           ),
-          SliverList(
-            delegate: SliverChildBuilderDelegate(
-              (context, index) => Column(
-                children: [
-                  PopularSpotList(
-                    name: '${_placeName[index]}',
-                    index: index,
-                  ),
-                  if (index < _placeName.length - 1)
-                    Container(
-                      color: Colors.grey[300],
-                      height: 1.0,
-                    ),
-                ],
-              ),
-              childCount: _placeName.length,
-            ),
-          ),
-        ],
+        ),
       ),
     );
   }
