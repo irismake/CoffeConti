@@ -81,24 +81,3 @@ class ShowCategorySheet extends StatelessWidget {
     });
   }
 }
-
-class TagListView extends StatelessWidget {
-  TagListView({Key? key}) : super(key: key);
-
-  final checkTextColor = Color(0xff868E96);
-  final darkGrayColor = Color(0xff495057);
-
-  @override
-  Widget build(BuildContext context) {
-    return Expanded(
-      child: CustomScrollView(
-        // controller: scrollController,
-        slivers: [
-          SliverList.list(children: const [
-            ListTile(title: Text('Jane Doe')),
-          ])
-        ],
-      ),
-    );
-  }
-}

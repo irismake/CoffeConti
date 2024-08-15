@@ -7,7 +7,7 @@ import 'package:provider/provider.dart';
 
 import '../../components/button/search_place_button.dart';
 import '../../components/constants/screenSize.dart';
-import '../../components/popup/place_tutorial.dart';
+import '../../components/ui/map_place_tutorial.dart';
 import '../../data/provider/location_provider.dart';
 import '../../components/widgets/search_keyword_widget.dart';
 import '../../data/provider/place_list_provider.dart';
@@ -159,7 +159,7 @@ class MainMapState extends State<MainMap> {
                         return Positioned(
                           bottom: UnfocusCurrentPosition(context),
                           child: SizedBox(
-                            height: 130.0,
+                            height: 140.0,
                             child: Center(
                               child: Container(
                                 width: MediaQuery.of(context).size.width,
@@ -173,7 +173,7 @@ class MainMapState extends State<MainMap> {
                                   itemCount:
                                       placeListProvider.placeDetailData.length,
                                   itemBuilder: (context, index) {
-                                    return PlaceTutorial(
+                                    return MapPlaceTutorial(
                                       name: placeListProvider
                                           .placeDetailData[index].placeName,
                                     );
