@@ -53,7 +53,6 @@ class _SelectKeywordWidgetState extends State<SelectKeywordWidget> {
         vertical: 20.0.h,
       ),
       child: Container(
-        //color: Colors.pink,
         child: Scrollbar(
           controller: _scrollController,
           child: SingleChildScrollView(
