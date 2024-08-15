@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 
 import '../../data/provider/keyword_provider.dart';
@@ -22,8 +21,7 @@ class SelectKeywordButton extends StatelessWidget {
           onTap: () {
             provider.changeKeywordState(keywordId);
           },
-          child: AnimatedContainer(
-            duration: const Duration(milliseconds: 300),
+          child: Container(
             padding: EdgeInsets.symmetric(
               vertical: 10.0,
               horizontal: 20.0,
