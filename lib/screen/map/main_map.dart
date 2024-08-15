@@ -159,7 +159,7 @@ class MainMapState extends State<MainMap> {
                         return Positioned(
                           bottom: UnfocusCurrentPosition(context),
                           child: SizedBox(
-                            height: 130.0,
+                            height: 140.0,
                             child: Center(
                               child: Container(
                                 width: MediaQuery.of(context).size.width,

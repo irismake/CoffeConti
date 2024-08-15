@@ -1,14 +1,11 @@
 import 'package:coffeeconti/components/button/next_page_button.dart';
 import 'package:coffeeconti/data/provider/keyword_provider.dart';
 import 'package:flutter/material.dart';
-
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 
-import '../../components/button/custon_dropdown_button.dart';
 import '../../components/button/star_rating_button.dart';
 import '../../components/button/search_place_button.dart';
-
 import '../../components/ui/custom_app_bar.dart';
 import '../../components/widgets/my_review_widget.dart';
 import '../../components/widgets/select_keyword_widget.dart';
