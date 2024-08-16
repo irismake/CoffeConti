@@ -4,7 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../components/constants/screenSize.dart';
 import '../../components/widgets/my_review_widget.dart';
-import '../../components/ui/my_groups.dart';
+import '../../components/ui/my_bookmark_groups.dart';
 
 class UserPage extends StatelessWidget {
   const UserPage({super.key});
@@ -189,7 +189,7 @@ class UserPage extends StatelessWidget {
                             ],
                           ),
                           SizedBox(
-                            height: 12.0,
+                            height: 12.0.h,
                           ),
                           Container(
                             width: double.infinity,
@@ -309,25 +309,25 @@ class UserPage extends StatelessWidget {
                     ],
                   ),
                 ),
-                SizedBox(
-                  height: 144,
-                  child: ListView.separated(
-                    scrollDirection: Axis.horizontal,
-                    itemCount: 10,
-                    padding: EdgeInsets.symmetric(horizontal: 18.0.w),
-                    itemBuilder: (context, index) {
-                      return GestureDetector(
-                        onTap: () async {},
-                        child: MyGroups(
-                          cafeName: '공부 카페 리스트',
-                        ),
-                      );
-                    },
-                    separatorBuilder: (BuildContext context, int index) {
-                      return Container(
-                        width: 12.0.w,
-                      );
-                    },
+                Padding(
+                  padding: EdgeInsets.symmetric(vertical: 12.0.h),
+                  child: SizedBox(
+                    height: 134.0.h,
+                    child: ListView.separated(
+                      scrollDirection: Axis.horizontal,
+                      itemCount: 7,
+                      padding: EdgeInsets.symmetric(horizontal: 18.0.w),
+                      itemBuilder: (context, index) {
+                        return MyBookmarkGroups(
+                          index: index,
+                        );
+                      },
+                      separatorBuilder: (BuildContext context, int index) {
+                        return Container(
+                          width: 12.0.w,
+                        );
+                      },
+                    ),
                   ),
                 ),
                 SizedBox(height: 34.0),

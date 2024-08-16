@@ -11,7 +11,7 @@ class MyBookmarkListPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: CustomAppBar(appBarTitle: groupName),
+      appBar: CustomAppBar(appBarTitle: groupName + ' (9)'),
       body: CategoryTabBar(
         tabBarViewWidget: MyBookmarkListWidget(),
       ),

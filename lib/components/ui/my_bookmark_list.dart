@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
+import '../button/review_button.dart';
 import 'keyword.dart';
 
 class MyBookmarkList extends StatelessWidget {
@@ -93,30 +94,7 @@ class MyBookmarkList extends StatelessWidget {
                           children: [
                             Padding(
                               padding: EdgeInsets.symmetric(vertical: 6.0),
-                              child: TextButton(
-                                onPressed: () {},
-                                style: TextButton.styleFrom(
-                                  backgroundColor: Color(0xFF343A40),
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(6.0),
-                                  ),
-                                  padding: EdgeInsets.symmetric(
-                                      vertical: 2.0.h, horizontal: 6.0.w),
-                                  minimumSize: Size.zero,
-                                  tapTargetSize:
-                                      MaterialTapTargetSize.shrinkWrap,
-                                ),
-                                child: Text(
-                                  '리뷰 작성',
-                                  style: TextStyle(
-                                    color: Theme.of(context).primaryColor,
-                                    fontSize: 12.0.sp,
-                                    fontFamily: 'Pretendard',
-                                    fontWeight: FontWeight.w600,
-                                    height: 1.5,
-                                  ),
-                                ),
-                              ),
+                              child: ReviewButton(),
                             ),
                           ],
                         ),
