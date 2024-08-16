@@ -52,33 +52,45 @@ class MapPlaceTutorial extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(
-                      '${name}',
-                      style: TextStyle(
-                        color: Color(0xFF343A40),
-                        fontSize: 16.sp,
-                        fontFamily: 'Pretendard',
-                        fontWeight: FontWeight.w700,
-                      ),
-                      overflow: TextOverflow.ellipsis,
-                      maxLines: 2,
-                    ),
-                    Row(
+                    Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Keyword(keywordName: '공부'),
-                        SizedBox(width: 6.0),
-                        Keyword(keywordName: '디저트'),
+                        Text(
+                          '${name}',
+                          style: TextStyle(
+                            color: Color(0xFF343A40),
+                            fontSize: 16.sp,
+                            fontFamily: 'Pretendard',
+                            fontWeight: FontWeight.w700,
+                          ),
+                          overflow: TextOverflow.ellipsis,
+                          maxLines: 2,
+                        ),
+                        SizedBox(
+                          height: 8.0.h,
+                        ),
+                        Row(
+                          children: [
+                            Keyword(keywordName: '공부'),
+                            SizedBox(width: 6.0),
+                            Keyword(keywordName: '디저트'),
+                          ],
+                        ),
+                        SizedBox(
+                          height: 8.0.h,
+                        ),
+                        Text(
+                          '#레몬스퀘어  #편한의자  #큰테이블',
+                          style: TextStyle(
+                            color: Color(0xFF868E96),
+                            fontSize: 12.sp,
+                            fontFamily: 'Pretendard',
+                            fontWeight: FontWeight.w500,
+                            height: 1.5,
+                          ),
+                        ),
                       ],
-                    ),
-                    Text(
-                      '#레몬스퀘어  #편한의자  #큰테이블',
-                      style: TextStyle(
-                        color: Color(0xFF868E96),
-                        fontSize: 12.sp,
-                        fontFamily: 'Pretendard',
-                        fontWeight: FontWeight.w500,
-                        height: 1.5,
-                      ),
                     ),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.start,
@@ -129,15 +141,6 @@ class MapPlaceTutorial extends StatelessWidget {
                               color: Color(0xFF868E96),
                               height: 1.5,
                             ),
-                          ),
-                        ),
-                        Text(
-                          "(26)",
-                          style: TextStyle(
-                            fontSize: 12.sp,
-                            fontWeight: FontWeight.w400,
-                            color: Color(0xFF868E96),
-                            height: 1.5,
                           ),
                         ),
                       ],
