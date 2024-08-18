@@ -23,6 +23,14 @@ class ListPlaceTutorial extends StatelessWidget {
         decoration: BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.circular(15.0),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black.withOpacity(0.1),
+              spreadRadius: 0.0,
+              blurRadius: 10,
+              offset: Offset(0, 0), // changes position of shadow
+            ),
+          ],
         ),
         child: Padding(
           padding: EdgeInsets.symmetric(horizontal: 16.0.w, vertical: 16.0.h),

@@ -24,11 +24,11 @@ class PlacePickerPage extends StatelessWidget {
     return Scaffold(
       body: Container(
         color: Color(0xFFf5f5f5),
-        child: Padding(
-          padding: EdgeInsets.symmetric(horizontal: 18.0.w),
-          child: CustomScrollView(
-            slivers: [
-              SliverAppBar(
+        child: CustomScrollView(
+          slivers: [
+            SliverPadding(
+              padding: EdgeInsets.symmetric(horizontal: 18.0.w),
+              sliver: SliverAppBar(
                 pinned: true,
                 toolbarHeight: 50.0.h,
                 expandedHeight: 130.0 + ViewPaddingTopSize(context),
@@ -86,7 +86,10 @@ class PlacePickerPage extends StatelessWidget {
                   },
                 ),
               ),
-              SliverToBoxAdapter(
+            ),
+            SliverPadding(
+              padding: EdgeInsets.symmetric(horizontal: 18.0.w),
+              sliver: SliverToBoxAdapter(
                 child: Column(
                   children: [
                     SizedBox(
@@ -144,7 +147,7 @@ class PlacePickerPage extends StatelessWidget {
                       ],
                     ),
                     Padding(
-                      padding: EdgeInsets.only(top: 12.0.h, bottom: 24.0),
+                      padding: EdgeInsets.only(top: 12.0.h, bottom: 24.0.h),
                       child: Divider(
                         color: Colors.black,
                         thickness: 2.0.h,
@@ -154,24 +157,25 @@ class PlacePickerPage extends StatelessWidget {
                   ],
                 ),
               ),
-              SliverList(
-                delegate: SliverChildBuilderDelegate(
-                  (context, index) => Column(
-                    children: [
-                      Padding(
-                        padding: EdgeInsets.only(bottom: 10.0.h),
-                        child: ListPlaceTutorial(
-                          name: '${_placeName[index]}',
-                          index: index,
-                        ),
+            ),
+            SliverList(
+              delegate: SliverChildBuilderDelegate(
+                (context, index) => Column(
+                  children: [
+                    Padding(
+                      padding: EdgeInsets.only(
+                          left: 18.0.w, right: 18.0.w, bottom: 14.0.h),
+                      child: ListPlaceTutorial(
+                        name: '${_placeName[index]}',
+                        index: index,
                       ),
-                    ],
-                  ),
-                  childCount: _placeName.length,
+                    ),
+                  ],
                 ),
+                childCount: _placeName.length,
               ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );

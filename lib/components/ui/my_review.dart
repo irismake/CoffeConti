@@ -19,7 +19,7 @@ class MyReview extends StatelessWidget {
         borderRadius: BorderRadius.circular(15.0),
       ),
       child: Padding(
-        padding: EdgeInsets.symmetric(horizontal: 16.0.w, vertical: 16.0),
+        padding: EdgeInsets.symmetric(horizontal: 16.0.w, vertical: 16.0.h),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           crossAxisAlignment: CrossAxisAlignment.start,

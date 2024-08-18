@@ -1,3 +1,4 @@
+import 'package:coffeeconti/components/ui/my_review.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -19,26 +20,25 @@ class MyBookmarkListWidget extends StatelessWidget {
       'coffeeconti'
     ];
 
-    return Padding(
-      padding: EdgeInsets.symmetric(horizontal: 18.0.w),
+    return Expanded(
       child: ListView.separated(
-        padding: EdgeInsets.symmetric(vertical: 6.0),
+        padding: EdgeInsets.symmetric(vertical: 30.0.h),
         scrollDirection: Axis.vertical,
         itemCount: _placeName.length,
         itemBuilder: (context, index) {
-          return Padding(
-            padding: const EdgeInsets.symmetric(vertical: 16.0),
-            child: MyBookmarkList(
-              searchText: '${_placeName[index]}',
-              index: index,
-            ),
-          );
+          return index == 2 || index == 4
+              ? Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 18.0.w),
+                  child: MyReview(searchText: '당가라 과자점', index: 0),
+                )
+              : MyBookmarkList(
+                  searchText: '${_placeName[index]}',
+                  index: index,
+                );
         },
         separatorBuilder: (BuildContext context, int index) {
           return Container(
-            color: Color(0xffF1F3F5),
-            // thickness: 9,
-            //height: 1.5.h,
+            height: 14.0.h,
           );
         },
       ),
