@@ -6,15 +6,15 @@ import 'package:http/http.dart' as http;
 
 class ApiService {
   static const String kakaoRestApiBaseUrl =
-      'https://dapi.kakao.com/v2/local/search/';
-  // final List<String> categoryGroupCode = [
-  //   'CE7',
-  //   'FD6',
-  //   'CS2',
-  //   'CT1',
-  //   'PK6',
-  //   'HP8'
-  // ];
+      'https://dapi.kakao.com/v2/local/search';
+  static final List<String> categoryGroupCode = [
+    'CE7',
+    'FD6',
+    'CS2',
+    'CT1',
+    'PK6',
+    'HP8'
+  ];
   static const List<Map<String, dynamic>> keywordJsonData = [
     {
       "category_id": 0,
@@ -161,13 +161,14 @@ class ApiService {
   }
 
   static Future<List<PlaceDetailData>> getCategoryPlaceList(double searchLat,
-      double searchLng, int searchRadius, String searchCategoryCode) async {
+      double searchLng, int searchRadius, int categoryId) async {
     int page = 1;
     bool isEnd = false;
     List<PlaceDetailData> placeDetailLists = [];
 
     try {
       while (!isEnd) {
+        String searchCategoryCode = categoryGroupCode[categoryId];
         final Uri uri = Uri.parse(
             '$kakaoRestApiBaseUrl/category.json?page=$page&y=$searchLat&x=$searchLng&radius=$searchRadius&category_group_code=$searchCategoryCode');
 
