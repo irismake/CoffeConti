@@ -38,7 +38,7 @@ class PlaceListProvider with ChangeNotifier {
       final results = await ApiService.getCategoryPlaceList(
           _mapCenterPosition.latitude,
           _mapCenterPosition.longitude,
-          300,
+          100,
           categoryId);
 
       if (results.isEmpty) {
