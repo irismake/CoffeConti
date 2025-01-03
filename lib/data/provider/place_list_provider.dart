@@ -29,7 +29,8 @@ class PlaceListProvider with ChangeNotifier {
     _markerSet.add(marker);
   }
 
-  Future<void> fetchPlaceDetailData(BuildContext context) async {
+  Future<void> fetchPlaceDetailData(
+      BuildContext context, int categoryId) async {
     _status = PlaceListStatus.loading;
     notifyListeners();
 
@@ -37,8 +38,8 @@ class PlaceListProvider with ChangeNotifier {
       final results = await ApiService.getCategoryPlaceList(
           _mapCenterPosition.latitude,
           _mapCenterPosition.longitude,
-          1000,
-          'CE7');
+          100,
+          categoryId);
 
       if (results.isEmpty) {
         _status = PlaceListStatus.empty;
@@ -71,7 +72,7 @@ class PlaceListProvider with ChangeNotifier {
         offsetX: 13,
         offsetY: 30,
         markerImageSrc:
-            'https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/markerStar.png',
+            'https://image.irismake.shop/test/icons8-location+(1).svg',
       );
       _markerSet.add(marker);
     }
