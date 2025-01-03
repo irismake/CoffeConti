@@ -68,7 +68,10 @@ class ShowCategorySheet extends StatelessWidget {
                     text: '찾기',
                     onPressed: () {
                       keywordsProvider.getSelectedKeywords();
-                      placeListProvider.fetchPlaceDetailData(context);
+                      final int categoryId =
+                          keywordsProvider.selectedCategoryId!;
+                      placeListProvider.fetchPlaceDetailData(
+                          context, categoryId);
                       Navigator.pop(context);
                     },
                   ),

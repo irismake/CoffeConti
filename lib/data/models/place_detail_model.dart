@@ -77,6 +77,6 @@ class PlaceDetailData {
         placeName = json['place_name'],
         placeUrl = json['place_url'],
         roadAddressName = json['road_address_name'],
-        longitude = double.parse(json['x']),
-        latitude = double.parse(json['y']);
+        longitude = double.tryParse(json['x'].toString()) ?? 0.0,
+        latitude = double.tryParse(json['y'].toString()) ?? 0.0;
 }
