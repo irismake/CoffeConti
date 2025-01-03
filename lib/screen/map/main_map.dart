@@ -86,9 +86,9 @@ class MainMapState extends State<MainMap> {
                   builder: (context, placeListProvider, child) {
                     Set<Marker> markers = placeListProvider.markerSet;
                     WidgetsBinding.instance.addPostFrameCallback((_) {
-                      if (placeListProvider.bounds.isNotEmpty) {
-                        mapController.fitBounds(placeListProvider.bounds);
-                      }
+                      // if (placeListProvider.bounds.isNotEmpty) {
+                      //   mapController.fitBounds(placeListProvider.bounds);
+                      // }
                     });
                     return KakaoMap(
                       center: _currentPosition,
